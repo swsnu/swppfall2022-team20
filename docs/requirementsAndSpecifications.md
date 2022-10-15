@@ -129,4 +129,4 @@ We suggest the new model which shows the items specifically customized based on 
 
 ### User Interface Requirements
 
-https://drive.google.com/file/d/160tKscpsbffPdvcH-R7rOBthT_tLQwCE/view?usp=sharing
+![user_interface_requirements](https://user-images.githubusercontent.com/76721027/195976469-8f669dc5-c93b-4bc1-9519-85cddbb855d2.jpg)
