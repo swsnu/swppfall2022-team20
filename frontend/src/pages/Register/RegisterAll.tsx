@@ -30,7 +30,7 @@ const RegisterAll = () => {
       thigh_size: profile.thigh_size,
       calf_size: profile.calf_size,
     };
-    Axios.post("../../../public/test.json", user)
+    Axios.post("http://127.0.0.1:8000/api/clothes/signup/", user)
       .then((res: any) => {
         if (res.data.key) {
           localStorage.clear();
