@@ -38,12 +38,12 @@ class User(models.Model):
 
     purchased = models.ManyToManyField(
         Clothes,
-        related_name = "user_purchased"
+        related_name = "user_purchased",
     )
 
     scrapped = models.ManyToManyField(
         Clothes,
-        related_name = "user_scrapped"
+        related_name = "user_scrapped",
     )
 
     def __str__(self):
@@ -57,13 +57,13 @@ class Review(models.Model):
     photo = models.CharField(max_length=200) #사진의 저장 경로
     reviewing_clothes = models.ForeignKey(
         Clothes,
-        on_delete=models.CASCADE
-        related_name = "clothes_review"
+        on_delete=models.CASCADE,
+        related_name = "clothes_review",
     )
     uploaded_user = models.ForeignKey(
         User,
-        on_delete=models.CASCADE #User가 삭제되는 경우
-        related_name = "uploaded_review"
+        on_delete=models.CASCADE, #User가 삭제되는 경우
+        related_name = "uploaded_review",
     )
 
 class Comment(models.Model):
@@ -72,10 +72,10 @@ class Comment(models.Model):
     uploaded_user = models.ForeignKey(
         User,
         on_delete=models.CASCADE, #User가 삭제되는 경우
-        related_name = "uploaded_comments"
+        related_name = "uploaded_comments",
     )
     original_review = models.ForeignKey(
         Review,
         on_delete=models.CASCADE,
-        related_name='comment_uploaded'
+        related_name='comment_uploaded',
     )
