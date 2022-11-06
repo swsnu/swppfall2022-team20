@@ -30,7 +30,7 @@ const RegisterAll = () => {
       thigh_size: profile.thigh_size,
       calf_size: profile.calf_size,
     };
-    Axios.post("url", user)
+    Axios.post("../../../public/test.json", user)
       .then((res: any) => {
         if (res.data.key) {
           localStorage.clear();
@@ -50,7 +50,8 @@ const RegisterAll = () => {
         }
       })
       .catch((err: any) => {
-        console.clear();
+        console.log(err.message);
+
         alert("wrong");
       });
   };

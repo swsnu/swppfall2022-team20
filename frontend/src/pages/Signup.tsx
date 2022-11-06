@@ -30,7 +30,7 @@ const SignUp = () => {
       username: inform.username,
       password: inform.password,
     };
-    Axios.post("url", user)
+    Axios.post("https://localhost:3000/api/user", user)
       .then((res: any) => {
         if (res.data.key) {
           localStorage.clear();
