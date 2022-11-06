@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Registerprofile from "./Register_profile";
 import Registersize from "./Register_size";
-import RegisterAll from "./RegisterAll";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -21,8 +20,11 @@ const Register = () => {
       </div>
 
       <h2>Register</h2>
+      <div>{regList[list]}</div>
+      <button onClick={() => clickHandler(0)}>back</button>
+      <button onClick={() => clickHandler(1)}>next</button>
       <div>
-        <RegisterAll />
+        <button>submit</button>
       </div>
     </>
   );

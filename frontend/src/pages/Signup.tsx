@@ -1,3 +1,4 @@
+import Axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -23,6 +24,31 @@ const SignUp = () => {
       alert("wrong");
     }
   };
+  const onSubmit = (e: any) => {
+    e.preventDefault();
+    const user = {
+      username: inform.username,
+      password: inform.password,
+    };
+    Axios.post("url", user)
+      .then((res: any) => {
+        if (res.data.key) {
+          localStorage.clear();
+          localStorage.setItem("token", res.data.key);
+          window.location.replace("/");
+        } else {
+          setInform({
+            username: "",
+            password: "",
+          });
+          localStorage.clear();
+        }
+      })
+      .catch((err: any) => {
+        console.clear();
+        alert("wrong");
+      });
+  };
 
   return (
     <div>
@@ -43,7 +69,7 @@ const SignUp = () => {
         />
       </p>
       <button onClick={onClickRegister}>Register</button>
-      <button onClick={clickSignin}>Sign In</button>
+      <button onClick={onSubmit}>Sign In</button>
     </div>
   );
 };

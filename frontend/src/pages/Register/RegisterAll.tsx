@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Axios from "axios";
 
 const RegisterAll = () => {
   const [profile, setProfile] = useState<any>({
@@ -16,8 +17,42 @@ const RegisterAll = () => {
       return { ...prevState, [e.target.name]: e.target.value };
     });
   };
-  const clickSubmit = () => {
+  const clickSubmit = (e: any) => {
+    e.preventDefault();
     console.log(profile);
+    const user = {
+      username: profile.username,
+      password: profile.password,
+      nickname: profile.nickname,
+      email: profile.email,
+      chest_size: profile.chest_size,
+      waist_size: profile.waist_size,
+      thigh_size: profile.thigh_size,
+      calf_size: profile.calf_size,
+    };
+    Axios.post("url", user)
+      .then((res: any) => {
+        if (res.data.key) {
+          localStorage.clear();
+          localStorage.setItem("token", res.data.key);
+          window.location.replace("/");
+        } else {
+          setProfile({
+            username: "",
+            password: "",
+            nickname: "",
+            email: "",
+            chest_size: "",
+            waist_size: "",
+            thigh_size: "",
+            calf_size: "",
+          });
+        }
+      })
+      .catch((err: any) => {
+        console.clear();
+        alert("wrong");
+      });
   };
   return (
     <div>
