@@ -1,3 +1,4 @@
+import axios from "axios";
 import Axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -31,11 +32,11 @@ const SignUp = () => {
       password: inform.password,
     };
     Axios.post("http://127.0.0.1:8000/api/clothes/login/", user, {
-      headers: { 'Content-Type': 'application/json'},
+      withCredentials: true,
     })
       .then((res: any) => {
         if (res) {
-          console.log("1");
+          console.log(res);
           localStorage.clear();
           localStorage.setItem("token", res.data.key);
           //window.location.replace("/");

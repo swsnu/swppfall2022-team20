@@ -118,3 +118,19 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "clothes.Myuser"
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+     ),
+     'DEFAULT_PERMISSIONS_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAdminUser',
+     ),
+}
+
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000',
+    'http://127.0.0.1:8000', 
+)

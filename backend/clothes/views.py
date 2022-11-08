@@ -1,7 +1,7 @@
 import json
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import redirect, render
-from django.contrib import auth
+from django.contrib import auth 
 from django.views.decorators.csrf import csrf_exempt
 import json
 from json.decoder import JSONDecodeError
@@ -26,7 +26,7 @@ def signup(request):
         )
 
         auth.login(request,user)
-        response_dict = {"id":auth.get_user(request.user).id}
+        response_dict = {"session_id":request.session.session_key,"username":auth.get_user(request).get_username()}
         return JsonResponse(response_dict,status=200)
 
 @csrf_exempt       
@@ -38,10 +38,10 @@ def login(request):
         username=requestbody['username']
         password=requestbody['password']
         user = auth.authenticate(request, username=username, password=password)
-
         if user is not None:
             auth.login(request,user)
-            response_dict = {"id": user.id}
+
+            response_dict = {"session_key":request.session.session_key,"username":user.username, "chest size":user.chest_size}
             return JsonResponse(response_dict,status=200)
         else:
             response_dict = {"username": username}
@@ -104,8 +104,7 @@ def scrapItem(request, clothesId, userId):
 
 @csrf_exempt
 def userprofile(request):
-    currentuser = auth.get_user(request)
-    auth.get_user_model()
-    currentprofile = {"id":currentuser.id}
-    return JsonResponse(currentprofile,safe=False)  
+#    if request.method == "GET":
+    currentprofile = {"session_key":request.session.session_key,"username":auth.get_user(request).get_username()}
+    return JsonResponse(currentprofile)
     
