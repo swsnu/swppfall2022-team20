@@ -34,7 +34,7 @@ const SignUp = () => {
       headers: { 'Content-Type': 'application/json'},
     })
       .then((res: any) => {
-        if (res.data.key) {
+        if (res) {
           console.log("1");
           localStorage.clear();
           localStorage.setItem("token", res.data.key);

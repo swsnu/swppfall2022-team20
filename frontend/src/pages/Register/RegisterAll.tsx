@@ -32,7 +32,7 @@ const RegisterAll = () => {
     };
     Axios.post("http://127.0.0.1:8000/api/clothes/signup/", user)
       .then((res: any) => {
-        if (res.data.key) {
+        if (res) {
           localStorage.clear();
           localStorage.setItem("token", res.data.key);
           window.location.replace("/");

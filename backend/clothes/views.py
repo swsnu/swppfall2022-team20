@@ -26,7 +26,7 @@ def signup(request):
         )
 
         auth.login(request,user)
-        response_dict = {"id":user.id}
+        response_dict = {"id":auth.get_user(request.user).id}
         return JsonResponse(response_dict,status=200)
 
 @csrf_exempt       
@@ -101,3 +101,11 @@ def scrappedList(request, userId):
 def scrapItem(request, clothesId, userId):
     Myuser.objects.get(id=userId).scrapped.add(Clothes.objects.get(id=clothesId))
     return JsonResponse(status=201)
+
+@csrf_exempt
+def userprofile(request):
+    currentuser = auth.get_user(request)
+    auth.get_user_model()
+    currentprofile = {"id":currentuser.id}
+    return JsonResponse(currentprofile,safe=False)  
+    
