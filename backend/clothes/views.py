@@ -1,9 +1,11 @@
 import json
-from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib import auth
 from django.views.decorators.csrf import csrf_exempt
-from .models import Myuser
+import json
+from json.decoder import JSONDecodeError
+from .models import *
 
     # Create your views here.
 @csrf_exempt       
@@ -44,3 +46,4 @@ def login(request):
         else:
             response_dict = {"username": username}
             return HttpResponseBadRequest(response_dict,status=401)
+
