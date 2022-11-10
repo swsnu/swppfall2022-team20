@@ -31,12 +31,9 @@ const SignUp = () => {
       username: inform.username,
       password: inform.password,
     };
-    Axios.post("http://127.0.0.1:8000/api/clothes/login/", user, {
-      withCredentials: true,
-    })
+    Axios.post("http://127.0.0.1:8000/api/clothes/login/", user)
       .then((res: any) => {
         if (res) {
-          console.log(res);
           localStorage.clear();
           localStorage.setItem("token", res.data.key);
           //window.location.replace("/");
