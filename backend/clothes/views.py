@@ -35,6 +35,7 @@ def login(request):
 #        return render(request, "../../frontend/src/pages/Signup.tsx")
     if request.method == 'POST':
         requestbody = json.loads(request.body)
+        print(1)
         username=requestbody['username']
         password=requestbody['password']
         user = auth.authenticate(request, username=username, password=password)
