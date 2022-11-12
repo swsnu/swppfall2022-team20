@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Register render correct 1`] = `
+<div>
+  <div>
+    <h2>
+      profile
+    </h2>
+    <p>
+      ID:
+      <input
+        name="username"
+        onChange={[Function]}
+      />
+    </p>
+    <p>
+      Password:
+      <input
+        name="password"
+        onChange={[Function]}
+        type="password"
+      />
+    </p>
+    <p>
+      Nickname:
+      <input
+        name="nickname"
+        onChange={[Function]}
+      />
+    </p>
+    <p>
+      Email:
+      <input
+        name="email"
+        onChange={[Function]}
+      />
+    </p>
+  </div>
+  <div>
+    <h2>
+      size
+    </h2>
+    <p>
+      chest size:
+      <input
+        name="chest_size"
+        onChange={[Function]}
+      />
+    </p>
+    <p>
+      waist size:
+      <input
+        name="waist_size"
+        onChange={[Function]}
+      />
+    </p>
+    <p>
+      thigh size:
+      <input
+        name="thigh_size"
+        onChange={[Function]}
+      />
+    </p>
+    <p>
+      calf size:
+      <input
+        name="calf_size"
+        onChange={[Function]}
+      />
+    </p>
+  </div>
+  <button
+    onClick={[Function]}
+  >
+    submit
+  </button>
+</div>
+`;
