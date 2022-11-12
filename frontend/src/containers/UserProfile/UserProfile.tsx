@@ -2,17 +2,13 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import Navbar from "../../component/Navbar/Navbar";
 const UserProfile = () => {
-  const [profile, setProfile] = useState();
-  /*Axios.get("http://127.0.0.1:8000/api/clothes/user/", {
-    params: {
-      session_key: localStorage.getItem("token"),
-    },
-  }).then((res: any) => {
-    setProfile(res.data);
-    console.log(res.data);
-  });*/
+  const [profile, setProfile] = useState<any>();
   useEffect(() => {
-    Axios.get("http://127.0.0.1:8000/api/clothes/user/", {
+    const user = {
+      username: localStorage.getItem("username"),
+      password: localStorage.getItem("password"),
+    };
+    Axios.post("http://127.0.0.1:8000/api/clothes/user/", user, {
       params: {
         session_key: localStorage.getItem("token"),
       },
@@ -20,12 +16,15 @@ const UserProfile = () => {
       setProfile(res.data);
       console.log(res.data);
     });
-  });
+  }, []);
   return (
     <div>
       <Navbar />
       this is profile
-      <p>user</p>
+      <div>
+        <p>{profile.username}</p>
+        <p>{profile.chest_size}</p>
+      </div>
     </div>
   );
 };

@@ -28,7 +28,8 @@ const Login = () => {
       .then((res: any) => {
         if (res) {
           localStorage.clear();
-          localStorage.setItem("token", res.data.session_key);
+          localStorage.setItem("username", user.username);
+          localStorage.setItem("password", user.password);
           navigate("/main");
         } else {
           setInform({
