@@ -105,7 +105,12 @@ def scrapItem(request, clothesId, userId):
 
 @csrf_exempt
 def userprofile(request):
-#    if request.method == "GET":
-    currentprofile = {"session_key":request.session.session_key,"username":auth.get_user(request).get_username()}
+#    if request.method == "GET":
+    requestbody = json.loads(request.body)
+    username=requestbody['username']
+    password=requestbody['password']
+    user = auth.authenticate(request, username=username, password=password)
+    auth.login(request,user)
+    currentprofile = {"username":auth.get_user(request).get_username(),"chest_size":auth.get_user(request).chest_size,"waist_size":auth.get_user(request).waist_size,"thigh_size":auth.get_user(request).thigh_size,"calf_size":auth.get_user(request).calf_size}
     return JsonResponse(currentprofile)
     
