@@ -1,9 +1,8 @@
-import axios from "axios";
 import Axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const SignUp = () => {
+const Login = () => {
   const [inform, setInform] = useState<any>({
     username: "",
     password: "",
@@ -18,13 +17,7 @@ const SignUp = () => {
       return { ...prevState, [e.target.name]: e.target.value };
     });
   };
-  const clickSignin = () => {
-    if (inform.username === "ohj" && inform.password === "ohj") {
-      navigate("/main");
-    } else {
-      alert("wrong");
-    }
-  };
+
   const onSubmit = (e: any) => {
     e.preventDefault();
     const user = {
@@ -35,11 +28,10 @@ const SignUp = () => {
       .then((res: any) => {
         if (res) {
           localStorage.clear();
-          localStorage.setItem("token", res.data.key);
-          //window.location.replace("/");
+          localStorage.setItem("username", user.username);
+          localStorage.setItem("password", user.password);
           navigate("/main");
         } else {
-          console.log("2");
           setInform({
             username: "",
             password: "",
@@ -55,7 +47,6 @@ const SignUp = () => {
 
   return (
     <div>
-      <button onClick={() => navigate("/")}>Home</button>
       <h2>Login</h2>
       <p>
         ID:
@@ -76,4 +67,4 @@ const SignUp = () => {
     </div>
   );
 };
-export default SignUp;
+export default Login;

@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import SignUp from "./pages/Signup";
-import Register from "./pages/Register/Register";
-import Main from "./pages/Main";
-import UserProfile from "./pages/UserProfile";
-import ItemReview from "./pages/ItemReview";
-import ScrappedItem from "./pages/ScrappedItem";
+import Login from "./containers/Login/Login";
+import Register from "./containers/Register/Register";
+import Main from "./containers/Main/Main";
+import UserProfile from "./containers/UserProfile/UserProfile";
+import ItemReview from "./containers/ItemReview/ItemReview";
+import ScrappedItem from "./containers/ScrappedItem/ScrappedItem";
 import "./App.css";
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
       <BrowserRouter>
         <header className="App-header">
           <Routes>
-            <Route path="/" element={<SignUp />} />
+            <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/main" element={<Main />} />
             <Route path="/profile" element={<UserProfile />} />

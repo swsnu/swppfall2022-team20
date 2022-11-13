@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Axios from "axios";
 
-const RegisterAll = () => {
+const Register = () => {
   const [profile, setProfile] = useState<any>({
     username: "",
     password: "",
@@ -34,7 +34,7 @@ const RegisterAll = () => {
       .then((res: any) => {
         if (res) {
           localStorage.clear();
-          localStorage.setItem("token", res.data.key);
+          localStorage.setItem("token", res.data.session_key);
           window.location.replace("/");
         } else {
           setProfile({
@@ -99,4 +99,4 @@ const RegisterAll = () => {
     </div>
   );
 };
-export default RegisterAll;
+export default Register;
