@@ -5,6 +5,7 @@ import { expect } from "@jest/globals";
 import { shallow } from "enzyme";
 import Navbar from "./Navbar";
 import { getByTestId } from "@testing-library/react";
+import { render } from "react-dom";
 
 describe("Navbar", () => {
   let component: any = null;
@@ -18,4 +19,10 @@ describe("Navbar", () => {
   });
 });
 
-const handleClick = require("./Navbar");
+test("event", () => {
+  render(<h2 />);
+
+  const h2 = screen.getByText("profile");
+  fireEvent.click(h2);
+  expect(h2).toHaveAttribute(click);
+});
