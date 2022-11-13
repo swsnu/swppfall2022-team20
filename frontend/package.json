@@ -53,5 +53,13 @@
   "devDependencies": {
     "@types/chai": "^4.3.4",
     "@types/enzyme": "^3.10.12"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!src/index.tsx",
+      "!src/react-app-env.d.ts",
+      "!src/reportWebVitals.ts"
+    ]
   }
 }
