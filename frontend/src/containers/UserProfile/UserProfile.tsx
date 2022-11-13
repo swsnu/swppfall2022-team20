@@ -22,8 +22,7 @@ const UserProfile = () => {
       <Navbar />
       this is profile
       <div>
-        <p>{profile.username}</p>
-        <p>{profile.chest_size}</p>
+        
       </div>
     </div>
   );
