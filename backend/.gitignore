@@ -175,3 +175,5 @@ cython_debug/
 #sqlite3.exe gitignore 적용
 sqlite3.exe
 db.sqlite3
+#가상환경
+.venv

@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ImageShow render correct 1`] = `
+<div>
+  <img
+    alt="img"
+    onClick={[Function]}
+  />
+  <h2 />
+</div>
+`;
