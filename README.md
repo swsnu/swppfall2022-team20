@@ -9,5 +9,7 @@ Status](https://sonarcloud.io/api/project_badges/measure?project=swsnu_swppfall2
 
 # Before you start
 Please run the 'python dbUpdater.py' in the backend directory. It will update our DB.
+<br>
 Backend : 'python manage.py' runserver in backend directory
+<br>
 Frontend : 'yarn start' in frontend directory
