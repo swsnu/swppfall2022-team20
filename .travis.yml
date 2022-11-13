@@ -17,7 +17,6 @@ jobs:
         - yarn install
         - yarn global add coveralls
         - cd ../backend
-        - cd backend
         - source .venv/bin/activate
         - pip install -r requirements.txt
         - pip install coveralls
