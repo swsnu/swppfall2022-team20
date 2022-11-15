@@ -1,6 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import { NavLink } from "react-router-dom";
+import axios from "axios";
 import { expect } from "@jest/globals";
 import { shallow } from "enzyme";
 import UserProfile from "./UserProfile";

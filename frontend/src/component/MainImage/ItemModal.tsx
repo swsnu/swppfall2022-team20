@@ -33,7 +33,9 @@ const ItemModal = ({ setModalOpen, URL, src, style, id }: any) => {
         <p>Item modal</p>
         <img className="modalimg" alt="img" src={src}></img>
         <h3 onClick={clickName}>{style}</h3>
-        <button onClick={closeModal}>back</button>
+        <button id="change" onClick={closeModal}>
+          back
+        </button>
         <button onClick={() => window.open(URL, "_blank")}>visit</button>
       </div>
     </div>

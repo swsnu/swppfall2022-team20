@@ -7,7 +7,7 @@ const Register = () => {
     password: "",
     nickname: "",
     email: "",
-    chest_size: "",
+    length: "",
     waist_size: "",
     thigh_size: "",
     calf_size: "",
@@ -25,7 +25,7 @@ const Register = () => {
       password: profile.password,
       nickname: profile.nickname,
       email: profile.email,
-      chest_size: profile.chest_size,
+      length: profile.length,
       waist_size: profile.waist_size,
       thigh_size: profile.thigh_size,
       calf_size: profile.calf_size,
@@ -42,7 +42,7 @@ const Register = () => {
             password: "",
             nickname: "",
             email: "",
-            chest_size: "",
+            length: "",
             waist_size: "",
             thigh_size: "",
             calf_size: "",
@@ -61,7 +61,7 @@ const Register = () => {
         <h2>profile</h2>
         <p>
           ID:
-          <input name="username" onChange={handleInform} />
+          <input id="username" name="username" onChange={handleInform} />
         </p>
         <p>
           Password:
@@ -79,8 +79,8 @@ const Register = () => {
       <div>
         <h2>size</h2>
         <p>
-          chest size:
-          <input name="chest_size" onChange={handleInform} />
+          length:
+          <input name="length" onChange={handleInform} />
         </p>
         <p>
           waist size:

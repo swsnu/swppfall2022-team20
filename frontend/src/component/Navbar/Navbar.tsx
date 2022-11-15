@@ -19,7 +19,9 @@ const Navbar = () => {
           <NavLink to="/scrap">scrapped item</NavLink>
         </div>
         <div>
-          <h2 onClick={handleClick}>profile</h2>
+          <h2 id="change" onClick={handleClick}>
+            profile
+          </h2>
           {click ? "⌃" : "⌄"}
           {click && <Dropdown />}
         </div>
