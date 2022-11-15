@@ -3,12 +3,10 @@ from django.contrib.auth.models import AbstractUser
 
 
 class Pants_size(models.Model):
+    length = models.IntegerField()
     waist_size = models.IntegerField()
-    hip_size = models.IntegerField()
     thigh_size = models.IntegerField()
     calf_size = models.IntegerField()
-    rise = models.IntegerField()
-    inseam = models.IntegerField()
 
 class Clothes(models.Model):
     style = models.CharField(max_length=30)
