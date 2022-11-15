@@ -42,7 +42,7 @@ def login(request):
         if user is not None:
             auth.login(request,user)
 
-            response_dict = {"session_key":request.session.session_key,"username":user.username, "chest size":user.chest_size}
+            response_dict = {"session_key":request.session.session_key,"username":user.username, "length":user.length}
             return JsonResponse(response_dict,status=200)
         else:
             response_dict = {"username": username}
@@ -111,6 +111,6 @@ def userprofile(request):
     password=requestbody['password']
     user = auth.authenticate(request, username=username, password=password)
     auth.login(request,user)
-    currentprofile = {"username":auth.get_user(request).get_username(),"chest_size":auth.get_user(request).chest_size,"waist_size":auth.get_user(request).waist_size,"thigh_size":auth.get_user(request).thigh_size,"calf_size":auth.get_user(request).calf_size}
+    currentprofile = {"username":auth.get_user(request).get_username(),"length":auth.get_user(request).length,"waist_size":auth.get_user(request).waist_size,"thigh_size":auth.get_user(request).thigh_size,"calf_size":auth.get_user(request).calf_size}
     return JsonResponse(currentprofile)
     
