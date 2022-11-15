@@ -19,7 +19,7 @@ def signup(request):
             password=requestbody['password'],
             nickname=requestbody['nickname'],
             email=requestbody['email'],
-            chest_size=requestbody['chest_size'],
+            length=requestbody['length'],
             waist_size=requestbody['waist_size'],
             thigh_size=requestbody['thigh_size'],
             calf_size=requestbody['calf_size']

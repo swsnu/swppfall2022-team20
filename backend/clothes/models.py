@@ -30,7 +30,7 @@ class Clothes(models.Model):
 
 class Myuser(AbstractUser):
     nickname = models.CharField(max_length=50)
-    chest_size = models.IntegerField(default=0)
+    length = models.IntegerField(default=0)
     waist_size = models.IntegerField(default=0)
     thigh_size = models.IntegerField(default=0)
     calf_size = models.IntegerField(default=0)
