@@ -6,27 +6,55 @@ import { shallow } from "enzyme";
 import { render, screen, fireEvent } from "@testing-library/react";
 import ItemModal from "./ItemModal";
 
-/*describe("ItemModal", () => {
-  let component: any = null;
+const mockEffect = jest.fn();
+jest.mock("react", () => ({
+  ...jest.requireActual("react"),
+  useEffect: () => mockEffect,
+}));
 
-  it("initial render", () => {
-    component = renderer.create(<ItemModal />);
+const mockRef = jest.fn();
+jest.mock("react", () => ({
+  ...jest.requireActual("react"),
+  useRef: () => mockRef,
+}));
+
+const mockNavigate = jest.fn();
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: () => mockNavigate,
+}));
+
+describe("<ItemModal />", () => {
+  let itemModal: JSX.Element;
+  beforeEach(() => {
+    jest.clearAllMocks();
+    render(
+      <ItemModal
+        setModalOpen={true}
+        URL={"modalUrl"}
+        src={"modalSrc"}
+        style={"modalStyle"}
+        id={1}
+      />
+    );
   });
-  it("render correct", () => {
-    const tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
+  it("should render ItemModal", () => {
+    const style = screen.getByText("modalStyle");
+    const backButton = screen.getByText("back"); // Implicit assertion
   });
-});
-describe("ItemModal2", () => {
-  it("should be change true.", () => {
-    const wrapper: any = shallow(<ItemModal />);
-    wrapper.find("#change").simulate("click");
-    expect(wrapper.state().click).toBe(true);
+
+  it("should handle clickName", () => {
+    const style = screen.getByText("modalStyle");
+    fireEvent.click(style);
+    expect(mockNavigate).toHaveBeenCalled();
   });
-});
-*/
-describe("Counter test", () => {
-  it("should render Counter", () => {
-    render(<ItemModal />);
+  it("should handle closeModal", () => {
+    const backButton = screen.getByText("back");
+    fireEvent.click(backButton);
   });
+  it("should handle visitURL", () => {
+    const visitButton = screen.getByText("visit");
+    fireEvent.click(visitButton);
+  });
+  it("should handle modalHandler", () => {});
 });

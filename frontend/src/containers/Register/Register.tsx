@@ -51,7 +51,6 @@ const Register = () => {
       })
       .catch((err: any) => {
         console.log(err.message);
-
         alert("wrong");
       });
   };
@@ -61,38 +60,48 @@ const Register = () => {
         <h2>profile</h2>
         <p>
           ID:
-          <input id="username" name="username" onChange={handleInform} />
+          <input
+            data-testid="username"
+            id="username"
+            name="username"
+            onChange={handleInform}
+          />
         </p>
         <p>
           Password:
-          <input type="password" name="password" onChange={handleInform} />
+          <input
+            id="password"
+            type="password"
+            name="password"
+            onChange={handleInform}
+          />
         </p>
         <p>
           Nickname:
-          <input name="nickname" onChange={handleInform} />
+          <input id="nickname" name="nickname" onChange={handleInform} />
         </p>
         <p>
           Email:
-          <input name="email" onChange={handleInform} />
+          <input id="email" name="email" onChange={handleInform} />
         </p>
       </div>
       <div>
         <h2>size</h2>
         <p>
           length:
-          <input name="length" onChange={handleInform} />
+          <input id="length" name="length" onChange={handleInform} />
         </p>
         <p>
           waist size:
-          <input name="waist_size" onChange={handleInform} />
+          <input id="waist" name="waist_size" onChange={handleInform} />
         </p>
         <p>
           thigh size:
-          <input name="thigh_size" onChange={handleInform} />
+          <input id="thigh" name="thigh_size" onChange={handleInform} />
         </p>
         <p>
           calf size:
-          <input name="calf_size" onChange={handleInform} />
+          <input id="calf" name="calf_size" onChange={handleInform} />
         </p>
       </div>
       <button onClick={clickSubmit}>submit</button>
