@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  localStorage.setItem("loggedIn", "false");
   const [inform, setInform] = useState<any>({
     username: "",
     password: "",
@@ -30,6 +31,7 @@ const Login = () => {
           localStorage.clear();
           localStorage.setItem("username", user.username);
           localStorage.setItem("password", user.password);
+          localStorage.setItem("loggedIn", "true");
           navigate("/main");
         } else {
           setInform({
@@ -40,7 +42,6 @@ const Login = () => {
         }
       })
       .catch((err: any) => {
-        console.clear();
         alert("wrong");
       });
   };
@@ -50,7 +51,12 @@ const Login = () => {
       <h2>Login</h2>
       <p>
         ID:
-        <input name="username" value={username} onChange={handleInform} />
+        <input
+          data-testid="username"
+          name="username"
+          value={username}
+          onChange={handleInform}
+        />
       </p>
 
       <p>
@@ -62,7 +68,9 @@ const Login = () => {
           onChange={handleInform}
         />
       </p>
-      <button onClick={onClickRegister}>Register</button>
+      <button data-testid="register" onClick={onClickRegister}>
+        Register
+      </button>
       <button onClick={onSubmit}>Sign In</button>
     </div>
   );
