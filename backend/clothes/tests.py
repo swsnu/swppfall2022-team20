@@ -1,6 +1,45 @@
 from django.test import TestCase, Client
 from .models import *
 from django.utils import timezone
+from django.core.wsgi import get_wsgi_application
+from django.test.client import RequestFactory
+from django.urls import Resolver404
+from backend.wsgi import application
+import pytest
+# asgi, wsgi testing
+
+class WSGITest(TestCase):
+    urls = "regressiontests.wsgi.urls"
+    def test_handles_request(rf: RequestFactory):
+        with pytest.raises(Resolver404):
+            application.resolve_request(rf.get("/"))
+
+    def test_get_wsgi_application(self):
+        """
+        Verify that ``get_wsgi_application`` returns a functioning WSGI
+        callable.
+        """
+        application = get_wsgi_application()
+        environ = RequestFactory()._base_environ(
+            PATH_INFO="/",
+            CONTENT_TYPE="text/html; charset=utf-8",
+            REQUEST_METHOD="GET"
+            )
+        response_data = {}
+        def start_response(status, headers):
+            response_data["status"] = status
+            response_data["headers"] = headers
+        response = application(environ, start_response)
+        self.assertEqual(response_data["status"], "200 OK")
+        self.assertEqual(
+            response_data["headers"],
+            [('Content-Type', 'text/html; charset=utf-8')])
+        self.assertEqual(
+            bytes(response),
+            b"Content-Type: text/html; charset=utf-8\r\n\r\nHello World!")
+
+
+
 
 #models.py testing
         
