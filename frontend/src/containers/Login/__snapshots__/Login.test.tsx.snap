@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login render correct 1`] = `
+<div>
+  <h2>
+    Login
+  </h2>
+  <p>
+    ID:
+    <input
+      data-testid="username"
+      name="username"
+      onChange={[Function]}
+      value=""
+    />
+  </p>
+  <p>
+    PWD:
+    <input
+      name="password"
+      onChange={[Function]}
+      type="password"
+      value=""
+    />
+  </p>
+  <button
+    data-testid="register"
+    onClick={[Function]}
+  >
+    Register
+  </button>
+  <button
+    onClick={[Function]}
+  >
+    Sign In
+  </button>
+</div>
+`;
