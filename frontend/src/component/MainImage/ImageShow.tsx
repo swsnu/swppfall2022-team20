@@ -7,7 +7,13 @@ const ImageShow = (props: any) => {
   };
   return (
     <div>
-      <img alt="img" src={props.src} onClick={showModal}></img>
+      <img
+        data-testid="image"
+        className="Mainimage"
+        alt="img"
+        src={props.src}
+        onClick={showModal}
+      ></img>
       {modalOpen && (
         <ItemModal
           id={props.id}
