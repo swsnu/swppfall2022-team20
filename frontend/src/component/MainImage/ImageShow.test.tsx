@@ -2,7 +2,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 import { NavLink } from "react-router-dom";
 import { expect } from "@jest/globals";
-import { mount } from "enzyme";
+import { fireEvent, render, screen } from "@testing-library/react";
 import ImageShow from "./ImageShow";
 
 describe("ImageShow", () => {
@@ -17,10 +17,10 @@ describe("ImageShow", () => {
   });
 });
 describe("<Imageshow />", () => {
-  it("onClick", () => {
-    const wrapper = mount(<ImageShow />);
-    expect(wrapper.state("modalOpen")).toEqual(false);
-    wrapper.find("img").simulate("click");
-    expect(wrapper.state("modalOpen")).toEqual(true);
+  it("test", () => {
+    const img: any = render(<ImageShow />);
+    const state = img.getByTestId("image");
+    fireEvent.click(state);
+    expect(img.getInstance().state.value).toBe(true);
   });
 });
