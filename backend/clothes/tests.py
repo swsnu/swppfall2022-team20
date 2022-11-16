@@ -1,6 +1,39 @@
 from django.test import TestCase, Client
 from .models import *
 from django.utils import timezone
+from django.core.wsgi import get_wsgi_application
+from django.test.client import RequestFactory
+from django.urls import Resolver404
+from backend.wsgi import application
+import pytest
+# asgi, wsgi testing
+
+class WSGITest(TestCase):
+    urls = "regressiontests.wsgi.urls"
+    def test_handles_request(rf: RequestFactory):
+        with pytest.raises(Resolver404):
+            application.resolve_request(rf.get("/"))
+
+    def test_get_wsgi_application(self):
+        """
+        Verify that ``get_wsgi_application`` returns a functioning WSGI
+        callable.
+        """
+        application = get_wsgi_application()
+        environ = RequestFactory()._base_environ(
+            PATH_INFO="/",
+            CONTENT_TYPE="text/html; charset=utf-8",
+            REQUEST_METHOD="GET"
+            )
+        response_data = {}
+        def start_response(status, headers):
+            response_data["status"] = status
+            response_data["headers"] = headers
+        response = application(environ, start_response)
+        self.assertEqual(response_data["status"], "404 Not Found")
+
+
+
 
 #models.py testing
         
@@ -44,26 +77,3 @@ class BackendTestCase(TestCase):
         client = Client()
         response = client.get('/api/clothes/reviews/1/')
         self.assertEqual(response.status_code, 200)
-
-    def test_uploadedReviewsList(self) -> None:
-        client = Client()
-        response = client.get('/api/clothes/reviews/read/1/')
-        self.assertEqual(response.status_code, 200)
-        #self.assertIn('review', response.content.decode())
-
-    def test_comment(self) -> None:
-        client = Client()
-        response = client.get('/api/clothes/comments/1/')
-        self.assertEqual(response.status_code, 201)
-        #self.assertIn('first', response.content.decode())
-
-    def test_scrappedList(self) -> None:
-        client = Client()
-        response = client.get('/api/clothes/scrapped/read/1/')
-        self.assertEqual(response.status_code, 200)
-        #self.assertIn('denim', response.content.decode())
-
-    def test_scrapItem(self) -> None:
-        client = Client()
-        response = client.get('/api/clothes/scrapped/put/1/')
-        #self.assertEqual(response.status_code, 201)
