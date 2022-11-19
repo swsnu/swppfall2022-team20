@@ -7,6 +7,10 @@ import UserProfile from "./containers/UserProfile/UserProfile";
 import ItemReview from "./containers/ItemReview/ItemReview";
 import ScrappedItem from "./containers/ScrappedItem/ScrappedItem";
 import "./App.css";
+import axios from "axios";
+
+axios.defaults.xsrfCookieName = "csrftoken";
+axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
 function App() {
   return (

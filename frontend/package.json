@@ -69,5 +69,6 @@
       "!src/react-app-env.d.ts",
       "!src/reportWebVitals.ts"
     ]
-  }
+  },
+  "proxy": "http://localhost:8000"
 }
