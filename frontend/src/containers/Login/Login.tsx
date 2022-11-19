@@ -1,4 +1,4 @@
-import Axios from "axios";
+import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -25,7 +25,8 @@ const Login = () => {
       username: inform.username,
       password: inform.password,
     };
-    Axios.post("http://127.0.0.1:8000/api/clothes/login/", user)
+    axios
+      .post("/api/clothes/login/", user)
       .then((res: any) => {
         if (res) {
           localStorage.clear();
