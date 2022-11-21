@@ -1,9 +1,7 @@
 import json
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
-from django.shortcuts import redirect, render
 from django.contrib import auth 
-from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
-from django.middleware.csrf import get_token
+from django.views.decorators.csrf import ensure_csrf_cookie
 import json
 from json.decoder import JSONDecodeError
 from .models import *
@@ -17,8 +15,6 @@ def csrf_token(request):
     # Create your views here.
 
 def signup(request):
-#    if request.method == 'GET':
-#        return render(request, "../../frontend/src/pages/Register/Register.tsx")
     if request.method == 'POST':
         requestbody = json.loads(request.body)
         user = Myuser.objects.create_user(
@@ -35,7 +31,7 @@ def signup(request):
         auth.login(request,user)
         response_dict = {"session_id":request.session.session_key,"username":auth.get_user(request).get_username()}
         return JsonResponse(response_dict,status=200)
-@csrf_exempt
+
 def login(request):
     if request.method == 'POST':
         requestbody = json.loads(request.body)
