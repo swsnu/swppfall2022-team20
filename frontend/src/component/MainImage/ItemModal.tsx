@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./ModalBasic.css";
-const ItemModal = ({ setModalOpen, URL, src, style, id }: any) => {
+const ItemModal = ({ setModalOpen, URL, src, name, id }: any) => {
   const navigate = useNavigate();
   const closeModal = () => {
     setModalOpen(false);
@@ -32,7 +32,7 @@ const ItemModal = ({ setModalOpen, URL, src, style, id }: any) => {
       <div ref={modalRef} className="container">
         <p>Item modal</p>
         <img className="modalimg" alt="img" src={src}></img>
-        <h3 onClick={clickName}>{style}</h3>
+        <h3 onClick={clickName}>{name}</h3>
         <button id="change" onClick={closeModal}>
           back
         </button>

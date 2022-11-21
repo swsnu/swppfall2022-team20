@@ -17,7 +17,7 @@ def csrf_token(request):
 def signup(request):
     if request.method == 'POST':
         requestbody = json.loads(request.body)
-        user = Myuser.objects.create_user(
+        user = User.objects.create_user(
             username=requestbody['username'],
             password=requestbody['password'],
             nickname=requestbody['nickname'],

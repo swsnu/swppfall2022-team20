@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import Axios from "axios";
+import axios from "axios";
+
+axios.defaults.xsrfCookieName = "csrftoken";
+axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
 const Register = () => {
   const [profile, setProfile] = useState<any>({
@@ -30,7 +33,8 @@ const Register = () => {
       thigh_size: profile.thigh_size,
       calf_size: profile.calf_size,
     };
-    Axios.post("http://127.0.0.1:8000/api/clothes/signup/", user)
+    axios
+      .post("http://127.0.0.1:8000/api/clothes/signup/", user)
       .then((res: any) => {
         if (res) {
           localStorage.clear();
