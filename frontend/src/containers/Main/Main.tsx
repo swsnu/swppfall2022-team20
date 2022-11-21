@@ -21,7 +21,7 @@ const Main = () => {
             key={d.id}
             id={d.id}
             src={d.photo}
-            style={d.style}
+            name={d.name}
             URL={d.URL}
           />
         ))}

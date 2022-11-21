@@ -1,20 +1,23 @@
 import json
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
-from django.shortcuts import redirect, render
 from django.contrib import auth 
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import ensure_csrf_cookie
 import json
 from json.decoder import JSONDecodeError
 from .models import *
 
+@ensure_csrf_cookie
+def csrf_token(request):
+    if request.method == "GET":
+        return HttpResponse(status=204)
+    else:
+        return HttpResponseNotAllowed(["GET"])
     # Create your views here.
-@csrf_exempt       
+
 def signup(request):
-#    if request.method == 'GET':
-#        return render(request, "../../frontend/src/pages/Register/Register.tsx")
     if request.method == 'POST':
         requestbody = json.loads(request.body)
-        user = Myuser.objects.create_user(
+        user = User.objects.create_user(
             username=requestbody['username'],
             password=requestbody['password'],
             nickname=requestbody['nickname'],
@@ -29,10 +32,7 @@ def signup(request):
         response_dict = {"session_id":request.session.session_key,"username":auth.get_user(request).get_username()}
         return JsonResponse(response_dict,status=200)
 
-@csrf_exempt       
 def login(request):
-#    if request.method == 'GET':
-#        return render(request, "../../frontend/src/pages/Signup.tsx")
     if request.method == 'POST':
         requestbody = json.loads(request.body)
         print(1)
@@ -48,13 +48,11 @@ def login(request):
             response_dict = {"username": username}
             return HttpResponseBadRequest(response_dict,status=401)
 
-@csrf_exempt
 #모든 상품리스트 반환
 def main(request):
     clothesList = [clothes for clothes in Clothes.objects.all().values()]
     return JsonResponse(clothesList, safe=False, status=200)
 
-@csrf_exempt
 def userprofile(request):
 #    if request.method == "GET":
     requestbody = json.loads(request.body)
