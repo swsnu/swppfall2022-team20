@@ -1,7 +1,7 @@
 import json
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
 from django.contrib import auth 
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 import json
 from json.decoder import JSONDecodeError
 from .models import *
@@ -13,7 +13,7 @@ def csrf_token(request):
     else:
         return HttpResponseNotAllowed(["GET"])
     # Create your views here.
-
+@csrf_exempt
 def signup(request):
     if request.method == 'POST':
         requestbody = json.loads(request.body)
@@ -52,14 +52,22 @@ def login(request):
 def main(request):
     clothesList = [clothes for clothes in Clothes.objects.all().values()]
     return JsonResponse(clothesList, safe=False, status=200)
-
+@csrf_exempt
 def userprofile(request):
-#    if request.method == "GET":
-    requestbody = json.loads(request.body)
-    username=requestbody['username']
-    password=requestbody['password']
-    user = auth.authenticate(request, username=username, password=password)
-    auth.login(request,user)
-    currentprofile = {"username":auth.get_user(request).get_username(),"length":auth.get_user(request).length,"waist_size":auth.get_user(request).waist_size,"thigh_size":auth.get_user(request).thigh_size,"calf_size":auth.get_user(request).calf_size}
-    return JsonResponse(currentprofile)
+#    if request.method == "POST":
+     requestbody = json.loads(request.body)
+     username=requestbody['username']
+     password=requestbody['password']
+     user = auth.authenticate(request, username=username, password=password)
+     auth.login(request,user)
+     currentprofile = {"username":auth.get_user(request).get_username(),"length":auth.get_user(request).length,"waist_size":auth.get_user(request).waist_size,"thigh_size":auth.get_user(request).thigh_size,"calf_size":auth.get_user(request).calf_size}
+     return JsonResponse(currentprofile)
+'''    if request.method == "PUT":
+        requestbody = json.loads(request.body)
+        username=requestbody['username']
+        password=requestbody['password']
+        user = auth.authenticate(request, username=username, password=password)
+        auth.login(request,user)
+        currentprofile = {"username":auth.get_user(request).get_username(),"length":auth.get_user(request).length,"waist_size":auth.get_user(request).waist_size,"thigh_size":auth.get_user(request).thigh_size,"calf_size":auth.get_user(request).calf_size}
+        return JsonResponse(currentprofile)'''
     

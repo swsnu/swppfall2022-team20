@@ -5,12 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
-<<<<<<< HEAD
-axios.defaults.xsrfCookieName = "csrftoken";
-axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-=======
 
->>>>>>> b276289041f39083bd77d5cde3b73f802e1004c5
 // this sets our csrf token
 axios.get("/api/clothes/csrf_token/");
 
