@@ -108,7 +108,7 @@ const Register = () => {
           <input id="calf" name="calf_size" onChange={handleInform} />
         </p>
       </div>
-      <button onClick={clickSubmit}>submit</button>
+      <button data-testid="submit" onClick={clickSubmit}>submit</button>
     </div>
   );
 };
