@@ -2,11 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
-class Size(models.Model):
-    length = models.IntegerField()
-    waist_size = models.IntegerField()
-    thigh_size = models.IntegerField()
-    calf_size = models.IntegerField()
+
 
 class Clothes(models.Model):
     name = models.CharField(max_length=30)
@@ -17,13 +13,21 @@ class Clothes(models.Model):
     URL = models.CharField(max_length=200)
     #analytics
     photo = models.CharField(max_length=200) #사진의 저장 경로
-    size = models.ForeignKey(
-        Size, #style 추가시 수정
-        on_delete=models.PROTECT #pants_size가 삭제되는 일은 없을 것
-    )
 
     def __str__(self):
         return self.name
+
+class Size(models.Model):
+    named_size = models.CharField(max_length=30)
+    length = models.IntegerField()
+    waist_size = models.IntegerField()
+    thigh_size = models.IntegerField()
+    calf_size = models.IntegerField()
+    clothes = models.ForeignKey(
+        Clothes, #style 추가시 수정
+        on_delete=models.CASCADE,
+        related_name = "size_list",
+    )
 
 #class color
 
