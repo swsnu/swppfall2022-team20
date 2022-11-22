@@ -32,5 +32,11 @@ describe("Login", () => {
     fireEvent.click(button);
     expect(navigate).toHaveBeenCalledWith("/register");
   });
+  it("click signin - no data", () => {
+    global.alert = jest.fn();
+    const login: any = render(<Login />);
+    const button = login.getByTestId("signin");
+    fireEvent.click(button);
+    expect(window.alert).toHaveBeenCalledTimes(1);
+  });
 });
-
