@@ -1,3 +1,6 @@
+"""
+admin module for stylestagram app
+"""
 from django.contrib import admin
 from .models import Size, Clothes, User, Review, Comment
 
