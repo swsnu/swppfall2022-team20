@@ -20,10 +20,10 @@ const ImageShow = (props: any) => {
           src={props.src}
           setModalOpen={setModalOpen}
           URL={props.URL}
-          style={props.style}
+          name={props.name}
         />
       )}
-      <h2>{props.style}</h2>
+      <h2>{props.name}</h2>
     </div>
   );
 };

@@ -17,7 +17,7 @@ def csrf_token(request):
 def signup(request):
     if request.method == 'POST':
         requestbody = json.loads(request.body)
-        user = Myuser.objects.create_user(
+        user = User.objects.create_user(
             username=requestbody['username'],
             password=requestbody['password'],
             nickname=requestbody['nickname'],
@@ -50,8 +50,18 @@ def login(request):
 
 #모든 상품리스트 반환
 def main(request):
-    clothesList = [clothes for clothes in Clothes.objects.all().values()]
-    return JsonResponse(clothesList, safe=False, status=200)
+    clothes_data = []
+    for clothes_general_data in Clothes.objects.all().values():
+        clothes_general_data = clothes_general_data
+        clothes_id = clothes_general_data["id"]
+        clothes_size_data = []
+        for clothes_each_size_data in Size.objects.filter(clothes_id=clothes_id).values():
+            clothes_each_size_data.pop("id")
+            clothes_each_size_data.pop("clothes_id")
+            clothes_size_data.append(clothes_each_size_data)
+        clothes_general_data["size"] = clothes_size_data
+        clothes_data.append(clothes_general_data)
+    return JsonResponse(clothes_data, safe=False, status=200)
 
 def userprofile(request):
 #    if request.method == "GET":

@@ -72,7 +72,7 @@ const Login = () => {
       <button data-testid="register" onClick={onClickRegister}>
         Register
       </button>
-      <button onClick={onSubmit}>Sign In</button>
+      <button data-testid="signin" onClick={onSubmit}>Sign In</button>
     </div>
   );
 };
