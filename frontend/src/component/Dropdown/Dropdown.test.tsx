@@ -16,25 +16,3 @@ describe("Dropdown", () => {
     expect(tree).toMatchSnapshot();
   });
 });
-/*describe("<NavLink />", () => {
-  it("first", () => {
-    const comp = (
-      <NavLink to="/profile" className={"nav-links"}>
-        NavLink profile test
-      </NavLink>
-    );
-    const wrapper: any = shallow(comp);
-
-    expect(wrapper.instance().props.to).to.equal("/profile");
-  });
-  it("logout", () => {
-    const comp = (
-      <NavLink to="/" className={"nav-links"}>
-        NavLink logout test
-      </NavLink>
-    );
-    const wrapper: any = shallow(comp);
-
-    expect(wrapper.instance().props.to).to.equal("/");
-  });
-});*/

@@ -24,6 +24,7 @@ const ImageShow = (props: any) => {
         />
       )}
       <h2>{props.name}</h2>
+      <h2>{props.recommendSize}</h2>
     </div>
   );
 };

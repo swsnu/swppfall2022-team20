@@ -6,7 +6,6 @@ import ImageShow from "../../component/MainImage/ImageShow";
 
 const Main = () => {
   const navigate = useNavigate();
-  console.log(localStorage.getItem("loggedIn"));
   const [profile, setProfile] = useState<any>({});
   useEffect(() => {
     const user = {
@@ -33,26 +32,46 @@ const Main = () => {
   }, []);
 
   console.log(data);
+  for (var i = 0; i < data.length; i++) {
+    console.log(data[i].size);
+  }
   if (localStorage.getItem("loggedIn") == "true") {
     return (
       <div>
         <Navbar />
-        <div>Main</div>
         <div>
-          {data.map((d: any) => (
-            <ImageShow
-              key={d.id}
-              id={d.id}
-              src={d.photo}
-              name={d.name}
-              URL={d.URL}
-            />
-          ))}
+          {data.map((d: any) => {
+            let recommendSize: string = "";
+            d.size.map((s: any) => {
+              if (
+                // 길이는 괜찮으나 바지 통이나 와이드 레귤러 등 핏에 따라서 사이즈를 정해야 할듯
+                parseInt(s.length) - parseInt(profile.length) < 3 &&
+                parseInt(s.length) - parseInt(profile.length) > -1 &&
+                parseInt(s.waist_size) - parseInt(profile.waist_size) < 8 &&
+                parseInt(s.thigh_size) - parseInt(profile.thigh_size) < 3 &&
+                parseInt(s.calf_size) - parseInt(profile.calf_size) < 3
+              ) {
+                recommendSize += s.named_size;
+                recommendSize += " ";
+              }
+            });
+            return (
+              <ImageShow
+                key={d.id}
+                id={d.id}
+                src={d.photo}
+                name={d.name}
+                URL={d.URL}
+                recommendSize={recommendSize}
+              />
+            );
+          })}
         </div>
       </div>
     );
   } else {
     navigate("/");
+    return <></>;
   }
 };
 export default Main;

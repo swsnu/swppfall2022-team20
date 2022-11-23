@@ -1,8 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-const logoutNavigate = () => {
-  localStorage.setItem("loggedIn", "false");
-};
+
 const Dropdown = () => {
   return (
     <ul>
@@ -17,7 +15,7 @@ const Dropdown = () => {
         </NavLink>
       </li>
       <li className="nav-item">
-        <NavLink to="/" className="nav-links" onClick={logoutNavigate}>
+        <NavLink to="/" className="nav-links">
           logout
         </NavLink>
       </li>
