@@ -3,9 +3,6 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../../component/Navbar/Navbar";
 import ImageShow from "../../component/MainImage/ImageShow";
 
-axios.defaults.xsrfCookieName = "csrftoken";
-axios.defaults.xsrfHeaderName = "X-CSRFToken";
-
 const Main = () => {
   const [data, setData] = useState<any>([]);
   //useEffect로 axios 한번만 호출
@@ -24,7 +21,7 @@ const Main = () => {
             key={d.id}
             id={d.id}
             src={d.photo}
-            style={d.style}
+            name={d.name}
             URL={d.URL}
           />
         ))}
