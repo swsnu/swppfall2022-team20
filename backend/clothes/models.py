@@ -81,3 +81,4 @@ class Comment(models.Model):
         on_delete=models.CASCADE,
         related_name='comment_uploaded',
     )
+    
