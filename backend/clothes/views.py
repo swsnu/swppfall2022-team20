@@ -1,10 +1,8 @@
 import json
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
-from django.contrib import auth 
-from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
-import json
-from json.decoder import JSONDecodeError
-from .models import *
+from django.contrib import auth
+from django.views.decorators.csrf import ensure_csrf_cookie
+from .models import Clothes, Size, User
 
 @ensure_csrf_cookie
 def csrf_token(request):
@@ -35,13 +33,11 @@ def signup(request):
 def login(request):
     if request.method == 'POST':
         requestbody = json.loads(request.body)
-        print(1)
         username=requestbody['username']
         password=requestbody['password']
         user = auth.authenticate(request, username=username, password=password)
         if user is not None:
             auth.login(request,user)
-
             response_dict = {"session_key":request.session.session_key,"username":user.username, "length":user.length}
             return JsonResponse(response_dict,status=200)
         else:
@@ -53,7 +49,6 @@ def login(request):
 def main(request):
     clothes_data = []
     for clothes_general_data in Clothes.objects.all().values():
-        clothes_general_data = clothes_general_data
         clothes_id = clothes_general_data["id"]
         clothes_size_data = []
         for clothes_each_size_data in Size.objects.filter(clothes_id=clothes_id).values():
@@ -65,20 +60,11 @@ def main(request):
     return JsonResponse(clothes_data, safe=False, status=200)
 @csrf_exempt
 def userprofile(request):
-#    if request.method == "POST":
-     requestbody = json.loads(request.body)
-     username=requestbody['username']
-     password=requestbody['password']
-     user = auth.authenticate(request, username=username, password=password)
-     auth.login(request,user)
-     currentprofile = {"username":auth.get_user(request).get_username(),"length":auth.get_user(request).length,"waist_size":auth.get_user(request).waist_size,"thigh_size":auth.get_user(request).thigh_size,"calf_size":auth.get_user(request).calf_size}
-     return JsonResponse(currentprofile)
-'''    if request.method == "PUT":
-        requestbody = json.loads(request.body)
-        username=requestbody['username']
-        password=requestbody['password']
-        user = auth.authenticate(request, username=username, password=password)
-        auth.login(request,user)
-        currentprofile = {"username":auth.get_user(request).get_username(),"length":auth.get_user(request).length,"waist_size":auth.get_user(request).waist_size,"thigh_size":auth.get_user(request).thigh_size,"calf_size":auth.get_user(request).calf_size}
-        return JsonResponse(currentprofile)'''
+    requestbody = json.loads(request.body)
+    username=requestbody['username']
+    password=requestbody['password']
+    user = auth.authenticate(request, username=username, password=password)
+    auth.login(request,user)
+    currentprofile = {"username":auth.get_user(request).get_username(),"length":auth.get_user(request).length,"waist_size":auth.get_user(request).waist_size,"thigh_size":auth.get_user(request).thigh_size,"calf_size":auth.get_user(request).calf_size}
+    return JsonResponse(currentprofile, status=200)
     

@@ -1,8 +1,8 @@
+"""
+models module for stylestagram app
+"""
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
-
-
 
 class Clothes(models.Model):
     name = models.CharField(max_length=30)
@@ -81,3 +81,4 @@ class Comment(models.Model):
         on_delete=models.CASCADE,
         related_name='comment_uploaded',
     )
+    
