@@ -1,7 +1,7 @@
 import json
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
 from django.contrib import auth
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from .models import Clothes, Size, User
 
 @ensure_csrf_cookie
