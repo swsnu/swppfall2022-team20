@@ -44,12 +44,12 @@ const Main = () => {
             let recommendSize: string = "";
             d.size.map((s: any) => {
               if (
-                // 길이는 괜찮으나 바지 통이나 와이드 레귤러 등 핏에 따라서 사이즈를 정해야 할듯
+                // length나 waist_size는 괜찮으나 바지 통이나 와이드 레귤러 등 핏에 따라서 사이즈를 정해야 할듯
                 parseInt(s.length) - parseInt(profile.length) < 3 &&
                 parseInt(s.length) - parseInt(profile.length) > -1 &&
                 parseInt(s.waist_size) - parseInt(profile.waist_size) < 8 &&
-                parseInt(s.thigh_size) - parseInt(profile.thigh_size) < 3 &&
-                parseInt(s.calf_size) - parseInt(profile.calf_size) < 3
+                parseInt(s.thigh_size) - parseInt(profile.thigh_size) < 10 &&
+                parseInt(s.calf_size) - parseInt(profile.calf_size) < 10
               ) {
                 recommendSize += s.named_size;
                 recommendSize += " ";

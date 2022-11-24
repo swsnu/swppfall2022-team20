@@ -29,7 +29,7 @@ const UserProfile = () => {
       console.log(profile);
     });
   }, []);
-  const changeSize = (e: any) => {
+  /*const changeSize = (e: any) => {
     e.preventDefault();
     setProfile((prevState: any) => {
       return { ...prevState, [e.target.name]: e.target.value };
@@ -47,7 +47,7 @@ const UserProfile = () => {
       .catch((err: any) => {
         console.log(err);
       });
-  };
+  };*/
   console.log(profile);
   return (
     <div>
@@ -61,7 +61,7 @@ const UserProfile = () => {
         <input
           name="length"
           value={profile.length}
-          onChange={changeSize}
+          
         ></input>
       </div>
       <div>
@@ -69,7 +69,7 @@ const UserProfile = () => {
         <input
           name="waist_size"
           value={profile.waist_size}
-          onChange={changeSize}
+          
         ></input>
       </div>
       <div>
@@ -77,7 +77,7 @@ const UserProfile = () => {
         <input
           name="thigh_size"
           value={profile.thigh_size}
-          onChange={changeSize}
+          
         ></input>
       </div>
       <div>
@@ -85,10 +85,10 @@ const UserProfile = () => {
         <input
           name="calf_size"
           value={profile.calf_size}
-          onChange={changeSize}
+          
         ></input>
       </div>
-      <button onClick={clickChange}>change</button>
+      
     </div>
   );
 };
