@@ -12,18 +12,19 @@ const Navbar = () => {
       <nav>
         <h1 className="homeName">Stylestargram</h1>
         <div>
-          <NavLink to="/main">Home</NavLink>
-        </div>
-
-        <div>
-          <NavLink to="/scrap">scrapped item</NavLink>
+          <NavLink className="navLinkClick" to="/main">Home</NavLink>
         </div>
         <div>
-          <h2 id="change" onClick={handleClick}>
+          <NavLink className="navLinkClick" to="/scrap">scrapped item</NavLink>
+        </div>
+        <div>
+          <h3 className="navLinkClick" id="change" onClick={handleClick}>
             profile
-          </h2>
-          {click ? "⌃" : "⌄"}
+            {click ? "⌃" : "⌄"}
+          </h3>
+          <div>
           {click && <Dropdown />}
+          </div>
         </div>
       </nav>
     </>
