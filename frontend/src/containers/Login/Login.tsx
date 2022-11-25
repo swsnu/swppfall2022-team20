@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import "./Login.css"
 const Login = () => {
   localStorage.setItem("loggedIn", "false");
   const [inform, setInform] = useState<any>({
@@ -53,6 +53,7 @@ const Login = () => {
       <p>
         ID:
         <input
+        className="loginInput"
           data-testid="username"
           name="username"
           value={username}
@@ -64,15 +65,16 @@ const Login = () => {
         PWD:
         <input
           type="password"
+          className="loginInput"
           name="password"
           value={password}
           onChange={handleInform}
         />
       </p>
-      <button data-testid="register" onClick={onClickRegister}>
+      <button className="button" data-testid="register" onClick={onClickRegister}>
         Register
       </button>
-      <button data-testid="signin" onClick={onSubmit}>Sign In</button>
+      <button className="button" data-testid="signin" onClick={onSubmit}>Sign In</button>
     </div>
   );
 };
