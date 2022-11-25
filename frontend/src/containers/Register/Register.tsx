@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import "./Register.css"
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
@@ -61,10 +61,11 @@ const Register = () => {
   return (
     <div>
       <div>
-        <h2>profile</h2>
+        <h2>Register</h2>
         <p>
           ID:
           <input
+          className="RegisterInput"
             data-testid="username"
             id="username"
             name="username"
@@ -74,6 +75,7 @@ const Register = () => {
         <p>
           Password:
           <input
+          className="RegisterInput"
             id="password"
             type="password"
             name="password"
@@ -82,33 +84,33 @@ const Register = () => {
         </p>
         <p>
           Nickname:
-          <input id="nickname" name="nickname" onChange={handleInform} />
+          <input className="RegisterInput" id="nickname" name="nickname" onChange={handleInform} />
         </p>
         <p>
           Email:
-          <input id="email" name="email" onChange={handleInform} />
+          <input className="RegisterInput" id="email" name="email" onChange={handleInform} />
         </p>
       </div>
       <div>
         <h2>size</h2>
         <p>
           length:
-          <input id="length" name="length" onChange={handleInform} />
+          <input className="RegisterInput" id="length" name="length" onChange={handleInform} />
         </p>
         <p>
           waist size:
-          <input id="waist" name="waist_size" onChange={handleInform} />
+          <input className="RegisterInput" id="waist" name="waist_size" onChange={handleInform} />
         </p>
         <p>
           thigh size:
-          <input id="thigh" name="thigh_size" onChange={handleInform} />
+          <input className="RegisterInput" id="thigh" name="thigh_size" onChange={handleInform} />
         </p>
         <p>
           calf size:
-          <input id="calf" name="calf_size" onChange={handleInform} />
+          <input className="RegisterInput" id="calf" name="calf_size" onChange={handleInform} />
         </p>
       </div>
-      <button data-testid="submit" onClick={clickSubmit}>submit</button>
+      <button className="button" data-testid="submit" onClick={clickSubmit}>submit</button>
     </div>
   );
 };

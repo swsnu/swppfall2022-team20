@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import "./ModalBasic.css";
+import "./ItemModal.css";
 const ItemModal = ({ setModalOpen, URL, src, name, id }: any) => {
   const navigate = useNavigate();
   const closeModal = () => {
@@ -30,13 +30,15 @@ const ItemModal = ({ setModalOpen, URL, src, name, id }: any) => {
   return (
     <div className="outer">
       <div ref={modalRef} className="container">
-        <p>Item modal</p>
+        <p>Item Detail</p>
         <img className="modalimg" alt="img" src={src}></img>
+        <div className="rightcontent">
         <h3 onClick={clickName}>{name}</h3>
         <button id="change" onClick={closeModal}>
           back
         </button>
         <button onClick={() => window.open(URL, "_blank")}>visit</button>
+        </div>
       </div>
     </div>
   );
