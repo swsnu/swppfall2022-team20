@@ -20,7 +20,6 @@ const Main = () => {
       })
       .then((res: any) => {
         setProfile(res.data);
-        console.log(res.data);
       });
   }, []);
   const [data, setData] = useState<any>([]);
@@ -35,7 +34,7 @@ const Main = () => {
     return (
       <div>
         <Navbar />
-        <div className="container">
+        <div className="containerMain">
           {data.map((d: any) => {
             let recommendSize: string = "";
             d.size.map((s: any) => {
