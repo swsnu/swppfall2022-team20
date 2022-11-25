@@ -29,7 +29,8 @@ def signup(request):
         auth.login(request,user)
         response_dict = {"session_id":request.session.session_key,"username":auth.get_user(request).get_username()}
         return JsonResponse(response_dict,status=200)
-
+        
+@csrf_exempt
 def login(request):
     if request.method == 'POST':
         requestbody = json.loads(request.body)
@@ -60,11 +61,11 @@ def main(request):
     return JsonResponse(clothes_data, safe=False, status=200)
 @csrf_exempt
 def userprofile(request):
-    requestbody = json.loads(request.body)
-    username=requestbody['username']
-    password=requestbody['password']
-    user = auth.authenticate(request, username=username, password=password)
-    auth.login(request,user)
-    currentprofile = {"username":auth.get_user(request).get_username(),"length":auth.get_user(request).length,"waist_size":auth.get_user(request).waist_size,"thigh_size":auth.get_user(request).thigh_size,"calf_size":auth.get_user(request).calf_size}
-    return JsonResponse(currentprofile, status=200)
-    
+    if request.method == 'POST':
+        requestbody = json.loads(request.body)
+        username=requestbody['username']
+        password=requestbody['password']
+        user = auth.authenticate(request, username=username, password=password)
+        auth.login(request,user)
+        currentprofile = {"username":auth.get_user(request).get_username(),"length":auth.get_user(request).length,"waist_size":auth.get_user(request).waist_size,"thigh_size":auth.get_user(request).thigh_size,"calf_size":auth.get_user(request).calf_size}
+        return JsonResponse(currentprofile, status=200)
