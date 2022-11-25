@@ -31,15 +31,11 @@ const Main = () => {
     });
   }, []);
 
-  console.log(data);
-  for (var i = 0; i < data.length; i++) {
-    console.log(data[i].size);
-  }
   if (localStorage.getItem("loggedIn") == "true") {
     return (
       <div>
         <Navbar />
-        <div>
+        <div className="container">
           {data.map((d: any) => {
             let recommendSize: string = "";
             d.size.map((s: any) => {
