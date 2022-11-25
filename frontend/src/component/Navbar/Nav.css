@@ -6,8 +6,9 @@ nav {
 
   height: 75px;
   padding: 1rem;
-  color: white;
-  background: teal;
+  color: black;
+  background: white;
+  font-family: cursive;
   font-weight: bold;
   display: flex;
   justify-content: space-between;
@@ -19,4 +20,13 @@ nav > div {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.navLinkClick {
+  color:black;
+  font-size: large;
+  text-decoration-line: none;
+  font-weight: bold;
+}
+.navLinkClick:hover{
+  color:blue
 }
