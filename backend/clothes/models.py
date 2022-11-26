@@ -1,14 +1,11 @@
+"""
+models module for stylestagram app
+"""
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-
-class Pants_size(models.Model):
-    length = models.IntegerField()
-    waist_size = models.IntegerField()
-    thigh_size = models.IntegerField()
-    calf_size = models.IntegerField()
-
 class Clothes(models.Model):
+    name = models.CharField(max_length=30)
     style = models.CharField(max_length=30)
     brand = models.CharField(max_length=50)
     #color
@@ -16,17 +13,25 @@ class Clothes(models.Model):
     URL = models.CharField(max_length=200)
     #analytics
     photo = models.CharField(max_length=200) #사진의 저장 경로
-    size = models.ForeignKey(
-        Pants_size, #style 추가시 수정
-        on_delete=models.PROTECT #pants_size가 삭제되는 일은 없을 것
-    )
 
     def __str__(self):
         return self.name
 
+class Size(models.Model):
+    named_size = models.CharField(max_length=30)
+    length = models.IntegerField()
+    waist_size = models.IntegerField()
+    thigh_size = models.IntegerField()
+    calf_size = models.IntegerField()
+    clothes = models.ForeignKey(
+        Clothes, #style 추가시 수정
+        on_delete=models.CASCADE,
+        related_name = "size_list",
+    )
+
 #class color
 
-class Myuser(AbstractUser):
+class User(AbstractUser):
     nickname = models.CharField(max_length=50)
     length = models.IntegerField(default=0)
     waist_size = models.IntegerField(default=0)
@@ -58,7 +63,7 @@ class Review(models.Model):
         related_name = "clothes_review",
     )
     uploaded_user = models.ForeignKey(
-        Myuser,
+        User,
         on_delete=models.CASCADE, #User가 삭제되는 경우
         related_name = "uploaded_review",
     )
@@ -67,7 +72,7 @@ class Comment(models.Model):
     upload_time = models.TimeField()
     content = models.TextField()
     uploaded_user = models.ForeignKey(
-        Myuser,
+        User,
         on_delete=models.CASCADE, #User가 삭제되는 경우
         related_name = "uploaded_comments",
     )
@@ -76,3 +81,4 @@ class Comment(models.Model):
         on_delete=models.CASCADE,
         related_name='comment_uploaded',
     )
+    

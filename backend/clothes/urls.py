@@ -8,6 +8,7 @@ app = Flask(__name__)
 CORS(app)
 
 urlpatterns = [
+    path("csrf_token/", views.csrf_token),
     path("signup/", views.signup),
     path("login/", views.login),
     path('main/', views.main),

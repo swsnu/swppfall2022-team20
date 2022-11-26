@@ -1,0 +1,16 @@
+.Mainimage {
+  /*height: auto; 
+  border:1px solid #eaeaea; 
+  padding: 0px;*/
+  border-radius: 10%;
+  
+
+}
+.imageContainer{
+  
+  /*display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 50px;
+  
+  object-fit: cover;*/
+}

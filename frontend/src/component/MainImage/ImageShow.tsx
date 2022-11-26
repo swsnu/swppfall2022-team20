@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import ItemModal from "./ItemModal";
+import "./ImageShow.css";
 const ImageShow = (props: any) => {
   const [modalOpen, setModalOpen] = useState(false);
   const showModal = () => {
     setModalOpen(true);
   };
   return (
-    <div>
+    <div className="imageContainer">
       <img
         data-testid="image"
         className="Mainimage"
@@ -20,10 +21,11 @@ const ImageShow = (props: any) => {
           src={props.src}
           setModalOpen={setModalOpen}
           URL={props.URL}
-          style={props.style}
+          name={props.name}
         />
       )}
-      <h2>{props.style}</h2>
+      <h3>{props.name}</h3>
+      <h3>{props.recommendSize}</h3>
     </div>
   );
 };
