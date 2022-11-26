@@ -44,8 +44,7 @@ const Login = () => {
         }
       })
       .catch((err: any) => {
-        alert("wrong");
-        throw err;
+        alert(err.message);
       });
   };
 

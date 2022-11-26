@@ -5,11 +5,16 @@ import ImageShow from "../../component/MainImage/ImageShow";
 
 const Main = () => {
   const [data, setData] = useState<any>([]);
-  //useEffect로 axios 한번만 호출
+  // useEffect로 axios 한번만 호출
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/api/clothes/main/").then((res: any) => {
-      setData(res.data);
-    });
+    axios
+      .get("/api/clothes/main/")
+      .then((res: any) => {
+        setData(res.data);
+      })
+      .catch((err: any) => {
+        alert(err.message);
+      });
   }, []);
   return (
     <div>
