@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
+import { login } from "../../apis/user";
 
 const Login = () => {
   localStorage.setItem("loggedIn", "false");
@@ -26,26 +27,24 @@ const Login = () => {
       username: inform.username,
       password: inform.password,
     };
-    axios
-      .post("/api/clothes/login/", user)
-      .then((res: any) => {
-        if (res !== null) {
-          localStorage.clear();
-          localStorage.setItem("username", user.username);
-          localStorage.setItem("password", user.password);
-          localStorage.setItem("loggedIn", "true");
-          navigate("/main");
-        } else {
-          setInform({
-            username: "",
-            password: "",
-          });
-          localStorage.clear();
-        }
-      })
-      .catch((err: any) => {
-        alert(err.message);
-      });
+    const response = login(user);
+    try {
+      if (response !== null) {
+        localStorage.clear();
+        localStorage.setItem("username", user.username);
+        localStorage.setItem("password", user.password);
+        localStorage.setItem("loggedIn", "true");
+        navigate("/main");
+      } else {
+        setInform({
+          username: "",
+          password: "",
+        });
+        localStorage.clear();
+      }
+    } catch (err: any) {
+      alert(err.message);
+    }
   };
 
   return (
