@@ -1,7 +1,9 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Login.css"
+import "./Login.css";
+import { login } from "../../apis/user";
+
 const Login = () => {
   localStorage.setItem("loggedIn", "false");
   const [inform, setInform] = useState<any>({
@@ -25,26 +27,24 @@ const Login = () => {
       username: inform.username,
       password: inform.password,
     };
-    axios
-      .post("/api/clothes/login/", user)
-      .then((res: any) => {
-        if (res) {
-          localStorage.clear();
-          localStorage.setItem("username", user.username);
-          localStorage.setItem("password", user.password);
-          localStorage.setItem("loggedIn", "true");
-          navigate("/main");
-        } else {
-          setInform({
-            username: "",
-            password: "",
-          });
-          localStorage.clear();
-        }
-      })
-      .catch((err: any) => {
-        alert("wrong");
-      });
+    const response = login(user);
+    try {
+      if (response !== null) {
+        localStorage.clear();
+        localStorage.setItem("username", user.username);
+        localStorage.setItem("password", user.password);
+        localStorage.setItem("loggedIn", "true");
+        navigate("/main");
+      } else {
+        setInform({
+          username: "",
+          password: "",
+        });
+        localStorage.clear();
+      }
+    } catch (err: any) {
+      alert(err.message);
+    }
   };
 
   return (
@@ -53,7 +53,7 @@ const Login = () => {
       <p>
         ID:
         <input
-        className="loginInput"
+          className="loginInput"
           data-testid="username"
           name="username"
           value={username}
@@ -71,10 +71,16 @@ const Login = () => {
           onChange={handleInform}
         />
       </p>
-      <button className="button" data-testid="register" onClick={onClickRegister}>
+      <button
+        className="button"
+        data-testid="register"
+        onClick={onClickRegister}
+      >
         Register
       </button>
-      <button className="button" data-testid="signin" onClick={onSubmit}>Sign In</button>
+      <button className="button" data-testid="signin" onClick={onSubmit}>
+        Sign In
+      </button>
     </div>
   );
 };

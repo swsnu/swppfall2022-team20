@@ -7,8 +7,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
 
 // this sets our csrf token
-axios.get("/api/clothes/csrf_token/");
-
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
