@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Login.css"
+import "./Login.css";
+
 const Login = () => {
   localStorage.setItem("loggedIn", "false");
   const [inform, setInform] = useState<any>({
@@ -28,7 +29,7 @@ const Login = () => {
     axios
       .post("/api/clothes/login/", user)
       .then((res: any) => {
-        if (res) {
+        if (res !== null) {
           localStorage.clear();
           localStorage.setItem("username", user.username);
           localStorage.setItem("password", user.password);
@@ -43,7 +44,7 @@ const Login = () => {
         }
       })
       .catch((err: any) => {
-        alert("wrong");
+        alert(err.message);
       });
   };
 
@@ -53,7 +54,7 @@ const Login = () => {
       <p>
         ID:
         <input
-        className="loginInput"
+          className="loginInput"
           data-testid="username"
           name="username"
           value={username}
@@ -71,10 +72,16 @@ const Login = () => {
           onChange={handleInform}
         />
       </p>
-      <button className="button" data-testid="register" onClick={onClickRegister}>
+      <button
+        className="button"
+        data-testid="register"
+        onClick={onClickRegister}
+      >
         Register
       </button>
-      <button className="button" data-testid="signin" onClick={onSubmit}>Sign In</button>
+      <button className="button" data-testid="signin" onClick={onSubmit}>
+        Sign In
+      </button>
     </div>
   );
 };
