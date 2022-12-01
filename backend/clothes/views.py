@@ -5,6 +5,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from .models import Clothes, Size, User, Review
 
 NO_USER = "존재하지 않는 유저입니다."
+NO_CLOTHES = "존재하지 않는 상품입니다."
 
 @ensure_csrf_cookie
 def csrf_token(request):
@@ -86,3 +87,10 @@ def profile(request, user_id):
         auth.login(request,user)
         currentprofile = {"username":auth.get_user(request).get_username(),"length":auth.get_user(request).length,"waist_size":auth.get_user(request).waist_size,"thigh_size":auth.get_user(request).thigh_size,"calf_size":auth.get_user(request).calf_size}
         return JsonResponse(currentprofile, status=200)
+
+def review(request, clothes_id):
+    if not (Clothes.objects.filter(id=clothes_id)).exists():
+        return JsonResponse({"message": NO_CLOTHES}, status=404)
+    review_list = [review for review in Review.objects.filter(reviewing_clothes_id=clothes_id).values()]
+    if request.method == 'GET':
+        return JsonResponse(review_list, safe=False, status=200)
