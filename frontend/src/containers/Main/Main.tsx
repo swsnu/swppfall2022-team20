@@ -1,14 +1,13 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Navbar from "../../component/Navbar/Navbar";
 import ImageShow from "../../component/MainImage/ImageShow";
-import { getClothes } from "../../apis/get";
+import { reqClothes } from "../../apis/get";
 
 const Main = () => {
   const [data, setData] = useState<any>([]);
   // useEffect로 axios 한번만 호출
   const setClothes = async () => {
-    const response = await getClothes();
+    const response = await reqClothes();
     setData(response);
   };
   useEffect(() => {

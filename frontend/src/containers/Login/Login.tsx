@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import { login } from "../../apis/user";
+import { createSemicolonClassElement } from "typescript";
 
 const Login = () => {
   localStorage.setItem("loggedIn", "false");
@@ -27,24 +28,17 @@ const Login = () => {
       username: inform.username,
       password: inform.password,
     };
-    const response = login(user);
-    try {
-      if (response !== null) {
+    login(user)
+      .then(() => {
         localStorage.clear();
         localStorage.setItem("username", user.username);
         localStorage.setItem("password", user.password);
         localStorage.setItem("loggedIn", "true");
         navigate("/main");
-      } else {
-        setInform({
-          username: "",
-          password: "",
-        });
-        localStorage.clear();
-      }
-    } catch (err: any) {
-      alert(err.message);
-    }
+      })
+      .catch((err: any) => {
+        alert(err.message);
+      });
   };
 
   return (
