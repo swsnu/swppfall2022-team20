@@ -48,6 +48,12 @@ class User(AbstractUser):
         related_name = "user_scrapped",
     )
 
+    recommended = models.ManyToManyField(
+        Clothes,
+        related_name = "user_recommended",
+    )
+
+
     def __str__(self):
         return self.username
 
