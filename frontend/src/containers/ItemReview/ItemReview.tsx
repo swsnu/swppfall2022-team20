@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../component/Navbar/Navbar";
 import { reviewClothes } from "../../apis/get";
+import ReviewShow from "../../component/ReviewModal/ReviewShow";
 const ItemReview = () => {
   const [reviewdata, setReviewData] = useState<any>([]);
   const setReview = async () => {
@@ -17,7 +18,11 @@ const ItemReview = () => {
     <div>
       <Navbar />
       this is review
-      <p>review</p>
+      <div>
+        {reviewdata.map((d: any) => (
+          <ReviewShow key={d.id} content={d.content} photo={d.photo} />
+        ))}
+      </div>
     </div>
   );
 };
