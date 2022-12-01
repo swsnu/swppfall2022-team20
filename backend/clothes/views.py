@@ -4,6 +4,8 @@ from django.contrib import auth
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from .models import Clothes, Size, User
 
+NO_USER = "존재하지 않는 유저입니다."
+
 @ensure_csrf_cookie
 def csrf_token(request):
     if request.method == "GET":
@@ -29,7 +31,8 @@ def signup(request):
         auth.login(request,user)
         response_dict = {"session_id":request.session.session_key,"username":auth.get_user(request).get_username()}
         return JsonResponse(response_dict,status=200)
-
+        
+@csrf_exempt
 def login(request):
     if request.method == 'POST':
         requestbody = json.loads(request.body)
@@ -59,12 +62,27 @@ def main(request):
         clothes_data.append(clothes_general_data)
     return JsonResponse(clothes_data, safe=False, status=200)
 @csrf_exempt
-def userprofile(request):
-    requestbody = json.loads(request.body)
-    username=requestbody['username']
-    password=requestbody['password']
-    user = auth.authenticate(request, username=username, password=password)
-    auth.login(request,user)
-    currentprofile = {"username":auth.get_user(request).get_username(),"length":auth.get_user(request).length,"waist_size":auth.get_user(request).waist_size,"thigh_size":auth.get_user(request).thigh_size,"calf_size":auth.get_user(request).calf_size}
-    return JsonResponse(currentprofile, status=200)
-    
+def profile(request, user_id):
+    if not (User.objects.filter(username=user_id)).exists():
+        return JsonResponse({"message": NO_USER}, status=404)
+    user = User.objects.get(username=user_id)
+    if request.method == 'GET':
+        return JsonResponse(
+            {
+                "username": user.username,
+                "password": user.password,
+                "nickname": user.nickname,
+                "email": user.email,
+                "length": user.length,
+                "waist_size": user.waist_size,
+                "thigh_size": user.thigh_size,
+                "calf_size": user.calf_size,
+                })
+    if request.method == 'POST':
+        requestbody = json.loads(request.body)
+        username=requestbody['username']
+        password=requestbody['password']
+        user = auth.authenticate(request, username=username, password=password)
+        auth.login(request,user)
+        currentprofile = {"username":auth.get_user(request).get_username(),"length":auth.get_user(request).length,"waist_size":auth.get_user(request).waist_size,"thigh_size":auth.get_user(request).thigh_size,"calf_size":auth.get_user(request).calf_size}
+        return JsonResponse(currentprofile, status=200)

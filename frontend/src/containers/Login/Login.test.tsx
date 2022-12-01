@@ -5,13 +5,23 @@ import { expect } from "@jest/globals";
 import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Login from "./Login";
-const navigate = jest.fn();
-beforeEach(() => {
-  jest.spyOn(router, "useNavigate").mockImplementation(() => navigate);
+import axios from "axios";
+
+const mockNavigate = jest.fn();
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: () => mockNavigate,
+}));
+afterEach(() => {
+  jest.clearAllMocks();
 });
 
 describe("Login", () => {
   let component: any = null;
+  const fakeUserData = {
+    username: "test",
+    password: "test",
+  };
 
   it("initial render", () => {
     component = renderer.create(<Login />);
@@ -30,7 +40,7 @@ describe("Login", () => {
     const login: any = render(<Login />);
     const button = login.getByTestId("register");
     fireEvent.click(button);
-    expect(navigate).toHaveBeenCalledWith("/register");
+    expect(mockNavigate).toHaveBeenCalledWith("/register");
   });
   it("click signin - no data", () => {
     global.alert = jest.fn();
@@ -38,5 +48,14 @@ describe("Login", () => {
     const button = login.getByTestId("signin");
     fireEvent.click(button);
     expect(window.alert).toHaveBeenCalledTimes(1);
+  });
+  it("should get json data and store in local", async () => {
+    const login: any = render(<Login />);
+    const button = login.getByTestId("signin");
+    fireEvent.click(button);
+    const res = await (axios.post = jest
+      .fn()
+      .mockResolvedValue({ data: fakeUserData }));
+    expect(mockNavigate).toHaveBeenCalledWith("/main");
   });
 });

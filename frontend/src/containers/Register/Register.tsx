@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./Register.css"
-axios.defaults.xsrfCookieName = "csrftoken";
-axios.defaults.xsrfHeaderName = "X-CSRFToken";
+import "./Register.css";
+import { reqRegister } from "../../apis/user";
 
 const Register = () => {
   const [profile, setProfile] = useState<any>({
@@ -22,7 +21,6 @@ const Register = () => {
   };
   const clickSubmit = (e: any) => {
     e.preventDefault();
-    console.log(profile);
     const user = {
       username: profile.username,
       password: profile.password,
@@ -33,29 +31,13 @@ const Register = () => {
       thigh_size: profile.thigh_size,
       calf_size: profile.calf_size,
     };
-    axios
-      .post("http://127.0.0.1:8000/api/clothes/signup/", user)
-      .then((res: any) => {
-        if (res) {
-          localStorage.clear();
-          localStorage.setItem("token", res.data.session_key);
-          window.location.replace("/");
-        } else {
-          setProfile({
-            username: "",
-            password: "",
-            nickname: "",
-            email: "",
-            length: "",
-            waist_size: "",
-            thigh_size: "",
-            calf_size: "",
-          });
-        }
+    reqRegister(user)
+      .then(() => {
+        localStorage.clear();
+        window.location.replace("/");
       })
       .catch((err: any) => {
-        console.log(err.message);
-        alert("wrong");
+        alert(err.message);
       });
   };
   return (
@@ -65,7 +47,7 @@ const Register = () => {
         <p>
           ID:
           <input
-          className="RegisterInput"
+            className="RegisterInput"
             data-testid="username"
             id="username"
             name="username"
@@ -75,7 +57,7 @@ const Register = () => {
         <p>
           Password:
           <input
-          className="RegisterInput"
+            className="RegisterInput"
             id="password"
             type="password"
             name="password"
@@ -84,33 +66,65 @@ const Register = () => {
         </p>
         <p>
           Nickname:
-          <input className="RegisterInput" id="nickname" name="nickname" onChange={handleInform} />
+          <input
+            className="RegisterInput"
+            id="nickname"
+            name="nickname"
+            onChange={handleInform}
+          />
         </p>
         <p>
           Email:
-          <input className="RegisterInput" id="email" name="email" onChange={handleInform} />
+          <input
+            className="RegisterInput"
+            id="email"
+            name="email"
+            onChange={handleInform}
+          />
         </p>
       </div>
       <div>
         <h2>size</h2>
         <p>
           length:
-          <input className="RegisterInput" id="length" name="length" onChange={handleInform} />
+          <input
+            className="RegisterInput"
+            id="length"
+            name="length"
+            onChange={handleInform}
+          />
         </p>
         <p>
           waist size:
-          <input className="RegisterInput" id="waist" name="waist_size" onChange={handleInform} />
+          <input
+            className="RegisterInput"
+            id="waist"
+            name="waist_size"
+            onChange={handleInform}
+          />
         </p>
         <p>
           thigh size:
-          <input className="RegisterInput" id="thigh" name="thigh_size" onChange={handleInform} />
+          <input
+            className="RegisterInput"
+            id="thigh"
+            name="thigh_size"
+            onChange={handleInform}
+          />
         </p>
         <p>
           calf size:
-          <input className="RegisterInput" id="calf" name="calf_size" onChange={handleInform} />
+          <input
+            className="RegisterInput"
+            id="calf"
+            name="calf_size"
+            onChange={handleInform}
+          />
         </p>
       </div>
-      <button className="button" data-testid="submit" onClick={clickSubmit}>submit</button>
+      <button className="button" data-testid="submit" onClick={clickSubmit}>
+        submit
+      </button>
     </div>
   );
 };

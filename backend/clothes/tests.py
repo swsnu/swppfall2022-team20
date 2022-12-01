@@ -135,11 +135,11 @@ class ClothesTestCase(TestCase):
     def test_comment_count(self):
         self.assertEqual(Comment.objects.all().count(), 2)
 
-    def test_csrf_token(self) -> None:
+    def test_csrf_token(self):
         response = self.client.get('/api/clothes/csrf_token/')
         self.assertEqual(response.status_code, 204)
 
-    def test_signup(self) -> None:
+    def test_signup(self):
         target_url = "/api/clothes/signup/"
         response = self.client.post(
             target_url,
@@ -157,30 +157,19 @@ class ClothesTestCase(TestCase):
             HTTP_X_CSRFTOKEN=self.csrftoken)
         self.assertEqual(response.status_code, 200)
 
-    def test_login(self) -> None:
+    def test_login(self):
         target_url = "/api/clothes/login/"
-        userOh = User.objects.get(id=1)
-        userOh.save()
         response = self.client.post(
             target_url,
             data={
-                "username": "K",
-                "password": "K123",
+                "username": "",
+                "password": "",
             },
             content_type="application/json",
             HTTP_X_CSRFTOKEN=self.csrftoken)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 401)
 
-    def test_main(self) -> None:
-        response = self.client.get('/api/clothes/main/')
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('ODPL', response.content.decode())
-    """
-    def test_userprofile(self) -> None:
-        target_url = "/api/clothes/user/"
-        userOh = User.objects.get(id=1)
-        userOh.save()
-        response = self.client.get(
+        response = self.client.post(
             target_url,
             data={
                 "username": "Oh",
@@ -189,6 +178,25 @@ class ClothesTestCase(TestCase):
             content_type="application/json",
             HTTP_X_CSRFTOKEN=self.csrftoken)
         self.assertEqual(response.status_code, 200)
-    """
+
+    def test_main(self):
+        response = self.client.get('/api/clothes/main/')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('ODPL', response.content.decode())
+
+    def test_userprofile(self):
+        target_url = "/api/clothes/profile/Oh"
+        userOh = User.objects.get(id=1)
+        userOh.save()
+        response = self.client.post(
+            target_url,
+            data={
+                "username": "Oh",
+                "password": "Oh123",
+            },
+            content_type="application/json",
+            HTTP_X_CSRFTOKEN=self.csrftoken)
+        self.assertEqual(response.status_code, 200)
+
     
 
