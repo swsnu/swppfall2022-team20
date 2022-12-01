@@ -2,7 +2,7 @@ import json
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
 from django.contrib import auth
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
-from .models import Clothes, Size, User
+from .models import Clothes, Size, User, Review
 
 NO_USER = "존재하지 않는 유저입니다."
 
