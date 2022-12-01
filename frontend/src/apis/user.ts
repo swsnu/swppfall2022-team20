@@ -33,9 +33,9 @@ export const token = async () => {
   return response.data;
 };
 
-export const register = async (payload: registerReqType) => {
+export const reqRegister = async (payload: registerReqType) => {
   const response = await client.post<postResType>(
-    `/api/clothes/register/`,
+    `/api/clothes/signup/`,
     payload
   );
   return response.data;
@@ -49,7 +49,7 @@ export const login = async (payload: userType) => {
   return response.data;
 };
 
-export const getProfile = async (username: string) => {
+export const reqProfile = async (username: string) => {
   const response = await client.get<profileType>(
     `/api/clothes/profile/${username}/`
   );

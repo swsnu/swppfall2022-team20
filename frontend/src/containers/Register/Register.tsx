@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./Register.css";
-axios.defaults.xsrfCookieName = "csrftoken";
-axios.defaults.xsrfHeaderName = "X-CSRFToken";
+import { reqRegister } from "../../apis/user";
 
 const Register = () => {
   const [profile, setProfile] = useState<any>({
@@ -32,29 +31,13 @@ const Register = () => {
       thigh_size: profile.thigh_size,
       calf_size: profile.calf_size,
     };
-    axios
-      .post("http://127.0.0.1:8000/api/clothes/signup/", user)
-      .then((res: any) => {
-        if (res !== null) {
-          localStorage.clear();
-          localStorage.setItem("token", res.data.session_key);
-          window.location.replace("/");
-        } else {
-          setProfile({
-            username: "",
-            password: "",
-            nickname: "",
-            email: "",
-            length: "",
-            waist_size: "",
-            thigh_size: "",
-            calf_size: "",
-          });
-        }
+    reqRegister(user)
+      .then(() => {
+        localStorage.clear();
+        window.location.replace("/");
       })
       .catch((err: any) => {
-        console.log(err.message);
-        alert("wrong");
+        alert(err.message);
       });
   };
   return (

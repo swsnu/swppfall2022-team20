@@ -185,7 +185,7 @@ class ClothesTestCase(TestCase):
         self.assertIn('ODPL', response.content.decode())
 
     def test_userprofile(self):
-        target_url = "/api/clothes/user/"
+        target_url = "/api/clothes/profile/Oh"
         userOh = User.objects.get(id=1)
         userOh.save()
         response = self.client.post(

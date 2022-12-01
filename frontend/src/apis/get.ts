@@ -19,7 +19,7 @@ export interface clothesType {
   size: sizeType[];
 }
 
-export const getClothes = async () => {
+export const reqClothes = async () => {
   const response = await client.get<clothesType[]>(`/api/clothes/main/`);
   return response.data;
 };

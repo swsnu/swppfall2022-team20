@@ -4,6 +4,8 @@ from django.contrib import auth
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from .models import Clothes, Size, User
 
+NO_USER = "존재하지 않는 유저입니다."
+
 @ensure_csrf_cookie
 def csrf_token(request):
     if request.method == "GET":
@@ -60,7 +62,22 @@ def main(request):
         clothes_data.append(clothes_general_data)
     return JsonResponse(clothes_data, safe=False, status=200)
 @csrf_exempt
-def userprofile(request):
+def profile(request, user_id):
+    if not (User.objects.filter(username=user_id)).exists():
+        return JsonResponse({"message": NO_USER}, status=404)
+    user = User.objects.get(username=user_id)
+    if request.method == 'GET':
+        return JsonResponse(
+            {
+                "username": user.username,
+                "password": user.password,
+                "nickname": user.nickname,
+                "email": user.email,
+                "length": user.length,
+                "waist_size": user.waist_size,
+                "thigh_size": user.thigh_size,
+                "calf_size": user.calf_size,
+                })
     if request.method == 'POST':
         requestbody = json.loads(request.body)
         username=requestbody['username']
