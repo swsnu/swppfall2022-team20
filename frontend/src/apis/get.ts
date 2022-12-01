@@ -23,3 +23,7 @@ export const reqClothes = async () => {
   const response = await client.get<clothesType[]>(`/api/clothes/main/`);
   return response.data;
 };
+export const reviewClothes = async (payload: any) => {
+  const response = await client.get(`/api/clothes/review/${payload}`);
+  return response.data;
+};
