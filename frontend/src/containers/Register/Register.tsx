@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./Register.css";
 import { reqRegister } from "../../apis/user";
+import HowRegisterModal from "../../component/HowRegisterModal/HowRegisterModal";
 
 const Register = () => {
+  const [qopen, setQopen] = useState<boolean>(false);
   const [profile, setProfile] = useState<any>({
     username: "",
     password: "",
@@ -125,6 +127,8 @@ const Register = () => {
       <button className="button" data-testid="submit" onClick={clickSubmit}>
         submit
       </button>
+      <button onClick={() => setQopen((qopen) => !qopen)}>?</button>
+      <HowRegisterModal isOpen={qopen} />
     </div>
   );
 };
