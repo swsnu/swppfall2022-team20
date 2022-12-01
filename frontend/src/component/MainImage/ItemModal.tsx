@@ -25,6 +25,7 @@ const ItemModal = ({ setModalOpen, URL, src, name, id }: any) => {
     };
   });
   const clickName = () => {
+    localStorage.setItem("pants_id", id);
     navigate(`/${id}/review`);
   };
   return (
@@ -33,11 +34,11 @@ const ItemModal = ({ setModalOpen, URL, src, name, id }: any) => {
         <p>Item Detail</p>
         <img className="modalimg" alt="img" src={src}></img>
         <div className="rightcontent">
-        <h3 onClick={clickName}>{name}</h3>
-        <button id="change" onClick={closeModal}>
-          back
-        </button>
-        <button onClick={() => window.open(URL, "_blank")}>visit</button>
+          <h3 onClick={clickName}>{name}</h3>
+          <button id="change" onClick={closeModal}>
+            back
+          </button>
+          <button onClick={() => window.open(URL, "_blank")}>visit</button>
         </div>
       </div>
     </div>
