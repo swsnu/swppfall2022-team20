@@ -53,7 +53,7 @@ class ClothesTestCase(TestCase):
             URL="https://www.musinsa.com/app/goods/1477272",
             photo="https://image.msscdn.net/images/goods_img/20200608/1477272/1477272_1_500.jpg?t=20200608190923")
 
-        #create clothes' sizes
+        #create clothes" sizes
         clothes1_size1 = Size.objects.create(named_size = "S", length="100", waist_size="38", thigh_size="30", calf_size="18", clothes=clothes1)
         clothes1_size2 = Size.objects.create(named_size = "M", length="101", waist_size="39", thigh_size="31", calf_size="19", clothes=clothes1)
         clothes1_size3 = Size.objects.create(named_size = "L", length="102", waist_size="40", thigh_size="32", calf_size="20", clothes=clothes1)
@@ -71,7 +71,7 @@ class ClothesTestCase(TestCase):
         #create reviews&scrap wanted clothes
         review1 = Review.objects.create(
             upload_time=timezone.now(),
-            content="This is Oh's review on wide denim pants. I wanna scrap it",
+            content="This is Ohs review on wide denim pants. I wanna scrap it",
             photo="imgsrc",
             reviewing_clothes=clothes1,
             uploaded_user=user1)
@@ -80,21 +80,21 @@ class ClothesTestCase(TestCase):
         
         review2 = Review.objects.create(
             upload_time=timezone.now(),
-            content="This is Doo's review on wide denim pants",
+            content="This is Doos review on wide denim pants",
             photo="imgsrc",
             reviewing_clothes=clothes1,
             uploaded_user=user2)
 
         review3 = Review.objects.create(
             upload_time=timezone.now(),
-            content="This is Doo's review on natural cream jean",
+            content="This is Doos review on natural cream jean",
             photo="imgsrc",
             reviewing_clothes=clothes2,
             uploaded_user=user2)
 
         review4 = Review.objects.create(
             upload_time=timezone.now(),
-            content="This is Bae's review on natural cream jean, I wanna scrap it",
+            content="This is Baes review on natural cream jean, I wanna scrap it",
             photo="imgsrc",
             reviewing_clothes=clothes2,
             uploaded_user=user3)
@@ -136,7 +136,7 @@ class ClothesTestCase(TestCase):
         self.assertEqual(Comment.objects.all().count(), 2)
 
     def test_csrf_token(self):
-        response = self.client.get('/api/clothes/csrf_token/')
+        response = self.client.get("/api/clothes/csrf_token/")
         self.assertEqual(response.status_code, 204)
 
     def test_signup(self):
@@ -156,6 +156,8 @@ class ClothesTestCase(TestCase):
             content_type="application/json",
             HTTP_X_CSRFTOKEN=self.csrftoken)
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(User.objects.all().count(), 4)
+        self.assertIn("Jay", response.content.decode())
 
     def test_login(self):
         target_url = "/api/clothes/login/"
@@ -172,38 +174,42 @@ class ClothesTestCase(TestCase):
         response = self.client.post(
             target_url,
             data={
-                "username": "Oh",
-                "password": "Oh123",
+                "username": "Joe",
+                "password": "Joe123",
             },
             content_type="application/json",
             HTTP_X_CSRFTOKEN=self.csrftoken)
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.content.decode(),{"username": "Joe"})
+
+        response = self.client.post(
+            target_url,
+            {"username": "Oh", "password": "Oh123"},
+            content_type="application/json",
+            HTTP_X_CSRFTOKEN=self.csrftoken)
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content.decode(),{"username": "Oh"})
 
     def test_main(self):
-        response = self.client.get('/api/clothes/main/')
+        response = self.client.get("/api/clothes/main/")
         self.assertEqual(response.status_code, 200)
-        self.assertIn('ODPL', response.content.decode())
+        self.assertIn("ODPL", response.content.decode())
 
     def test_userprofile(self):
         target_url = "/api/clothes/profile/Oh/"
-        userOh = User.objects.get(id=1)
-        userOh.save()
-        response = self.client.post(
+        response = self.client.get(
             target_url,
-            data={
-                "username": "Oh",
-                "password": "Oh123",
-            },
             content_type="application/json",
             HTTP_X_CSRFTOKEN=self.csrftoken)
         self.assertEqual(response.status_code, 200)
+        self.assertIn("103", response.content.decode())
 
     def test_review(self):
-        response = self.client.get('/api/clothes/review/1/')
+        response = self.client.get("/api/clothes/review/1/")
         self.assertEqual(response.status_code, 200)
-        self.assertIn('denim', response.content.decode())
-        self.assertIn('Oh', response.content.decode())
-        self.assertIn('Doo', response.content.decode())
+        self.assertIn("denim", response.content.decode())
+        self.assertIn("Oh", response.content.decode())
+        self.assertIn("Doo", response.content.decode())
 
     
 

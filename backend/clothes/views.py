@@ -36,7 +36,7 @@ def signup(request):
 @csrf_exempt
 def login(request):
     if request.method == 'POST':
-        requestbody = json.loads(request.body)
+        requestbody = json.loads(request.body.decode())
         username=requestbody['username']
         password=requestbody['password']
         user = auth.authenticate(request, username=username, password=password)
@@ -45,8 +45,8 @@ def login(request):
             response_dict = {"session_key":request.session.session_key,"username":user.username, "length":user.length}
             return JsonResponse(response_dict,status=200)
         else:
-            response_dict = {"username": username}
-            return HttpResponseBadRequest(response_dict,status=401)
+            response_dict = {"username":username}
+            return JsonResponse(response_dict,status=401)
 
 #모든 상품리스트 반환
 @csrf_exempt
@@ -79,14 +79,6 @@ def profile(request, user_id):
                 "thigh_size": user.thigh_size,
                 "calf_size": user.calf_size,
                 })
-    if request.method == 'POST':
-        requestbody = json.loads(request.body)
-        username=requestbody['username']
-        password=requestbody['password']
-        user = auth.authenticate(request, username=username, password=password)
-        auth.login(request,user)
-        currentprofile = {"username":auth.get_user(request).get_username(),"length":auth.get_user(request).length,"waist_size":auth.get_user(request).waist_size,"thigh_size":auth.get_user(request).thigh_size,"calf_size":auth.get_user(request).calf_size}
-        return JsonResponse(currentprofile, status=200)
 
 def review(request, clothes_id):
     if not (Clothes.objects.filter(id=clothes_id)).exists():
