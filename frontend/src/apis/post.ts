@@ -23,3 +23,6 @@ export const sendPostReq = async (payload: postReqType) => {
   const response = await client.post<postResType>(`/api/clothes/`, payload);
   return response.data;
 };
+export const sendPostReview = async (id: any, payload: any) => {
+  const response = await client.post(`/api/clothes/review/${id}/`, payload);
+};
