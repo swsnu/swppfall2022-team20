@@ -49,7 +49,7 @@ class User(AbstractUser):
     )
 
     recommended = models.ManyToManyField(
-        Clothes,
+        Size,
         related_name = "user_recommended",
     )
 

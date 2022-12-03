@@ -1,6 +1,7 @@
 import json
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
 from django.contrib import auth
+from django.forms.models import model_to_dict
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from .models import Clothes, Size, User, Review
 
@@ -50,18 +51,17 @@ def login(request):
 
 #모든 상품리스트 반환
 @csrf_exempt
-def main(request):
-    clothes_data = []
-    for clothes_general_data in Clothes.objects.all().values():
-        clothes_id = clothes_general_data["id"]
-        clothes_size_data = []
-        for clothes_each_size_data in Size.objects.filter(clothes_id=clothes_id).values():
-            clothes_each_size_data.pop("id")
-            clothes_each_size_data.pop("clothes_id")
-            clothes_size_data.append(clothes_each_size_data)
-        clothes_general_data["size"] = clothes_size_data
-        clothes_data.append(clothes_general_data)
-    return JsonResponse(clothes_data, safe=False, status=200)
+def main(request, user_id):
+    if not (User.objects.filter(username=user_id)).exists():
+        return JsonResponse({"message": NO_USER}, status=404)
+    user = User.objects.get(username=user_id)
+    recommended_list = []
+    for size in user.recommended.all():
+        clothes = model_to_dict(size.clothes)
+        clothes_data = {**clothes, 'named_size':size.named_size}
+        recommended_list.append(clothes_data)
+    return JsonResponse(recommended_list, safe=False)
+
 @csrf_exempt
 def profile(request, user_id):
     if not (User.objects.filter(username=user_id)).exists():
