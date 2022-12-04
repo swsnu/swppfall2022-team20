@@ -9,7 +9,8 @@ const Main = () => {
   const [data, setData] = useState<any>([]);
   // useEffect로 axios 한번만 호출
   const setClothes = async () => {
-    const response = await reqClothes();
+    const username = localStorage.getItem("username");
+    const response = await reqClothes(username);
     setData(response);
   };
   useEffect(() => {
@@ -17,7 +18,7 @@ const Main = () => {
       alert(err.message);
     });
   }, []);
-  if (localStorage.getItem("loggedIn") == "true") {
+  if (localStorage.getItem("loggedIn") === "true") {
     return (
       <div>
         <Navbar />
