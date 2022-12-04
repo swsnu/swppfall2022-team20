@@ -4,6 +4,7 @@ from django.contrib import auth
 from django.forms.models import model_to_dict
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from .models import Clothes, Size, User, Review
+from . import recommender
 
 NO_USER = "존재하지 않는 유저입니다."
 NO_CLOTHES = "존재하지 않는 상품입니다."
@@ -95,3 +96,17 @@ def review(request, clothes_id):
     review_list = [review for review in Review.objects.filter(reviewing_clothes_id=clothes_id).values()]
     if request.method == 'GET':
         return JsonResponse(review_list, safe=False, status=200)
+
+def analyze(request, user_id, clothes_id):
+    if not (Clothes.objects.filter(id=clothes_id)).exists():
+        return JsonResponse({"message": NO_CLOTHES}, status=404)
+    if not (User.objects.filter(username=user_id)).exists():
+        return JsonResponse({"message": NO_USER}, status=404)
+    user = User.objects.get(username=user_id)
+    clothes_sizes = user.recommended.filter(clothes_id=clothes_id)
+    analysis_list = []
+    for clothes_size in clothes_sizes:
+        analysis = recommender.analyze(clothes_size, user)
+        analysis_list.append(analysis)
+    if request.method == 'GET':
+        return JsonResponse(analysis_list, safe=False, status=200)

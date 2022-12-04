@@ -48,22 +48,9 @@ def analyze(clothes_size, user_size):
         else:
             return "wide"
 
-    waist_analysis = analyze_waist(clothes_size[1], user_size[1])
-    if waist_analysis == "tooBigorTight":
-        return False
-    length_analysis = analyze_length(clothes_size[0], user_size[0])
-    if length_analysis == "toolong":
-        return False
-    thigh_analysis = analyze_thigh(clothes_size[2], user_size[2])
-    if thigh_analysis == "tooTight":
-        return False
-    calf_analysis = analyze_calf(clothes_size[3], user_size[3])
-    if calf_analysis == "tooTight":
-        return False
+    waist_analysis = analyze_waist(clothes_size.waist_size, user_size.waist_size)
+    length_analysis = analyze_length(clothes_size.length, user_size.length)
+    thigh_analysis = analyze_thigh(clothes_size.thigh_size, user_size.thigh_size)
+    calf_analysis = analyze_calf(clothes_size.calf_size, user_size.calf_size)
     
     return analysis.format(length_analysis, waist_analysis, thigh_analysis, calf_analysis)
-
-print(analyze([100,42,33,20],[107,40,27,17]))
-print(analyze([108,42,33,20],[107,40,27,17]))
-print(analyze([100,43,33,20],[107,40,27,17]))
-print(analyze([100,42,27,20],[107,40,27,17]))
