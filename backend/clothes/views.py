@@ -56,10 +56,19 @@ def main(request, user_id):
         return JsonResponse({"message": NO_USER}, status=404)
     user = User.objects.get(username=user_id)
     recommended_list = []
+    prev_clothes = {"name": "name"}
     for size in user.recommended.all():
-        clothes = model_to_dict(size.clothes)
-        clothes_data = {**clothes, 'named_size':size.named_size}
-        recommended_list.append(clothes_data)
+        if prev_clothes["name"] != size.clothes.name:
+            recommended_list.append(prev_clothes)
+            clothes = size.clothes
+            clothes_data = model_to_dict(clothes)
+            clothes_data = {**clothes_data, "named_size":[size.named_size]}
+            prev_clothes = clothes_data
+        else:
+            size_list = prev_clothes["named_size"]
+            size_list.append(size.named_size)
+            prev_clothes["named_size"] = size_list
+    recommended_list.pop(0)
     return JsonResponse(recommended_list, safe=False)
 
 @csrf_exempt
