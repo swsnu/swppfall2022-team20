@@ -11,7 +11,7 @@ urlpatterns = [
     path("csrf_token/", views.csrf_token),
     path("signup/", views.signup),
     path("login/", views.login),
-    path('main/', views.main),
+    path('main/<str:user_id>/', views.main),
     path('profile/<str:user_id>/', views.profile),
     path('review/<int:clothes_id>/', views.review),
 ]

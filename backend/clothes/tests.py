@@ -77,6 +77,8 @@ class ClothesTestCase(TestCase):
             uploaded_user=user1)
         
         user1.scrapped.add(clothes1)
+        user1.recommended.add(clothes1_size3)
+        user1.recommended.add(clothes2_size2)
         
         review2 = Review.objects.create(
             upload_time=timezone.now(),
@@ -191,9 +193,13 @@ class ClothesTestCase(TestCase):
         self.assertEqual(response.content.decode(),{"username": "Oh"})
 
     def test_main(self):
-        response = self.client.get("/api/clothes/main/")
+        target_url = "/api/clothes/main/Oh/"
+        response = self.client.get(
+            target_url,
+            content_type="application/json",
+            HTTP_X_CSRFTOKEN=self.csrftoken)
         self.assertEqual(response.status_code, 200)
-        self.assertIn("ODPL", response.content.decode())
+        self.assertIn("dandy", response.content.decode())
 
     def test_userprofile(self):
         target_url = "/api/clothes/profile/Oh/"

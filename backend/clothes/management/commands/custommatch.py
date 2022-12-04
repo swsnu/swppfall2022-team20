@@ -5,6 +5,7 @@ class Command(BaseCommand):
     help = 'match customized data to user'
 
     def handle(self, *args, **options):
+        User.recommended.through.objects.all().delete()
         for user in User.objects.all():
             user_length = int(user.length)
             user_waist = int(user.waist_size)
@@ -14,7 +15,6 @@ class Command(BaseCommand):
                 waist_diff = size.waist_size - user_waist
                 if waist_diff >= 3.0 or waist_diff < -1.0:
                     continue
-
                 length_diff = user_length - size.length
                 if length_diff <= 0:
                     continue
@@ -26,6 +26,6 @@ class Command(BaseCommand):
                 calf_diff = size.calf_size - user_calf
                 if not calf_diff >= 1.0:
                     continue
-                user.recommended.add(size.clothes)
+                user.recommended.add(size)
             #print(user.nickname, user.recommended.values())
         self.stdout.write(self.style.SUCCESS('Successfully updated customization'))
