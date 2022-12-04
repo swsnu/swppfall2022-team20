@@ -31,6 +31,7 @@ const Main = () => {
               src={d.photo}
               name={d.name}
               URL={d.URL}
+              size={d.named_size}
             />
           ))}
         </div>

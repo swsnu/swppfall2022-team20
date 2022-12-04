@@ -22,6 +22,7 @@ const ImageShow = (props: any) => {
           setModalOpen={setModalOpen}
           URL={props.URL}
           name={props.name}
+          size={props.size}
         />
       )}
       <h3>{props.name}</h3>
