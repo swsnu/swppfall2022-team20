@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../component/Navbar/Navbar";
 import ImageShow from "../../component/MainImage/ImageShow";
-import { reqClothes } from "../../apis/get";
+import { clothesType, reqClothes } from "../../apis/get";
 
 const Main = () => {
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const Main = () => {
         <Navbar />
         <div>Main</div>
         <div>
-          {data.map((d: any) => (
+          {data.map((d: clothesType) => (
             <ImageShow
               key={d.id}
               id={d.id}

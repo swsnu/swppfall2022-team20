@@ -1,8 +1,8 @@
 from django.core.management.base import BaseCommand, CommandError
-from clothes.models import Clothes, Size, User
+from clothes.models import Size, User
 
 class Command(BaseCommand):
-    help = 'match customized data to user'
+    help = 'match customized clothes to user'
 
     def handle(self, *args, **options):
         User.recommended.through.objects.all().delete()
@@ -28,4 +28,4 @@ class Command(BaseCommand):
                     continue
                 user.recommended.add(size)
             #print(user.nickname, user.recommended.values())
-        self.stdout.write(self.style.SUCCESS('Successfully updated customization'))
+        self.stdout.write(self.style.SUCCESS('Successfully matched clothes'))

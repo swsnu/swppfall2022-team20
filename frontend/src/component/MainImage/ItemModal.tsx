@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { analyze } from "../../apis/get";
 import "./ItemModal.css";
+
 const ItemModal = ({ setModalOpen, URL, src, name, id, size }: any) => {
   const navigate = useNavigate();
   const [data, setData] = useState<any>([]);

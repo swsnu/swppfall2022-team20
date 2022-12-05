@@ -57,8 +57,6 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
 
-
-
 class Review(models.Model):
     upload_time = models.TimeField()
     content = models.TextField()
@@ -72,6 +70,10 @@ class Review(models.Model):
         User,
         on_delete=models.CASCADE, #User가 삭제되는 경우
         related_name = "uploaded_review",
+    )
+    recommended_user = models.ManyToManyField(
+        User,
+        related_name = "recommended_review",
     )
 
 class Comment(models.Model):
