@@ -9,7 +9,7 @@ export interface sizeType {
 }
 
 export interface clothesType {
-  id: number;
+  id: string;
   name: string;
   style: string;
   brand: string;
@@ -19,9 +19,9 @@ export interface clothesType {
   named_size: string[];
 }
 
-export interface analyzeReqType {
+export interface reqType {
   username: string | null;
-  clothes_id: number;
+  clothes_id: string | null;
 }
 
 export const reqClothes = async (username: string | null) => {
@@ -35,22 +35,30 @@ export const reqClothes = async (username: string | null) => {
   }
 };
 
-export const reviewClothes = async (payload: string | null) => {
-  if (typeof payload === "string") {
-    const response = await client.get(`/api/clothes/review/${payload}/`);
+export const reviewClothes = async (payload: reqType) => {
+  if (
+    typeof payload.username === "string" &&
+    typeof payload.clothes_id === "string"
+  ) {
+    const response = await client.get(
+      `/api/clothes/review/${payload.username}/${payload.clothes_id}/`
+    );
     return response.data;
   } else {
     alert("wrong approach");
   }
 };
 
-export const analyze = async (payload: analyzeReqType) => {
-  if (typeof payload.username === "string") {
+export const analyze = async (payload: reqType) => {
+  if (
+    typeof payload.username === "string" &&
+    typeof payload.clothes_id === "number"
+  ) {
     const response = await client.get(
       `/api/clothes/analyze/${payload.username}/${payload.clothes_id}/`
     );
     return response.data;
   } else {
-    alert("wrong approach");
+    alert(typeof payload.clothes_id);
   }
 };

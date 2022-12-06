@@ -7,7 +7,10 @@ const ItemReview = () => {
   const [addopen, setAddopen] = useState<boolean>(false);
   const [reviewdata, setReviewData] = useState<any>([]);
   const setReview = async () => {
-    const response = await reviewClothes(localStorage.getItem("pants_id"));
+    const response = await reviewClothes({
+      username: localStorage.getItem("username"),
+      clothes_id: localStorage.getItem("pants_id"),
+    });
     setReviewData(response);
   };
   useEffect(() => {

@@ -90,10 +90,15 @@ def profile(request, user_id):
                 "calf_size": user.calf_size,
                 })
 
-def review(request, clothes_id):
+def review(request, user_id, clothes_id):
     if not (Clothes.objects.filter(id=clothes_id)).exists():
         return JsonResponse({"message": NO_CLOTHES}, status=404)
-    review_list = [review for review in Review.objects.filter(reviewing_clothes_id=clothes_id).values()]
+    if not (User.objects.filter(username=user_id)).exists():
+        return JsonResponse({"message": NO_USER}, status=404)
+    user = User.objects.get(username=user_id)
+    clothes_reviews = Review.objects.filter(reviewing_clothes_id=clothes_id)
+    matched_reviews = clothes_reviews.filter(recommended_user = user)
+    review_list = [review for review in matched_reviews.values()]
     if request.method == 'GET':
         return JsonResponse(review_list, safe=False, status=200)
 
