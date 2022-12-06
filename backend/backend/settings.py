@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,13 +20,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-^mj)z5=c^0s_gx*gny((#-mjk1$yiz^@evr@c%dlgu#4sl8_15"
+#SECRET_KEY = "django-insecure-^mj)z5=c^0s_gx*gny((#-mjk1$yiz^@evr@c%dlgu#4sl8_15"
+secret_key_default = "default_secret_key_default_secret_key_default_secret_key_default_secret_key_default_secret_key_default_secret_key_default_secret_key_default_secret_key_"
+SECRET_KEY = os.environ.get("SECRET_KEY", secret_key_default)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'backend']
+#for deploy add
+SECURE_HSTS_SECONDS = 31536000
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SESSION_COOKIE_SECURE = True
+SECURE_HSTS_PRELOAD = True
+CSRF_COOKIE_SECURE = True
 
 # Application definition
 
