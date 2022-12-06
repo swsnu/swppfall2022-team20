@@ -2,27 +2,31 @@ import client from "./client";
 
 export interface postResType {
   username: string;
-  password: string;
 }
 
 export interface postReqType {
   username: string;
-  password: string;
 }
 
-export interface registerReqType extends postReqType {
-  nickname: string;
-  email: string;
-  length: string;
-  waist_size: string;
-  thigh_size: string;
-  calf_size: string;
+export interface reviewReqType extends postReqType {
+  clothes_id: string;
+  content: string;
+  photo: string;
 }
 
-export const sendPostReq = async (payload: postReqType) => {
-  const response = await client.post<postResType>(`/api/clothes/`, payload);
+export const sendPostReview = async (
+  payload: FormData,
+  username: string | null,
+  clothesId: string | null
+) => {
+  const response = await client.post(
+    `/api/clothes/review/${username}/${clothesId}/`,
+    payload,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
   return response.data;
-};
-export const sendPostReview = async (id: any, payload: any) => {
-  const response = await client.post(`/api/clothes/review/${id}/`, payload);
 };

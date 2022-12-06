@@ -1,16 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { sendPostReview } from "../../apis/post";
 const AddReview = ({ setAddopen }: any) => {
-  const date = new Date();
   const formData = new FormData();
-  const [newreview, setNewreview] = useState<any>({
-    content: "",
-    id: "",
-    photo: "",
-    reviewing_clothes_id: localStorage.getItem("pants_id"),
-    upload_time: date,
-    uploaded_user_id: localStorage.getItem("username"),
-  });
+  const [content, setContent] = useState<string>("");
+  const [file, setFile] = useState<string | Blob>("");
   const closeModal = () => {
     setAddopen(false);
   };
@@ -33,23 +26,32 @@ const AddReview = ({ setAddopen }: any) => {
     };
   });
   const onImgChange = async (e: any) => {
-    console.log(e.target.files[0]);
-    formData.append("file", e.target.files[0]);
-    newreview.photo = formData;
+    setFile(e.target.files[0]);
   };
+
   const clickAdd = () => {
-    sendPostReview(localStorage.getItem("pants_id"), newreview)
+    formData.append("content", content);
+    formData.append("file", file);
+    console.log(
+      formData,
+      localStorage.getItem("username"),
+      localStorage.getItem("pants_id")
+    );
+    sendPostReview(
+      formData,
+      localStorage.getItem("username"),
+      localStorage.getItem("pants_id")
+    )
       .then(() => {
         console.log("success");
         setAddopen(false);
       })
       .catch(() => {
-        console.log(newreview);
         alert("잘못된 접근입니다");
       });
   };
   const onContentChange = (e: any) => {
-    newreview.content = e.target.value;
+    setContent(e.target.value);
   };
   return (
     <div className="outer">
