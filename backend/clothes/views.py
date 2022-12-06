@@ -3,6 +3,8 @@ from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAll
 from django.contrib import auth
 from django.forms.models import model_to_dict
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
+from json.decoder import JSONDecodeError
+from django.utils import timezone
 from .models import Clothes, Size, User, Review
 from . import recommender
 
@@ -89,18 +91,37 @@ def profile(request, user_id):
                 "thigh_size": user.thigh_size,
                 "calf_size": user.calf_size,
                 })
-
+@csrf_exempt
 def review(request, user_id, clothes_id):
     if not (Clothes.objects.filter(id=clothes_id)).exists():
         return JsonResponse({"message": NO_CLOTHES}, status=404)
     if not (User.objects.filter(username=user_id)).exists():
         return JsonResponse({"message": NO_USER}, status=404)
     user = User.objects.get(username=user_id)
-    clothes_reviews = Review.objects.filter(reviewing_clothes_id=clothes_id)
-    matched_reviews = clothes_reviews.filter(recommended_user = user)
-    review_list = [review for review in matched_reviews.values()]
     if request.method == 'GET':
+        clothes_reviews = Review.objects.filter(reviewing_clothes_id=clothes_id)
+        matched_reviews = clothes_reviews.filter(recommended_user = user)
+        review_list = [review for review in matched_reviews.values()]
         return JsonResponse(review_list, safe=False, status=200)
+    elif request.method == 'POST':
+        clothes = Clothes.objects.get(id=clothes_id)
+        try:
+            body = request.body.decode()
+            content = json.loads(body)['content']
+            photo = json.loads(body)['photo']
+        except (KeyError, JSONDecodeError) as e:
+                return HttpResponseBadRequest()
+        review = Review(upload_time=timezone.now(),
+          content=content,
+          photo=photo,
+          reviewing_clothes=clothes,
+          uploaded_user=user
+          )
+        review.save()
+        response_dict = {'id': review.id, 'name': review.uploaded_user.nickname, 'content': review.content}
+        return JsonResponse(response_dict, status=201)
+    else:
+        return HttpResponseNotAllowed(['GET', 'POST'])
 
 def analyze(request, user_id, clothes_id):
     if not (Clothes.objects.filter(id=clothes_id)).exists():

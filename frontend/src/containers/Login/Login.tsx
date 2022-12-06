@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import { login } from "../../apis/user";
-import { createSemicolonClassElement } from "typescript";
 
 const Login = () => {
   localStorage.setItem("loggedIn", "false");
