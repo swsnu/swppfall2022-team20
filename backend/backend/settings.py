@@ -25,16 +25,16 @@ secret_key_default = "default_secret_key_default_secret_key_default_secret_key_d
 SECRET_KEY = os.environ.get("SECRET_KEY", secret_key_default)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get("DEBUG", "True") == "True"
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'backend']
 #for deploy add
-SECURE_HSTS_SECONDS = 31536000
-SECURE_SSL_REDIRECT = True
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SESSION_COOKIE_SECURE = True
-SECURE_HSTS_PRELOAD = True
-CSRF_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = int(os.environ.get("SECURE_HSTS_SECONDS", 31536000))
+SECURE_SSL_REDIRECT = os.environ.get('SECURE_SSL_REDIRECT', 'False') == "True" # default: False
+SESSION_COOKIE_SECURE = os.environ.get('SESSION_COOKIE_SECURE', 'False') == 'True' # default: False
+CSRF_COOKIE_SECURE = os.environ.get('CSRF_COOKIE_SECURE', 'False') == 'True' # default: False
+SECURE_HSTS_INCLUDE_SUBDOMAINS = os.environ.get('SECURE_HSTS_INCLUDE_SUBDOMAINS', 'False') =='True' # default: False
+SECURE_HSTS_PRELOAD = os.environ.get('SECURE_HSTS_PRELOAD', 'False') == 'True' # default: False
 
 # Application definition
 
