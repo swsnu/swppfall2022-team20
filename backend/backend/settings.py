@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", secret_key_default)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'backend']
+ALLOWED_HOSTS = ['127.0.0.1','0.0.0.0', 'localhost','ec2-3-34-4-246.ap-northeast-2.compute.amazonaws.com','3.34.4.246']
 #for deploy add
 SECURE_HSTS_SECONDS = int(os.environ.get("SECURE_HSTS_SECONDS", 31536000))
 SECURE_SSL_REDIRECT = os.environ.get('SECURE_SSL_REDIRECT', 'False') == "True" # default: False
