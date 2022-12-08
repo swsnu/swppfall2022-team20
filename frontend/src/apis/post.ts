@@ -13,6 +13,16 @@ export interface reviewReqType extends postReqType {
   content: string;
   photo: string;
 }
+export interface clothesType {
+  id: string;
+  name: string;
+  style: string;
+  brand: string;
+  price: string;
+  URL: string;
+  photo: string;
+  named_size: string[];
+}
 
 export const sendPostReview = async (
   payload: FormData,
@@ -25,6 +35,21 @@ export const sendPostReview = async (
     {
       headers: {
         "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+  return response.data;
+};
+export const sendPostScrap = async (
+  payload: clothesType,
+  username: string | null
+) => {
+  const response = await client.post(
+    `api/clothes/scrap/${username}/`,
+    payload,
+    {
+      headers: {
+        "Content-Type": "application/json",
       },
     }
   );

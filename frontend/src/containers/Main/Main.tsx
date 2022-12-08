@@ -26,12 +26,13 @@ const Main = () => {
         <div>
           {data.map((d: clothesType) => (
             <ImageShow
-              key={d.id}
+              key={d.price}
               id={d.id}
               src={d.photo}
               name={d.name}
               URL={d.URL}
               size={d.named_size}
+              WholeData={data}
             />
           ))}
         </div>

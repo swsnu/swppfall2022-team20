@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { analyze } from "../../apis/get";
 import "./ItemModal.css";
-
-const ItemModal = ({ setModalOpen, URL, src, name, id, size }: any) => {
+import { sendPostScrap } from "../../apis/post";
+const ItemModal = ({ setModalOpen, URL, src, name, id, size, Data }: any) => {
   const navigate = useNavigate();
   const [data, setData] = useState<any>([]);
   const [analysis, setAnalysis] = useState<any>([]);
@@ -50,12 +50,25 @@ const ItemModal = ({ setModalOpen, URL, src, name, id, size }: any) => {
     localStorage.setItem("pants_id", id);
     navigate(`/${id}/review`);
   };
+  const clickScrap = () => {
+    console.log(Data[id]);
+    if (window.confirm("want to scrap?")) {
+      sendPostScrap(Data[id], localStorage.getItem("username"))
+        .then(() => {
+          console.log("success");
+        })
+        .catch(() => {
+          alert("잘못된 접근입니다");
+        });
+    }
+  };
   return (
     <div className="outer">
       <div ref={modalRef} className="container">
         <p>Item Details</p>
         <img className="modalimg" alt="img" src={src}></img>
         <div className="rightcontent">
+          <button onClick={clickScrap}>scrap</button>
           <h3 onClick={clickName}>{name}</h3>
           <button id="change" onClick={closeModal}>
             back
