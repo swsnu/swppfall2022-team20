@@ -62,3 +62,13 @@ export const analyze = async (payload: reqType) => {
     alert(typeof payload.clothes_id);
   }
 };
+export const reqScrap = async (username: string | null) => {
+  if (typeof username === "string") {
+    const response = await client.get<clothesType[]>(
+      `/api/clothes/scrap/${username}/`
+    );
+    return response.data;
+  } else {
+    alert("wrong approach");
+  }
+};

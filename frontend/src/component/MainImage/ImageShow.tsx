@@ -23,6 +23,7 @@ const ImageShow = (props: any) => {
           URL={props.URL}
           name={props.name}
           size={props.size}
+          Data={props.WholeData}
         />
       )}
       <h3>{props.name}</h3>
