@@ -29,7 +29,7 @@ export interface profileType extends userType {
 }
 
 export const token = async () => {
-  const response = await client.get<undefined>(`/api/clothes/token/`);
+  const response = await client.get<undefined>(`/api/clothes/csrf_token/`);
   return response.data;
 };
 

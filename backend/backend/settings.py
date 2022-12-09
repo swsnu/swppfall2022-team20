@@ -108,13 +108,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "ko-kr"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Seoul"
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -140,20 +140,28 @@ REST_FRAMEWORK = {
      ),
 }
 CORS_ORIGIN_ALLOW_ALL = True
-
-
-CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:3000'
-                         ,'http://localhost:3000']
-
 CORS_ALLOW_CREDENTIALS = True
-
 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'http://127.0.0.1:8000', 
 )
-CSRF_TRUSTED_ORIGINS = ('http://localhost:8000','http://127.0.0.1:8000')
-
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'http://localhost',
+    'http://ec2-3-34-4-246.ap-northeast-2.compute.amazonaws.com:3000',
+    'http://3.34.4.246:3000',
+    'https://stylestagram.shop',
+]
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'http://localhost',
+    'http://ec2-3-34-4-246.ap-northeast-2.compute.amazonaws.com:3000',
+    'http://3.34.4.246:3000',
+    'https://stylestagram.shop'
+]
 CORS_ALLOW_HEADERS = (
     'access-control-allow-credentials',
     'access-control-allow-origin',

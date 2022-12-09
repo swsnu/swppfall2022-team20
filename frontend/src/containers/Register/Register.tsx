@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./Register.css";
-import { reqRegister } from "../../apis/user";
+import { token, reqRegister } from "../../apis/user";
 import HowRegisterModal from "../../component/HowRegisterModal/HowRegisterModal";
 
 const Register = () => {

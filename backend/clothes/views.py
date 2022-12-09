@@ -18,7 +18,7 @@ def csrf_token(request):
     else:
         return HttpResponseNotAllowed(["GET"])
     # Create your views here.
-@csrf_exempt
+
 def signup(request):
     if request.method == 'POST':
         requestbody = json.loads(request.body)
@@ -37,7 +37,6 @@ def signup(request):
         response_dict = {"session_id":request.session.session_key,"username":auth.get_user(request).get_username()}
         return JsonResponse(response_dict,status=200)
         
-@csrf_exempt
 def login(request):
     if request.method == 'POST':
         requestbody = json.loads(request.body.decode())
@@ -53,7 +52,6 @@ def login(request):
             return JsonResponse(response_dict,status=401)
 
 #모든 상품리스트 반환
-@csrf_exempt
 def main(request, user_id):
     if not (User.objects.filter(username=user_id)).exists():
         return JsonResponse({"message": NO_USER}, status=404)
@@ -74,7 +72,6 @@ def main(request, user_id):
     recommended_list.pop(0)
     return JsonResponse(recommended_list, safe=False)
 
-@csrf_exempt
 def profile(request, user_id):
     if not (User.objects.filter(username=user_id)).exists():
         return JsonResponse({"message": NO_USER}, status=404)
@@ -106,8 +103,6 @@ def profile(request, user_id):
         response_dict = {'id': user.id, 'username': user.username, 'length': user.length}
         return JsonResponse(response_dict, status=200)
             
-
-@csrf_exempt
 def review(request, user_id, clothes_id):
     if not (Clothes.objects.filter(id=clothes_id)).exists():
         return JsonResponse({"message": NO_CLOTHES}, status=404)
@@ -139,7 +134,6 @@ def review(request, user_id, clothes_id):
     else:
         return HttpResponseNotAllowed(['GET', 'POST'])
 
-@csrf_exempt
 def comment(request, user_id, review_id):
     if not (Review.objects.filter(id=review_id)).exists():
         return JsonResponse({"message": NO_CLOTHES}, status=404)
@@ -167,7 +161,6 @@ def comment(request, user_id, review_id):
     else:
         return HttpResponseNotAllowed(['GET', 'POST'])
 
-@csrf_exempt
 def scrap(request, user_id, clothes_id, is_scrap):
     if not (Clothes.objects.filter(id=clothes_id)).exists():
         return JsonResponse({"message": NO_CLOTHES}, status=404)
@@ -182,7 +175,6 @@ def scrap(request, user_id, clothes_id, is_scrap):
         user.scrapped.remove(clothes)
         return HttpResponse(status=200)
 
-@csrf_exempt
 def scrapped_list(request, user_id):
     if not (User.objects.filter(username=user_id)).exists():
         return JsonResponse({"message": NO_USER}, status=404)
