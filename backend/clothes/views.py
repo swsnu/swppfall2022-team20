@@ -91,6 +91,22 @@ def profile(request, user_id):
                 "thigh_size": user.thigh_size,
                 "calf_size": user.calf_size,
                 })
+    if request.method == 'PUT':
+        try:
+            body = request.body.decode()
+            user.nickname = json.loads(body)['nickname']
+            user.email = json.loads(body)['email']
+            user.length = json.loads(body)['length']
+            user.waist_size = json.loads(body)['waist_size']
+            user.thigh_size = json.loads(body)['thigh_size']
+            user.calf_size = json.loads(body)['calf_size']
+            user.save()
+        except (KeyError, JSONDecodeError) as e:
+                return HttpResponseBadRequest()
+        response_dict = {'id': user.id, 'username': user.username, 'length': user.length}
+        return JsonResponse(response_dict, status=200)
+            
+
 @csrf_exempt
 def review(request, user_id, clothes_id):
     if not (Clothes.objects.filter(id=clothes_id)).exists():
