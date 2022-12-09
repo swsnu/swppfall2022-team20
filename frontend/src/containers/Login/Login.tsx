@@ -1,8 +1,8 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
-import { login } from "../../apis/user";
+import { login, token } from "../../apis/user";
 
 const Login = () => {
   localStorage.setItem("loggedIn", "false");
@@ -12,6 +12,11 @@ const Login = () => {
   });
   const { username, password } = inform;
   const navigate = useNavigate();
+  useEffect(() => {
+    token().catch((err: any) => {
+      alert(err.message);
+    });
+  }, []);
   const onClickRegister = () => {
     navigate("/register");
   };
