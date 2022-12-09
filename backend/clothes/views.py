@@ -5,7 +5,7 @@ from django.forms.models import model_to_dict
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from json.decoder import JSONDecodeError
 from django.utils import timezone
-from .models import Clothes, Size, User, Review
+from .models import Clothes, User, Review, Comment
 from . import recommender
 
 NO_USER = "존재하지 않는 유저입니다."
@@ -123,6 +123,57 @@ def review(request, user_id, clothes_id):
     else:
         return HttpResponseNotAllowed(['GET', 'POST'])
 
+@csrf_exempt
+def comment(request, user_id, review_id):
+    if not (Review.objects.filter(id=review_id)).exists():
+        return JsonResponse({"message": NO_CLOTHES}, status=404)
+    if not (User.objects.filter(username=user_id)).exists():
+        return JsonResponse({"message": NO_USER}, status=404)
+    review = Review.objects.get(id=review_id)
+    if request.method == 'GET':
+        comment_all_list = [comment for comment in review.comment_list.all().values()]
+        return JsonResponse(comment_all_list, safe=False, status=200)
+    elif request.method == 'POST':
+        user = User.objects.get(username=user_id)
+        try:
+            body = request.body.decode()
+            content = json.loads(body)['content']
+        except (KeyError, JSONDecodeError) as e:
+                return HttpResponseBadRequest()
+        comment = Comment(upload_time=timezone.now(),
+          content=content,
+          uploaded_user=user,
+          original_review=review
+          )
+        comment.save()
+        response_dict = {'id': comment.id, 'name': comment.uploaded_user.nickname, 'content': comment.content}
+        return JsonResponse(response_dict, status=201)
+    else:
+        return HttpResponseNotAllowed(['GET', 'POST'])
+
+@csrf_exempt
+def scrap(request, user_id, clothes_id, is_scrap):
+    if not (Clothes.objects.filter(id=clothes_id)).exists():
+        return JsonResponse({"message": NO_CLOTHES}, status=404)
+    if not (User.objects.filter(username=user_id)).exists():
+        return JsonResponse({"message": NO_USER}, status=404)
+    user = User.objects.get(username=user_id)
+    clothes = Clothes.objects.get(id=clothes_id)
+    if is_scrap == "scrap":
+        user.scrapped.add(clothes)
+        return HttpResponse(status=200)
+    elif is_scrap == "unscrap":
+        user.scrapped.remove(clothes)
+        return HttpResponse(status=200)
+
+@csrf_exempt
+def scrapped_list(request, user_id):
+    if not (User.objects.filter(username=user_id)).exists():
+        return JsonResponse({"message": NO_USER}, status=404)
+    user = User.objects.get(username=user_id)
+    scrapped_clothes_list = [clothes for clothes in user.scrapped.all().values()]
+    return JsonResponse(scrapped_clothes_list, safe=False, status=200)
+
 def analyze(request, user_id, clothes_id):
     if not (Clothes.objects.filter(id=clothes_id)).exists():
         return JsonResponse({"message": NO_CLOTHES}, status=404)
@@ -136,3 +187,4 @@ def analyze(request, user_id, clothes_id):
         analysis_list.append(analysis)
     if request.method == 'GET':
         return JsonResponse(analysis_list, safe=False, status=200)
+

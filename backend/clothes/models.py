@@ -87,6 +87,6 @@ class Comment(models.Model):
     original_review = models.ForeignKey(
         Review,
         on_delete=models.CASCADE,
-        related_name='comment_uploaded',
+        related_name='comment_list',
     )
     
