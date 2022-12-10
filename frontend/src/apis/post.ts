@@ -24,6 +24,12 @@ export interface clothesType {
   named_size: string[];
 }
 
+export interface reqCommentType {
+  username: string | null;
+  review_id: number;
+  content: string;
+}
+
 export const sendPostReview = async (
   payload: FormData,
   username: string | null,
@@ -54,4 +60,26 @@ export const sendPostScrap = async (
     }
   );
   return response.data;
+};
+
+export const postComment = async (payload: reqCommentType) => {
+  if (
+    typeof payload.username === "string" &&
+    typeof payload.review_id === "number"
+  ) {
+    const response = await client.post(
+      `/api/clothes/comment/${payload.username}/${payload.review_id}/`,
+      {
+        content: payload.content,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } else {
+    alert("wrong approach");
+  }
 };

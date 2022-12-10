@@ -30,7 +30,12 @@ const ItemReview = () => {
       {addopen && <AddReview setAddopen={setAddopen} />}
       <div>
         {reviewdata.map((d: any) => (
-          <ReviewShow key={d.id} content={d.content} photo={d.photo} />
+          <ReviewShow
+            key={d.id}
+            reviewId={d.id}
+            content={d.content}
+            photo={d.photo}
+          />
         ))}
       </div>
     </div>
