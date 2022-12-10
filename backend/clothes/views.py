@@ -188,10 +188,11 @@ def analyze(request, user_id, clothes_id):
         return JsonResponse({"message": NO_USER}, status=404)
     user = User.objects.get(username=user_id)
     clothes_sizes = user.recommended.filter(clothes_id=clothes_id)
-    analysis_list = []
+    analysis_dict = {}
     for clothes_size in clothes_sizes:
+        named_size = clothes_size.named_size
         analysis = recommender.analyze(clothes_size, user)
-        analysis_list.append(analysis)
+        analysis_dict[named_size] = analysis
     if request.method == 'GET':
-        return JsonResponse(analysis_list, safe=False, status=200)
+        return JsonResponse(analysis_dict, safe=False, status=200)
 
