@@ -3,24 +3,33 @@ import { useNavigate } from "react-router-dom";
 import { analyze } from "../../apis/get";
 import "./ItemModal.css";
 import { sendPostScrap } from "../../apis/post";
+import { ListFormat } from "typescript";
 const ItemModal = ({ setModalOpen, URL, src, name, id, size, Data }: any) => {
   const navigate = useNavigate();
   const [data, setData] = useState<any>([]);
   const [analysis, setAnalysis] = useState<any>([]);
-  const [loading, setLoading] = useState<any>(true);
+  const [loading, setLoading] = useState<boolean>(true);
   const getAnalysis = async () => {
     const response = await analyze({
       username: localStorage.getItem("username"),
       clothes_id: id,
     });
-    setData(response);
-    console.log(response);
-    console.log(data);
+    return response;
   };
   useEffect(() => {
-    getAnalysis().catch((err: any) => {
-      alert(err.message);
-    });
+    getAnalysis()
+      .then((response: any) => {
+        console.log(response);
+        setData(response);
+        return response[size[0]];
+      })
+      .then((analysis: string) => {
+        setAnalysis(analysis);
+        console.log(analysis);
+      })
+      .catch((err: any) => {
+        alert(err.message);
+      });
     setAnalysis(data[0]);
     setLoading(false);
   }, []);
@@ -76,11 +85,17 @@ const ItemModal = ({ setModalOpen, URL, src, name, id, size, Data }: any) => {
           <button onClick={() => window.open(URL, "_blank")}>visit</button>
           <div>
             {size.map((size: string) => (
-              <button key={size} onClick={() => console.log("clicked")}>
+              <button
+                key={size}
+                onClick={() => {
+                  setAnalysis(data[size]);
+                }}
+              >
                 {size}
               </button>
             ))}
           </div>
+          <div>{analysis}</div>
         </div>
       </div>
     </div>
