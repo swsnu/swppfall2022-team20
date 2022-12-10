@@ -152,7 +152,7 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost',
     'http://ec2-3-34-4-246.ap-northeast-2.compute.amazonaws.com:3000',
     'http://3.34.4.246:3000',
-    'https://stylestagram.shop',
+    'https://stylestargram.shop',
 ]
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
@@ -160,7 +160,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost',
     'http://ec2-3-34-4-246.ap-northeast-2.compute.amazonaws.com:3000',
     'http://3.34.4.246:3000',
-    'https://stylestagram.shop'
+    'https://stylestargram.shop'
 ]
 CORS_ALLOW_HEADERS = (
     'access-control-allow-credentials',

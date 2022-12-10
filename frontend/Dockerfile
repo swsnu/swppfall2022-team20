@@ -25,4 +25,4 @@ RUN cp -r build/* /usr/share/nginx/html/
 # SSL
 RUN mkdir -p ssl
 
-CMD sh ./run_frontend.sh
+ENTRYPOINT sh ./run_frontend.sh
