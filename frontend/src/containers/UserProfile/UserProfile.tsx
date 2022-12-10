@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../../component/Navbar/Navbar";
-import { reqProfile } from "../../apis/user";
+import { editProfile, reqProfile, profileType } from "../../apis/user";
+import { useNavigate } from "react-router-dom";
 
 const UserProfile = () => {
+  const navigate = useNavigate();
   const [profile, setProfile] = useState<any>({});
+  const handleInform = (e: any) => {
+    setProfile((prevState: any) => {
+      return { ...prevState, [e.target.name]: e.target.value };
+    });
+  };
   const user = {
     username: localStorage.getItem("username"),
     password: localStorage.getItem("password"),
@@ -17,28 +24,82 @@ const UserProfile = () => {
       alert(err.message);
     });
   }, []);
+  const clickEdit = (e: any) => {
+    e.preventDefault();
+    editProfile(profile)
+      .then(() => {
+        navigate("/main");
+      })
+      .catch(() => {
+        alert("잘못된 접근입니다");
+      });
+  };
   return (
     <div>
       <Navbar />
       User profile
       <div>
-        username:<input value={profile.username}></input>
+        <div>
+          username:
+          <input
+            name="username"
+            value={profile.username}
+            onChange={handleInform}
+          ></input>
+        </div>
+        <div>
+          nickname:
+          <input
+            name="nickname"
+            value={profile.nickname}
+            onChange={handleInform}
+          ></input>
+        </div>
+        <div>
+          email:
+          <input
+            name="email"
+            value={profile.email}
+            onChange={handleInform}
+          ></input>
+        </div>
+        <div>
+          length:
+          <input
+            name="length"
+            value={profile.length}
+            onChange={handleInform}
+          ></input>
+        </div>
+        <div>
+          waist:
+          <input
+            name="waist_size"
+            value={profile.waist_size}
+            onChange={handleInform}
+          ></input>
+        </div>
+        <div>
+          thigh:
+          <input
+            name="thigh_size"
+            value={profile.thigh_size}
+            onChange={handleInform}
+          ></input>
+        </div>
+        <div>
+          calf:
+          <input
+            name="calf_size"
+            value={profile.calf_size}
+            onChange={handleInform}
+          ></input>
+        </div>
       </div>
       <div>
-        length:
-        <input name="length" value={profile.length}></input>
-      </div>
-      <div>
-        waist:
-        <input name="waist_size" value={profile.waist_size}></input>
-      </div>
-      <div>
-        thigh:
-        <input name="thigh_size" value={profile.thigh_size}></input>
-      </div>
-      <div>
-        calf:
-        <input name="calf_size" value={profile.calf_size}></input>
+        <button className="button" onClick={clickEdit}>
+          Edit
+        </button>
       </div>
     </div>
   );

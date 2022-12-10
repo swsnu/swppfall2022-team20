@@ -80,7 +80,6 @@ def profile(request, user_id):
         return JsonResponse(
             {
                 "username": user.username,
-                "password": user.password,
                 "nickname": user.nickname,
                 "email": user.email,
                 "length": user.length,
