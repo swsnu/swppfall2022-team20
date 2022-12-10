@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { analyze } from "../../apis/get";
 import "./ItemModal.css";
 import { sendPostScrap } from "../../apis/post";
-import { ListFormat } from "typescript";
+
 const ItemModal = ({ setModalOpen, URL, src, name, id, size, Data }: any) => {
   const navigate = useNavigate();
   const [data, setData] = useState<any>([]);
@@ -95,7 +95,7 @@ const ItemModal = ({ setModalOpen, URL, src, name, id, size, Data }: any) => {
               </button>
             ))}
           </div>
-          <div>{analysis}</div>
+          {loading ? <div>Loading</div> : <div>{analysis}</div>}
         </div>
       </div>
     </div>

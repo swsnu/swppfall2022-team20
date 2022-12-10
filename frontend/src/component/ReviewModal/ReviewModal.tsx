@@ -1,5 +1,9 @@
-import React, { useEffect, useRef } from "react";
-const ReviewModal = ({ photo, content, setModalOpen }: any) => {
+import React, { useEffect, useRef, useState } from "react";
+import { reqComment } from "../../apis/get";
+const ReviewModal = ({ reviewId, photo, content, setModalOpen }: any) => {
+  const [data, setData] = useState<any>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -21,6 +25,24 @@ const ReviewModal = ({ photo, content, setModalOpen }: any) => {
       document.removeEventListener("mousedown", handler);
     };
   });
+  const setCommentData = async () => {
+    const response = await reqComment({
+      username: localStorage.getItem("username"),
+      review_id: reviewId,
+    });
+    return response;
+  };
+  useEffect(() => {
+    setCommentData()
+      .then((response: any) => {
+        console.log(response);
+        setData(response);
+        setLoading(false);
+      })
+      .catch((err: any) => {
+        alert(err.message);
+      });
+  }, []);
 
   return (
     <div className="outer">
@@ -28,7 +50,13 @@ const ReviewModal = ({ photo, content, setModalOpen }: any) => {
         <p>Item Review</p>
         <img className="modalimg" alt="img" src={photo}></img>
         <div className="rightcontent">
-          <div>content:{content}</div>
+          <div>{content}</div>
+          <div>
+            <div>Comments</div>
+            {data.map((comment: any) => (
+              <span key={comment.id}>{comment.content}</span>
+            ))}
+          </div>
           <button id="change" onClick={closeModal}>
             back
           </button>
