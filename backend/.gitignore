@@ -7,7 +7,6 @@
 *.pyc
 __pycache__/
 local_settings.py
-db.sqlite3
 db.sqlite3-journal
 media
 
@@ -174,6 +173,6 @@ cython_debug/
 # End of https://www.toptal.com/developers/gitignore/api/django
 #sqlite3.exe gitignore 적용
 sqlite3.exe
-db.sqlite3
+
 #가상환경
 .venv
