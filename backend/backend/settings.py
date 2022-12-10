@@ -181,4 +181,6 @@ CORS_ALLOW_HEADERS = (
     'X-CSRFToken',
     'csrftoken',
     'x-requested-with',
+    'x-csrftoken',
 )
+
