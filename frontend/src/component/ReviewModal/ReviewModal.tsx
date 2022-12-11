@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { reqComment } from "../../apis/get";
-const ReviewModal = ({ reviewId, photo, content, setModalOpen }: any) => {
+import { postComment } from "../../apis/post";
+const ReviewModal = ({ reviewId, photo, reviewContent, setModalOpen }: any) => {
   const [data, setData] = useState<any>([]);
+  const [content, setContent] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
 
   const closeModal = () => {
@@ -32,6 +34,24 @@ const ReviewModal = ({ reviewId, photo, content, setModalOpen }: any) => {
     });
     return response;
   };
+  const clickAdd = () => {
+    postComment({
+      username: localStorage.getItem("username"),
+      review_id: reviewId,
+      content: content,
+    })
+      .then((response: any) => {
+        console.log(response);
+        setData(response);
+        setLoading(false);
+      })
+      .catch(() => {
+        alert("잘못된 접근입니다");
+      });
+  };
+  const onContentChange = (e: any) => {
+    setContent(e.target.value);
+  };
   useEffect(() => {
     setCommentData()
       .then((response: any) => {
@@ -50,12 +70,21 @@ const ReviewModal = ({ reviewId, photo, content, setModalOpen }: any) => {
         <p>Item Review</p>
         <img className="modalimg" alt="img" src={photo}></img>
         <div className="rightcontent">
-          <div>{content}</div>
+          <div>{reviewContent}</div>
           <div>
             <div>Comments</div>
             {data.map((comment: any) => (
-              <span key={comment.id}>{comment.content}</span>
+              <div key={comment.id}>{comment.content}</div>
             ))}
+          </div>
+          <div>
+            <textarea
+              className="reviewcontent"
+              onChange={onContentChange}
+            ></textarea>
+            <button id="submit" onClick={clickAdd}>
+              Add
+            </button>
           </div>
           <button id="change" onClick={closeModal}>
             back

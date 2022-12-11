@@ -19,7 +19,7 @@ const ReviewShow = (props: any) => {
         <ReviewModal
           reviewId={props.reviewId}
           photo={props.photo}
-          content={props.content}
+          content={props.reviewContent}
           setModalOpen={setModalOpen}
         />
       )}

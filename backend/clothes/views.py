@@ -155,8 +155,8 @@ def comment(request, user_id, review_id):
           original_review=review
           )
         comment.save()
-        response_dict = {'id': comment.id, 'name': comment.uploaded_user.nickname, 'content': comment.content}
-        return JsonResponse(response_dict, status=201)
+        comment_all_list = [comment for comment in review.comment_list.all().values()]
+        return JsonResponse(comment_all_list, safe=False, status=201)
     else:
         return HttpResponseNotAllowed(['GET', 'POST'])
 
