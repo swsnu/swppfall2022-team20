@@ -57,7 +57,7 @@ export const reviewClothes = async (payload: reqType) => {
 export const analyze = async (payload: reqType) => {
   if (
     typeof payload.username === "string" &&
-    typeof payload.clothes_id === "number"
+    typeof payload.clothes_id === "string"
   ) {
     const response = await client.get(
       `/api/clothes/analyze/${payload.username}/${payload.clothes_id}/`
@@ -67,11 +67,23 @@ export const analyze = async (payload: reqType) => {
     alert(typeof payload.clothes_id);
   }
 };
-export const reqScrap = async (username: string | null) => {
-  if (typeof username === "string") {
-    const response = await client.get<clothesType[]>(
-      `/api/clothes/scrap/${username}/`
+export const reqScrap = async (payload: reqType) => {
+  if (
+    typeof payload.username === "string" &&
+    typeof payload.clothes_id === "string"
+  ) {
+    const response = await client.get(
+      `/api/clothes/scrap/${payload.username}/${payload.clothes_id}/scrap/`
     );
+    return response.data;
+  } else {
+    alert("wrong approach");
+  }
+};
+
+export const reqScrappedList = async (username: string | null) => {
+  if (typeof username === "string") {
+    const response = await client.get(`/api/clothes/scrapped/${username}/`);
     return response.data;
   } else {
     alert("wrong approach");

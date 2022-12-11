@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { analyze } from "../../apis/get";
+import { analyze, reqScrap } from "../../apis/get";
 import "./ItemModal.css";
-import { sendPostScrap } from "../../apis/post";
 
 const ItemModal = ({ setModalOpen, URL, src, name, id, size, Data }: any) => {
   const navigate = useNavigate();
@@ -62,7 +61,10 @@ const ItemModal = ({ setModalOpen, URL, src, name, id, size, Data }: any) => {
   const clickScrap = () => {
     console.log(Data[id]);
     if (window.confirm("want to scrap?")) {
-      sendPostScrap(Data[id], localStorage.getItem("username"))
+      reqScrap({
+        username: localStorage.getItem("username"),
+        clothes_id: id,
+      })
         .then(() => {
           console.log("success");
         })
