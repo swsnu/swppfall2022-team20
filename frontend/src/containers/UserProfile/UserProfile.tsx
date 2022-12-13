@@ -39,9 +39,9 @@ const UserProfile = () => {
   return (
     <div>
       <Navbar />
-      <h3 className="profileTitle">User profile</h3>
+      <div className="profileTitle">User profile</div>
       <div className="profileContainer">
-        <div className="inputContainer">
+        <div>
           username:
           <input
             className="profileInput"
@@ -50,7 +50,7 @@ const UserProfile = () => {
             onChange={handleInform}
           ></input>
         </div>
-        <div className="inputContainer">
+        <div>
           nickname:
           <input
             className="profileInput"
@@ -59,7 +59,7 @@ const UserProfile = () => {
             onChange={handleInform}
           ></input>
         </div>
-        <div className="inputContainer">
+        <div>
           email:
           <input
             className="profileInput"
@@ -68,7 +68,7 @@ const UserProfile = () => {
             onChange={handleInform}
           ></input>
         </div>
-        <div className="inputContainer">
+        <div>
           length:
           <input
             className="profileInput"
@@ -77,7 +77,7 @@ const UserProfile = () => {
             onChange={handleInform}
           ></input>
         </div>
-        <div className="inputContainer">
+        <div>
           waist:
           <input
             className="profileInput"
@@ -86,7 +86,7 @@ const UserProfile = () => {
             onChange={handleInform}
           ></input>
         </div>
-        <div className="inputContainer">
+        <div>
           thigh:
           <input
             className="profileInput"
@@ -95,7 +95,7 @@ const UserProfile = () => {
             onChange={handleInform}
           ></input>
         </div>
-        <div className="inputContainer">
+        <div>
           calf:
           <input
             className="profileInput"
