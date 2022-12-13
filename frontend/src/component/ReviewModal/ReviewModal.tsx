@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { reqComment } from "../../apis/get";
 import { postComment } from "../../apis/post";
+import "./ReviewModal.css";
 const ReviewModal = ({ reviewId, photo, reviewContent, setModalOpen }: any) => {
   const [data, setData] = useState<any>([]);
   const [content, setContent] = useState<string>("");
@@ -72,16 +73,15 @@ const ReviewModal = ({ reviewId, photo, reviewContent, setModalOpen }: any) => {
         <div className="rightcontent">
           <div>{reviewContent}</div>
           <div>
-            <div>Comments</div>
+            <div className="commentTitle">Comments</div>
             {data.map((comment: any) => (
-              <div key={comment.id}>{comment.content}</div>
+              <div className="commentList" key={comment.id}>
+                {comment.content}
+              </div>
             ))}
           </div>
           <div>
-            <textarea
-              className="reviewcontent"
-              onChange={onContentChange}
-            ></textarea>
+            <input className="reviewcontent" onChange={onContentChange}></input>
             <button id="submit" onClick={clickAdd}>
               Add
             </button>
