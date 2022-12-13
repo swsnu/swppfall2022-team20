@@ -45,7 +45,7 @@ const Register = () => {
   return (
     <div>
       <div>
-        <h2>Register</h2>
+        <h2 className="registerTitle">Register</h2>
         <p>
           ID:
           <input
@@ -86,7 +86,7 @@ const Register = () => {
         </p>
       </div>
       <div>
-        <h2>size</h2>
+        <h2 className="registerTitle">size</h2>
         <p>
           length:
           <input

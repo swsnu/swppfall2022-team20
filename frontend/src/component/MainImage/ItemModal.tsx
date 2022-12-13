@@ -80,7 +80,9 @@ const ItemModal = ({ setModalOpen, URL, src, name, id, size, Data }: any) => {
         <img className="modalimg" alt="img" src={src}></img>
         <div className="rightcontent">
           <button onClick={clickScrap}>scrap</button>
-          <h3 onClick={clickName}>{name}</h3>
+          <h3 className="ItemName" onClick={clickName}>
+            {name}
+          </h3>
           <button id="change" onClick={closeModal}>
             back
           </button>
@@ -97,7 +99,11 @@ const ItemModal = ({ setModalOpen, URL, src, name, id, size, Data }: any) => {
               </button>
             ))}
           </div>
-          {loading ? <div>Loading</div> : <div>{analysis}</div>}
+          {loading ? (
+            <div>Loading</div>
+          ) : (
+            <div className="analysisData">{analysis}</div>
+          )}
         </div>
       </div>
     </div>

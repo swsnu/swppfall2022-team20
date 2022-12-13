@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ReviewModal from "./ReviewModal";
+import "./ReviewShow.css";
 const ReviewShow = (props: any) => {
   const [modalOpen, setModalOpen] = useState(false);
   const showModal = () => {
@@ -9,6 +10,7 @@ const ReviewShow = (props: any) => {
     <div>
       <div>
         <img
+          className="reviewImg"
           data-testid="image"
           alt="review"
           src={props.photo}
@@ -23,7 +25,7 @@ const ReviewShow = (props: any) => {
           setModalOpen={setModalOpen}
         />
       )}
-      <div>{props.content}</div>
+      <div className="reviewContent">{props.content}</div>
     </div>
   );
 };

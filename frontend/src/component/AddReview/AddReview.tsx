@@ -70,6 +70,7 @@ const AddReview = ({ setAddopen }: any) => {
             className="reviewcontent"
             onChange={onContentChange}
           ></textarea>
+          <br></br>
           <button id="submit" onClick={clickAdd}>
             Add
           </button>

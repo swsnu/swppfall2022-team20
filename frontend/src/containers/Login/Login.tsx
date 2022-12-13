@@ -47,7 +47,8 @@ const Login = () => {
 
   return (
     <div>
-      <h2>Login</h2>
+      <h3 className="LoginTitle">Welcome to Stylestargram!</h3>
+      <h2 className="LoginTitle2">Login</h2>
       <p>
         ID:
         <input
