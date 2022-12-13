@@ -18,6 +18,11 @@ const ItemReview = () => {
       alert(err.message);
     });
   }, []);
+  useEffect(() => {
+    setReview().catch((err: any) => {
+      alert(err.message);
+    });
+  }, [addopen]);
   const clickOpen = () => {
     setAddopen(true);
   };
@@ -38,6 +43,7 @@ const ItemReview = () => {
           />
         ))}
       </div>
+      <img src="https://stylestargram.s3.ap-northeast-2.amazonaws.com/review12.jpg"></img>
     </div>
   );
 };
