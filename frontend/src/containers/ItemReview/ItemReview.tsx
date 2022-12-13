@@ -31,7 +31,6 @@ const ItemReview = () => {
   return (
     <div>
       <Navbar />
-      this is review
       <button className="Addreviewbutton" onClick={clickOpen}>
         Add review
       </button>

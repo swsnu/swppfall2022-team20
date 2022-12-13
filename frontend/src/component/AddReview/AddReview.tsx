@@ -58,13 +58,14 @@ const AddReview = ({ setAddopen }: any) => {
         promise.then(
           function (data) {
             alert("이미지 업로드에 성공했습니다.");
+            setAddopen(false);
+            window.location.reload();
           },
           function (err) {
             return alert(err.message);
           }
         );
         console.log("success");
-        setAddopen(false);
       })
       .catch(() => {
         alert("잘못된 접근입니다");
