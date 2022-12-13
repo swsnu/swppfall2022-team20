@@ -57,7 +57,7 @@ export const reviewClothes = async (payload: reqType) => {
 export const analyze = async (payload: reqType) => {
   if (
     typeof payload.username === "string" &&
-    typeof payload.clothes_id === "string"
+    typeof payload.clothes_id === "number"
   ) {
     const response = await client.get(
       `/api/clothes/analyze/${payload.username}/${payload.clothes_id}/`
