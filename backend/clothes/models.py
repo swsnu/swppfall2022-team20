@@ -48,10 +48,14 @@ class User(AbstractUser):
         related_name = "user_scrapped",
     )
 
+    recommended = models.ManyToManyField(
+        Size,
+        related_name = "user_recommended",
+    )
+
+
     def __str__(self):
         return self.username
-
-
 
 class Review(models.Model):
     upload_time = models.TimeField()
@@ -67,6 +71,10 @@ class Review(models.Model):
         on_delete=models.CASCADE, #User가 삭제되는 경우
         related_name = "uploaded_review",
     )
+    recommended_user = models.ManyToManyField(
+        User,
+        related_name = "recommended_review",
+    )
 
 class Comment(models.Model):
     upload_time = models.TimeField()
@@ -79,6 +87,6 @@ class Comment(models.Model):
     original_review = models.ForeignKey(
         Review,
         on_delete=models.CASCADE,
-        related_name='comment_uploaded',
+        related_name='comment_list',
     )
     

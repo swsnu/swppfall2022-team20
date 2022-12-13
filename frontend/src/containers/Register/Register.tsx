@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./Register.css";
-import { reqRegister } from "../../apis/user";
+import { token, reqRegister } from "../../apis/user";
 import HowRegisterModal from "../../component/HowRegisterModal/HowRegisterModal";
 
 const Register = () => {
@@ -38,14 +38,14 @@ const Register = () => {
         localStorage.clear();
         window.location.replace("/");
       })
-      .catch((err: any) => {
-        alert(err.message);
+      .catch(() => {
+        alert("잘못된 접근입니다");
       });
   };
   return (
     <div>
       <div>
-        <h2>Register</h2>
+        <h2 className="registerTitle">Register</h2>
         <p>
           ID:
           <input
@@ -86,7 +86,7 @@ const Register = () => {
         </p>
       </div>
       <div>
-        <h2>size</h2>
+        <h2 className="registerTitle">size</h2>
         <p>
           length:
           <input

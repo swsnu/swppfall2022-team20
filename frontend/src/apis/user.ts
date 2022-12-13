@@ -28,8 +28,18 @@ export interface profileType extends userType {
   calf_size: string;
 }
 
+export interface editType {
+  username: string;
+  nickname: string;
+  email: string;
+  length: string;
+  waist_size: string;
+  thigh_size: string;
+  calf_size: string;
+}
+
 export const token = async () => {
-  const response = await client.get<undefined>(`/api/clothes/token/`);
+  const response = await client.get<undefined>(`/api/clothes/csrf_token/`);
   return response.data;
 };
 
@@ -52,6 +62,14 @@ export const login = async (payload: userType) => {
 export const reqProfile = async (username: string) => {
   const response = await client.get<profileType>(
     `/api/clothes/profile/${username}/`
+  );
+  return response.data;
+};
+
+export const editProfile = async (payload: editType) => {
+  const response = await client.put<profileType>(
+    `/api/clothes/profile/${payload.username}/`,
+    payload
   );
   return response.data;
 };
