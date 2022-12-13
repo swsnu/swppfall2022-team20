@@ -127,7 +127,7 @@ def review(request, user_id, clothes_id):
           uploaded_user=user
           )
         review.save()
-        review.photo = "https://stylestargram.s3.ap-northeast-2.amazonaws.com/review{}.jpg".format(review.id)
+        review.photo = "https://stylestargram.s3.ap-northeast-2.amazonaws.com/review{}".format(review.id)
         review.save()
         response_dict = {'id': review.id, 'name': review.uploaded_user.nickname, 'content': review.content, 'photo': review.photo}
         return JsonResponse(response_dict, safe=False, status=201)

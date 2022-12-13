@@ -46,7 +46,7 @@ const ItemReview = () => {
           />
         ))}
       </div>
-      <img src="https://stylestargram.s3.ap-northeast-2.amazonaws.com/review12.jpg"></img>
+      <img src="https://stylestargram.s3.ap-northeast-2.amazonaws.com/review16"></img>
     </div>
   );
 };
