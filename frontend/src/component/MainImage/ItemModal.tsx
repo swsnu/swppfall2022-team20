@@ -66,6 +66,7 @@ const ItemModal = ({ setModalOpen, URL, src, name, id, size, Data }: any) => {
         clothes_id: id,
       })
         .then(() => {
+          alert("스크랩된 상품에 추가되었습니다");
           console.log("success");
         })
         .catch(() => {

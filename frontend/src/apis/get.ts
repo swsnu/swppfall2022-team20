@@ -70,7 +70,7 @@ export const analyze = async (payload: reqType) => {
 export const reqScrap = async (payload: reqType) => {
   if (
     typeof payload.username === "string" &&
-    typeof payload.clothes_id === "string"
+    typeof payload.clothes_id === "number"
   ) {
     const response = await client.get(
       `/api/clothes/scrap/${payload.username}/${payload.clothes_id}/scrap/`
