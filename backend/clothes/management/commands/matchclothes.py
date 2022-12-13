@@ -27,5 +27,5 @@ class Command(BaseCommand):
                 if not calf_diff >= 1.0:
                     continue
                 user.recommended.add(size)
-            #print(user.nickname, user.recommended.values())
+            print(user.nickname, user.recommended.values())
         self.stdout.write(self.style.SUCCESS('Successfully matched clothes'))
