@@ -179,8 +179,32 @@ def scrapped_list(request, user_id):
     if not (User.objects.filter(username=user_id)).exists():
         return JsonResponse({"message": NO_USER}, status=404)
     user = User.objects.get(username=user_id)
-    scrapped_clothes_list = [clothes for clothes in user.scrapped.all().values()]
-    return JsonResponse(scrapped_clothes_list, safe=False, status=200)
+    scrapped_list = []
+    prev_clothes = {"name": "name"}
+    for clothes in user.scrapped.all():
+        clothes_data = model_to_dict(clothes)
+        if user.recommended.filter(clothes=clothes).exists():
+            size_list = []
+            for size in user.recommended.filter(clothes=clothes):
+                size_list.append(size.named_size)
+            clothes_data["named_size"] = size_list
+        scrapped_list.append(clothes_data)
+    return JsonResponse(scrapped_list, safe=False, status=200)
+    scrapped_list = []
+    prev_clothes = {"name": "name"}
+    for size in user.recommended.all():
+        if prev_clothes["name"] != size.clothes.name:
+            scrapped_list.append(prev_clothes)
+            clothes = size.clothes
+            clothes_data = model_to_dict(clothes)
+            clothes_data = {**clothes_data, "named_size":[size.named_size]}
+            prev_clothes = clothes_data
+        else:
+            size_list = prev_clothes["named_size"]
+            size_list.append(size.named_size)
+            prev_clothes["named_size"] = size_list
+    scrapped_list.pop(0)
+    return JsonResponse(scrapped_list, safe=False)
 
 def analyze(request, user_id, clothes_id):
     if not (Clothes.objects.filter(id=clothes_id)).exists():

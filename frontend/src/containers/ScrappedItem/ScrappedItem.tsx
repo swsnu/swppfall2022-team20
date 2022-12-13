@@ -21,7 +21,7 @@ const ScrappedItem = () => {
       <div>
         {data.map((d: clothesType) => (
           <ImageShow
-            key={d.price}
+            key={d.id}
             id={d.id}
             src={d.photo}
             name={d.name}
