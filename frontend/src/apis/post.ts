@@ -8,10 +8,8 @@ export interface postReqType {
   username: string;
 }
 
-export interface reviewReqType extends postReqType {
-  clothes_id: string;
+export interface reviewReqType {
   content: string;
-  photo: string;
 }
 export interface clothesType {
   id: string;
@@ -30,36 +28,25 @@ export interface reqCommentType {
   content: string;
 }
 
-export const sendPostReview = async (
-  payload: FormData,
+export const postReview = async (
+  payload: reviewReqType,
   username: string | null,
   clothesId: string | null
 ) => {
-  const response = await client.post(
-    `/api/clothes/review/${username}/${clothesId}/`,
-    payload,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    }
-  );
-  return response.data;
-};
-export const sendPostScrap = async (
-  payload: clothesType,
-  username: string | null
-) => {
-  const response = await client.post(
-    `api/clothes/scrap/${username}/`,
-    payload,
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
-  return response.data;
+  if (typeof username === "string" && typeof clothesId === "string") {
+    const response = await client.post(
+      `/api/clothes/review/${username}/${clothesId}/`,
+      payload,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } else {
+    alert("wrong approach");
+  }
 };
 
 export const postComment = async (payload: reqCommentType) => {

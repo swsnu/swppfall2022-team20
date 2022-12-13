@@ -118,18 +118,19 @@ def review(request, user_id, clothes_id):
         try:
             body = request.body.decode()
             content = json.loads(body)['content']
-            photo = json.loads(body)['photo']
         except (KeyError, JSONDecodeError) as e:
                 return HttpResponseBadRequest()
         review = Review(upload_time=timezone.now(),
           content=content,
-          photo=photo,
+          photo="",
           reviewing_clothes=clothes,
           uploaded_user=user
           )
         review.save()
-        response_dict = {'id': review.id, 'name': review.uploaded_user.nickname, 'content': review.content}
-        return JsonResponse(response_dict, status=201)
+        review.photo = "https://stylestargram.s3.ap-northeast-2.amazonaws.com/review{}.jpg".format(review.id)
+        review.save()
+        response_dict = {'id': review.id, 'name': review.uploaded_user.nickname, 'content': review.content, 'photo': review.photo}
+        return JsonResponse(response_dict, safe=False, status=201)
     else:
         return HttpResponseNotAllowed(['GET', 'POST'])
 
