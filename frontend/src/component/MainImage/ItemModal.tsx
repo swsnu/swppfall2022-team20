@@ -59,7 +59,6 @@ const ItemModal = ({ setModalOpen, URL, src, name, id, size, Data }: any) => {
     navigate(`/${id}/review`);
   };
   const clickScrap = () => {
-    console.log(Data[id]);
     if (window.confirm("want to scrap?")) {
       reqScrap({
         username: localStorage.getItem("username"),
