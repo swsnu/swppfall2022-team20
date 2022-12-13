@@ -30,6 +30,9 @@
   height: 400px;
   left: 100px;
 }
+.recSize {
+  font-family: "Hanna", sans-serif;
+}
 .rightcontent {
   position: relative;
   left: 300px;
