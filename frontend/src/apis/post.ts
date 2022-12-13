@@ -8,10 +8,8 @@ export interface postReqType {
   username: string;
 }
 
-export interface reviewReqType extends postReqType {
-  clothes_id: string;
+export interface reviewReqType {
   content: string;
-  photo: string;
 }
 export interface clothesType {
   id: string;
@@ -24,34 +22,51 @@ export interface clothesType {
   named_size: string[];
 }
 
-export const sendPostReview = async (
-  payload: FormData,
+export interface reqCommentType {
+  username: string | null;
+  review_id: number;
+  content: string;
+}
+
+export const postReview = async (
+  payload: reviewReqType,
   username: string | null,
   clothesId: string | null
 ) => {
-  const response = await client.post(
-    `/api/clothes/review/${username}/${clothesId}/`,
-    payload,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    }
-  );
-  return response.data;
+  if (typeof username === "string" && typeof clothesId === "string") {
+    const response = await client.post(
+      `/api/clothes/review/${username}/${clothesId}/`,
+      payload,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } else {
+    alert("wrong approach");
+  }
 };
-export const sendPostScrap = async (
-  payload: clothesType,
-  username: string | null
-) => {
-  const response = await client.post(
-    `api/clothes/scrap/${username}/`,
-    payload,
-    {
-      headers: {
-        "Content-Type": "application/json",
+
+export const postComment = async (payload: reqCommentType) => {
+  if (
+    typeof payload.username === "string" &&
+    typeof payload.review_id === "number"
+  ) {
+    const response = await client.post(
+      `/api/clothes/comment/${payload.username}/${payload.review_id}/`,
+      {
+        content: payload.content,
       },
-    }
-  );
-  return response.data;
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } else {
+    alert("wrong approach");
+  }
 };

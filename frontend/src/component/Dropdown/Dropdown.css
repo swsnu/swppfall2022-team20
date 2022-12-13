@@ -8,20 +8,13 @@ ul > li {
   padding-left: 0.5em;
   padding-right: 0.5em;
   background: #ffffff;
-  border: 2px solid #e5e5e5;
   box-sizing: border-box;
   color: #3faffa;
   font-size: 1.3rem;
   font-weight: 500;
-  top: 85px;
-  
-  
-}
-.nav-links:hover {
-  
 }
 .nav-links {
-  color:black;
+  color: black;
   font-size: large;
   text-decoration-line: none;
   font-weight: bold;

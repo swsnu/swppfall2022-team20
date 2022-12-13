@@ -3,6 +3,7 @@ import Navbar from "../../component/Navbar/Navbar";
 import { reviewClothes } from "../../apis/get";
 import ReviewShow from "../../component/ReviewModal/ReviewShow";
 import AddReview from "../../component/AddReview/AddReview";
+import "./ItemReview.css";
 const ItemReview = () => {
   const [addopen, setAddopen] = useState<boolean>(false);
   const [reviewdata, setReviewData] = useState<any>([]);
@@ -18,6 +19,11 @@ const ItemReview = () => {
       alert(err.message);
     });
   }, []);
+  useEffect(() => {
+    setReview().catch((err: any) => {
+      alert(err.message);
+    });
+  }, [addopen]);
   const clickOpen = () => {
     setAddopen(true);
   };
@@ -25,12 +31,18 @@ const ItemReview = () => {
   return (
     <div>
       <Navbar />
-      this is review
-      <button onClick={clickOpen}>Add review</button>
+      <button className="Addreviewbutton" onClick={clickOpen}>
+        Add review
+      </button>
       {addopen && <AddReview setAddopen={setAddopen} />}
       <div>
         {reviewdata.map((d: any) => (
-          <ReviewShow key={d.id} content={d.content} photo={d.photo} />
+          <ReviewShow
+            key={d.id}
+            reviewId={d.id}
+            content={d.content}
+            photo={d.photo}
+          />
         ))}
       </div>
     </div>

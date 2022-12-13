@@ -1,0 +1,9 @@
+.reviewImg {
+  border-radius: 10%;
+  width: 500px;
+  height: 600px;
+}
+.reviewContent {
+  font-family: "Hanna", sans-serif;
+  font-size: xx-large;
+}

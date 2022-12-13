@@ -12,8 +12,6 @@ class Command(BaseCommand):
             user_thigh = int(user.thigh_size)
             user_calf = int(user.calf_size)
             for review in Review.objects.all():
-                if user == review.uploaded_user:
-                    continue
                 reviewed_user_length = int(review.uploaded_user.length)
                 reviewed_user_waist = int(review.uploaded_user.waist_size)
                 reviewed_user_thigh = int(review.uploaded_user.thigh_size)

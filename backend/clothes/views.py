@@ -5,7 +5,7 @@ from django.forms.models import model_to_dict
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from json.decoder import JSONDecodeError
 from django.utils import timezone
-from .models import Clothes, User, Review, Comment
+from .models import Clothes, User, Review, Comment, Size
 from . import recommender
 
 NO_USER = "존재하지 않는 유저입니다."
@@ -56,21 +56,88 @@ def main(request, user_id):
     if not (User.objects.filter(username=user_id)).exists():
         return JsonResponse({"message": NO_USER}, status=404)
     user = User.objects.get(username=user_id)
-    recommended_list = []
-    prev_clothes = {"name": "name"}
-    for size in user.recommended.all():
-        if prev_clothes["name"] != size.clothes.name:
-            recommended_list.append(prev_clothes)
-            clothes = size.clothes
-            clothes_data = model_to_dict(clothes)
-            clothes_data = {**clothes_data, "named_size":[size.named_size]}
-            prev_clothes = clothes_data
-        else:
-            size_list = prev_clothes["named_size"]
-            size_list.append(size.named_size)
-            prev_clothes["named_size"] = size_list
-    recommended_list.pop(0)
-    return JsonResponse(recommended_list, safe=False)
+    if 'visit_count' not in request.session:
+        user_length = int(user.length)
+        user_waist = int(user.waist_size)
+        user_thigh = int(user.thigh_size)
+        user_calf = int(user.calf_size)
+        for size in Size.objects.all():
+            try:
+                waist_diff = int(size.waist_size) - user_waist
+                if waist_diff >= 3.0 or waist_diff < -1.0:
+                    continue
+                length_diff = user_length - int(size.length)
+                if length_diff <= 0:
+                    continue
+
+                thigh_diff = size.thigh_size - user_thigh
+                if not thigh_diff >= 1.0:
+                    continue
+                
+                calf_diff = size.calf_size - user_calf
+                if not calf_diff >= 1.0:
+                    continue
+            except:
+                continue
+            user.recommended.add(size)
+        for review in Review.objects.all():
+            reviewed_user_length = int(review.uploaded_user.length)
+            reviewed_user_waist = int(review.uploaded_user.waist_size)
+            reviewed_user_thigh = int(review.uploaded_user.thigh_size)
+            reviewed_user_calf = int(review.uploaded_user.calf_size)
+
+            length_diff = abs(user_length - reviewed_user_length)
+            if not length_diff <= 2:
+                continue
+
+            waist_diff = abs(user_waist - reviewed_user_waist)
+            if not waist_diff <= 2:
+                continue
+            
+            thigh_diff = abs(user_thigh - reviewed_user_thigh)
+            if not thigh_diff <= 2:
+                continue
+            
+            calf_diff = abs(user_calf - reviewed_user_calf)
+            if not calf_diff <= 2:
+                continue
+
+            review.recommended_user.add(user)
+        
+        request.session['visit_count'] = 1
+
+        recommended_list = []
+        prev_clothes = {"name": "name"}
+        for size in user.recommended.all():
+            if prev_clothes["name"] != size.clothes.name:
+                recommended_list.append(prev_clothes)
+                clothes = size.clothes
+                clothes_data = model_to_dict(clothes)
+                clothes_data = {**clothes_data, "named_size":[size.named_size]}
+                prev_clothes = clothes_data
+            else:
+                size_list = prev_clothes["named_size"]
+                size_list.append(size.named_size)
+                prev_clothes["named_size"] = size_list
+        recommended_list.pop(0)
+        return JsonResponse(recommended_list, safe=False)
+    else:
+        recommended_list = []
+        prev_clothes = {"name": "name"}
+        for size in user.recommended.all():
+            if prev_clothes["name"] != size.clothes.name:
+                recommended_list.append(prev_clothes)
+                clothes = size.clothes
+                clothes_data = model_to_dict(clothes)
+                clothes_data = {**clothes_data, "named_size":[size.named_size]}
+                prev_clothes = clothes_data
+            else:
+                size_list = prev_clothes["named_size"]
+                size_list.append(size.named_size)
+                prev_clothes["named_size"] = size_list
+        recommended_list.pop(0)
+        request.session['visit_count'] += 1
+        return JsonResponse(recommended_list, safe=False)
 
 def profile(request, user_id):
     if not (User.objects.filter(username=user_id)).exists():
@@ -118,18 +185,20 @@ def review(request, user_id, clothes_id):
         try:
             body = request.body.decode()
             content = json.loads(body)['content']
-            photo = json.loads(body)['photo']
         except (KeyError, JSONDecodeError) as e:
                 return HttpResponseBadRequest()
         review = Review(upload_time=timezone.now(),
           content=content,
-          photo=photo,
+          photo="",
           reviewing_clothes=clothes,
           uploaded_user=user
           )
         review.save()
-        response_dict = {'id': review.id, 'name': review.uploaded_user.nickname, 'content': review.content}
-        return JsonResponse(response_dict, status=201)
+        review.recommended_user.add(user)
+        review.photo = "https://stylestargram.s3.ap-northeast-2.amazonaws.com/review{}".format(review.id)
+        review.save()
+        response_dict = {'id': review.id, 'name': review.uploaded_user.nickname, 'content': review.content, 'photo': review.photo}
+        return JsonResponse(response_dict, safe=False, status=201)
     else:
         return HttpResponseNotAllowed(['GET', 'POST'])
 
@@ -155,8 +224,8 @@ def comment(request, user_id, review_id):
           original_review=review
           )
         comment.save()
-        response_dict = {'id': comment.id, 'name': comment.uploaded_user.nickname, 'content': comment.content}
-        return JsonResponse(response_dict, status=201)
+        comment_all_list = [comment for comment in review.comment_list.all().values()]
+        return JsonResponse(comment_all_list, safe=False, status=201)
     else:
         return HttpResponseNotAllowed(['GET', 'POST'])
 
@@ -178,8 +247,32 @@ def scrapped_list(request, user_id):
     if not (User.objects.filter(username=user_id)).exists():
         return JsonResponse({"message": NO_USER}, status=404)
     user = User.objects.get(username=user_id)
-    scrapped_clothes_list = [clothes for clothes in user.scrapped.all().values()]
-    return JsonResponse(scrapped_clothes_list, safe=False, status=200)
+    scrapped_list = []
+    prev_clothes = {"name": "name"}
+    for clothes in user.scrapped.all():
+        clothes_data = model_to_dict(clothes)
+        if user.recommended.filter(clothes=clothes).exists():
+            size_list = []
+            for size in user.recommended.filter(clothes=clothes):
+                size_list.append(size.named_size)
+            clothes_data["named_size"] = size_list
+        scrapped_list.append(clothes_data)
+    return JsonResponse(scrapped_list, safe=False, status=200)
+    scrapped_list = []
+    prev_clothes = {"name": "name"}
+    for size in user.recommended.all():
+        if prev_clothes["name"] != size.clothes.name:
+            scrapped_list.append(prev_clothes)
+            clothes = size.clothes
+            clothes_data = model_to_dict(clothes)
+            clothes_data = {**clothes_data, "named_size":[size.named_size]}
+            prev_clothes = clothes_data
+        else:
+            size_list = prev_clothes["named_size"]
+            size_list.append(size.named_size)
+            prev_clothes["named_size"] = size_list
+    scrapped_list.pop(0)
+    return JsonResponse(scrapped_list, safe=False)
 
 def analyze(request, user_id, clothes_id):
     if not (Clothes.objects.filter(id=clothes_id)).exists():
@@ -188,10 +281,11 @@ def analyze(request, user_id, clothes_id):
         return JsonResponse({"message": NO_USER}, status=404)
     user = User.objects.get(username=user_id)
     clothes_sizes = user.recommended.filter(clothes_id=clothes_id)
-    analysis_list = []
+    analysis_dict = {}
     for clothes_size in clothes_sizes:
+        named_size = clothes_size.named_size
         analysis = recommender.analyze(clothes_size, user)
-        analysis_list.append(analysis)
+        analysis_dict[named_size] = analysis
     if request.method == 'GET':
-        return JsonResponse(analysis_list, safe=False, status=200)
+        return JsonResponse(analysis_dict, safe=False, status=200)
 

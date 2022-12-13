@@ -60,7 +60,7 @@ class User(AbstractUser):
 class Review(models.Model):
     upload_time = models.TimeField()
     content = models.TextField()
-    photo = models.CharField(max_length=200) #사진의 저장 경로
+    photo = models.CharField(max_length=200, blank=True) #사진의 저장 경로
     reviewing_clothes = models.ForeignKey(
         Clothes,
         on_delete=models.CASCADE,

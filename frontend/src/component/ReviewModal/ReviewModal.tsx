@@ -1,5 +1,12 @@
-import React, { useEffect, useRef } from "react";
-const ReviewModal = ({ photo, content, setModalOpen }: any) => {
+import React, { useEffect, useRef, useState } from "react";
+import { reqComment } from "../../apis/get";
+import { postComment } from "../../apis/post";
+import "./ReviewModal.css";
+const ReviewModal = ({ reviewId, photo, reviewContent, setModalOpen }: any) => {
+  const [data, setData] = useState<any>([]);
+  const [content, setContent] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
+
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -21,6 +28,43 @@ const ReviewModal = ({ photo, content, setModalOpen }: any) => {
       document.removeEventListener("mousedown", handler);
     };
   });
+  const setCommentData = async () => {
+    const response = await reqComment({
+      username: localStorage.getItem("username"),
+      review_id: reviewId,
+    });
+    return response;
+  };
+  const clickAdd = () => {
+    postComment({
+      username: localStorage.getItem("username"),
+      review_id: reviewId,
+      content: content,
+    })
+      .then((response: any) => {
+        setData(response);
+        setLoading(false);
+        setContent("");
+        console.log(content);
+      })
+      .catch(() => {
+        alert("잘못된 접근입니다");
+      });
+  };
+  const onContentChange = (e: any) => {
+    setContent(e.target.value);
+  };
+  useEffect(() => {
+    setCommentData()
+      .then((response: any) => {
+        console.log(response);
+        setData(response);
+        setLoading(false);
+      })
+      .catch((err: any) => {
+        alert(err.message);
+      });
+  }, []);
 
   return (
     <div className="outer">
@@ -28,7 +72,21 @@ const ReviewModal = ({ photo, content, setModalOpen }: any) => {
         <p>Item Review</p>
         <img className="modalimg" alt="img" src={photo}></img>
         <div className="rightcontent">
-          <div>content:{content}</div>
+          <div>{reviewContent}</div>
+          <div>
+            <div className="commentTitle">Comments</div>
+            {data.map((comment: any) => (
+              <div className="commentList" key={comment.id}>
+                {comment.content}
+              </div>
+            ))}
+          </div>
+          <div>
+            <input className="reviewcontent" onChange={onContentChange}></input>
+            <button id="submit" onClick={clickAdd}>
+              Add
+            </button>
+          </div>
           <button id="change" onClick={closeModal}>
             back
           </button>

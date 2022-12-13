@@ -25,13 +25,17 @@ def sizeOrganizer(soup):
 
     size_val_lst = list(map(map_text,size_val_lst))
     ordered_size_val_lst = []
-    #print(size_val_lst)
+    print(size_val_lst)
     for i in range(0, len(size_val_lst), num_of_size_val):
         ordered_size_val_lst.append(size_val_lst[i:i + num_of_size_val])
 
     #print(ordered_size_val_lst)
     for i in range(num_of_size):
-        ordered_size_val_lst[i].pop(3)
+        if num_of_size_val == 5:
+            ordered_size_val_lst[i].pop(3)
+        elif num_of_size_val == 6:
+            ordered_size_val_lst[i].pop(2)
+            ordered_size_val_lst[i].pop(3)
         ordered_size_val_lst[i].insert(0, size_header_lst[i])
     print(ordered_size_val_lst)
 
@@ -41,7 +45,7 @@ def scrapper(base_url, ):
     conn = sqlite3.connect("db.sqlite3")
     cursor = conn.cursor()
     
-    for i in range(1):
+    for i in range(1,4):
         url = base_url.format(i)
         res = requests.get(url)
         res.raise_for_status()
@@ -59,7 +63,11 @@ def scrapper(base_url, ):
             res_item.raise_for_status()
             res_soup = BeautifulSoup(res_item.text, "lxml")
             # 사이즈 데이터 스크래핑
-            size_data = sizeOrganizer(res_soup)
+            print(item_url)
+            try:
+                size_data = sizeOrganizer(res_soup)
+            except:
+                continue
             # 이미지소스
             img = res_soup.find(
                 "img", attrs={"class": "plus_cursor"})
@@ -85,9 +93,6 @@ def scrapper(base_url, ):
                 print(sizesql)
                 cursor.execute(sizesql)
             item_id += 1
-            item_count += 1
-            if item_count == 10:
-                break
 
     conn.commit()
     conn.close()

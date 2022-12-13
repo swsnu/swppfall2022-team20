@@ -24,9 +24,9 @@ const Main = () => {
         <Navbar />
         <div>Main</div>
         <div>
-          {data.map((d: clothesType) => (
+          {data.map((d: clothesType, index: any) => (
             <ImageShow
-              key={d.price}
+              key={index}
               id={d.id}
               src={d.photo}
               name={d.name}

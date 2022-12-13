@@ -1,26 +1,34 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { analyze } from "../../apis/get";
+import { analyze, reqScrap } from "../../apis/get";
 import "./ItemModal.css";
-import { sendPostScrap } from "../../apis/post";
+
 const ItemModal = ({ setModalOpen, URL, src, name, id, size, Data }: any) => {
   const navigate = useNavigate();
   const [data, setData] = useState<any>([]);
   const [analysis, setAnalysis] = useState<any>([]);
-  const [loading, setLoading] = useState<any>(true);
+  const [loading, setLoading] = useState<boolean>(true);
   const getAnalysis = async () => {
     const response = await analyze({
       username: localStorage.getItem("username"),
       clothes_id: id,
     });
-    setData(response);
-    console.log(response);
-    console.log(data);
+    return response;
   };
   useEffect(() => {
-    getAnalysis().catch((err: any) => {
-      alert(err.message);
-    });
+    getAnalysis()
+      .then((response: any) => {
+        console.log(response);
+        setData(response);
+        return response[size[0]];
+      })
+      .then((analysis: string) => {
+        setAnalysis(analysis);
+        console.log(analysis);
+      })
+      .catch((err: any) => {
+        alert(err.message);
+      });
     setAnalysis(data[0]);
     setLoading(false);
   }, []);
@@ -53,8 +61,12 @@ const ItemModal = ({ setModalOpen, URL, src, name, id, size, Data }: any) => {
   const clickScrap = () => {
     console.log(Data[id]);
     if (window.confirm("want to scrap?")) {
-      sendPostScrap(Data[id], localStorage.getItem("username"))
+      reqScrap({
+        username: localStorage.getItem("username"),
+        clothes_id: id,
+      })
         .then(() => {
+          alert("스크랩된 상품에 추가되었습니다");
           console.log("success");
         })
         .catch(() => {
@@ -69,18 +81,34 @@ const ItemModal = ({ setModalOpen, URL, src, name, id, size, Data }: any) => {
         <img className="modalimg" alt="img" src={src}></img>
         <div className="rightcontent">
           <button onClick={clickScrap}>scrap</button>
-          <h3 onClick={clickName}>{name}</h3>
+          <h3 className="ItemName" onClick={clickName}>
+            {name}
+          </h3>
           <button id="change" onClick={closeModal}>
             back
           </button>
           <button onClick={() => window.open(URL, "_blank")}>visit</button>
+          <br />
+          <br />
+          <div className="recSize">-Recommending Size-</div>
           <div>
             {size.map((size: string) => (
-              <button key={size} onClick={() => console.log("clicked")}>
+              <button
+                key={size}
+                onClick={() => {
+                  setAnalysis(data[size]);
+                }}
+              >
                 {size}
               </button>
             ))}
           </div>
+          <br />
+          {loading ? (
+            <div>Loading</div>
+          ) : (
+            <div className="analysisData">{analysis}</div>
+          )}
         </div>
       </div>
     </div>

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../component/Navbar/Navbar";
 import ImageShow from "../../component/MainImage/ImageShow";
-import { clothesType, reqScrap } from "../../apis/get";
+import { clothesType, reqScrappedList } from "../../apis/get";
 const ScrappedItem = () => {
   const [data, setData] = useState<any>([]);
   const setScrap = async () => {
     const username = localStorage.getItem("username");
-    const response = await reqScrap(username);
+    const response = await reqScrappedList(username);
     setData(response);
   };
   useEffect(() => {
@@ -21,7 +21,7 @@ const ScrappedItem = () => {
       <div>
         {data.map((d: clothesType) => (
           <ImageShow
-            key={d.price}
+            key={d.id}
             id={d.id}
             src={d.photo}
             name={d.name}

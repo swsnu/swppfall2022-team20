@@ -1,9 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
-import { sendPostReview } from "../../apis/post";
+import { postReview } from "../../apis/post";
+import AWS from "aws-sdk";
 const AddReview = ({ setAddopen }: any) => {
-  const formData = new FormData();
+  AWS.config.update({
+    region: "ap-northeast-2", // 버킷이 존재하는 리전을 문자열로 입력합니다. (Ex. "ap-northeast-2")
+    credentials: new AWS.CognitoIdentityCredentials({
+      IdentityPoolId: "ap-northeast-2:45e19d2c-8bdf-45c9-9fab-92c064129863", // cognito 인증 풀에서 받아온 키를 문자열로 입력합니다. (Ex. "ap-northeast-2...")
+    }),
+  });
   const [content, setContent] = useState<string>("");
-  const [file, setFile] = useState<string | Blob>("");
+  const [photo, setPhoto] = useState<string | Blob>("");
+  const [file, setFile] = useState<File>();
   const closeModal = () => {
     setAddopen(false);
   };
@@ -25,26 +32,40 @@ const AddReview = ({ setAddopen }: any) => {
       document.removeEventListener("mousedown", handler);
     };
   });
-  const onImgChange = async (e: any) => {
+  const onImgChange = (e: any) => {
     setFile(e.target.files[0]);
   };
 
   const clickAdd = () => {
-    formData.append("content", content);
-    formData.append("file", file);
-    console.log(
-      formData,
-      localStorage.getItem("username"),
-      localStorage.getItem("pants_id")
-    );
-    sendPostReview(
-      formData,
+    postReview(
+      {
+        content: content,
+      },
       localStorage.getItem("username"),
       localStorage.getItem("pants_id")
     )
-      .then(() => {
+      .then((response) => {
+        const fileName: number = response.id;
+        const upload = new AWS.S3.ManagedUpload({
+          params: {
+            Bucket: "stylestargram",
+            Key: `review${fileName}`,
+            Body: file,
+          },
+        });
+        const promise = upload.promise();
+
+        promise.then(
+          function (data) {
+            alert("이미지 업로드에 성공했습니다.");
+            setAddopen(false);
+            window.location.reload();
+          },
+          function (err) {
+            return alert(err.message);
+          }
+        );
         console.log("success");
-        setAddopen(false);
       })
       .catch(() => {
         alert("잘못된 접근입니다");
@@ -58,18 +79,22 @@ const AddReview = ({ setAddopen }: any) => {
       <div ref={modalRef} className="container">
         <p>Add Review</p>
         <div className="leftcontent">
-          <input
-            type="file"
-            name="file"
-            accept="image/*"
-            onChange={onImgChange}
-          ></input>
+          <div>
+            <input
+              type="file"
+              id="upload"
+              className="image-upload"
+              onChange={onImgChange}
+            />
+            <label htmlFor="upload" className="image-upload-wrapper"></label>
+          </div>
         </div>
         <div className="rightcontent">
           <textarea
             className="reviewcontent"
             onChange={onContentChange}
           ></textarea>
+          <br></br>
           <button id="submit" onClick={clickAdd}>
             Add
           </button>

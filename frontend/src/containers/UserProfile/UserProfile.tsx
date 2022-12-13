@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../../component/Navbar/Navbar";
 import { editProfile, reqProfile, profileType } from "../../apis/user";
 import { useNavigate } from "react-router-dom";
-
+import "./UserProfile.css";
 const UserProfile = () => {
   const navigate = useNavigate();
   const [profile, setProfile] = useState<any>({});
@@ -26,22 +26,25 @@ const UserProfile = () => {
   }, []);
   const clickEdit = (e: any) => {
     e.preventDefault();
-    editProfile(profile)
-      .then(() => {
-        navigate("/main");
-      })
-      .catch(() => {
-        alert("잘못된 접근입니다");
-      });
+    if (window.confirm("Want to Edit your Profile?")) {
+      editProfile(profile)
+        .then(() => {
+          navigate("/main");
+        })
+        .catch(() => {
+          alert("잘못된 접근입니다");
+        });
+    }
   };
   return (
     <div>
       <Navbar />
-      User profile
-      <div>
+      <div className="profileTitle">User profile</div>
+      <div className="profileContainer">
         <div>
           username:
           <input
+            className="profileInput"
             name="username"
             value={profile.username}
             onChange={handleInform}
@@ -50,6 +53,7 @@ const UserProfile = () => {
         <div>
           nickname:
           <input
+            className="profileInput"
             name="nickname"
             value={profile.nickname}
             onChange={handleInform}
@@ -58,6 +62,7 @@ const UserProfile = () => {
         <div>
           email:
           <input
+            className="profileInput"
             name="email"
             value={profile.email}
             onChange={handleInform}
@@ -66,6 +71,7 @@ const UserProfile = () => {
         <div>
           length:
           <input
+            className="profileInput"
             name="length"
             value={profile.length}
             onChange={handleInform}
@@ -74,6 +80,7 @@ const UserProfile = () => {
         <div>
           waist:
           <input
+            className="profileInput"
             name="waist_size"
             value={profile.waist_size}
             onChange={handleInform}
@@ -82,6 +89,7 @@ const UserProfile = () => {
         <div>
           thigh:
           <input
+            className="profileInput"
             name="thigh_size"
             value={profile.thigh_size}
             onChange={handleInform}
@@ -90,6 +98,7 @@ const UserProfile = () => {
         <div>
           calf:
           <input
+            className="profileInput"
             name="calf_size"
             value={profile.calf_size}
             onChange={handleInform}
