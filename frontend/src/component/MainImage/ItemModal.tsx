@@ -88,6 +88,9 @@ const ItemModal = ({ setModalOpen, URL, src, name, id, size, Data }: any) => {
             back
           </button>
           <button onClick={() => window.open(URL, "_blank")}>visit</button>
+          <br />
+          <br />
+          <div className="recSize">-Recommending Size-</div>
           <div>
             {size.map((size: string) => (
               <button
