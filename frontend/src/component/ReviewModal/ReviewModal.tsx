@@ -45,7 +45,6 @@ const ReviewModal = ({ reviewId, photo, reviewContent, setModalOpen }: any) => {
         setData(response);
         setLoading(false);
         setContent("");
-        console.log(content);
       })
       .catch(() => {
         alert("잘못된 접근입니다");
@@ -57,7 +56,6 @@ const ReviewModal = ({ reviewId, photo, reviewContent, setModalOpen }: any) => {
   useEffect(() => {
     setCommentData()
       .then((response: any) => {
-        console.log(response);
         setData(response);
         setLoading(false);
       })

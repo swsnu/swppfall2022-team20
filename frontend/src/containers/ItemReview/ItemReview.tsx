@@ -27,7 +27,6 @@ const ItemReview = () => {
   const clickOpen = () => {
     setAddopen(true);
   };
-  console.log(reviewdata);
   return (
     <div>
       <Navbar />
