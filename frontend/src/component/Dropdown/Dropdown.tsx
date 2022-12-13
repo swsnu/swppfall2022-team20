@@ -1,22 +1,17 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import "./Dropdown.css"
+import "./Dropdown.css";
 const Dropdown = () => {
   return (
     <ul className="menu">
       <li className="nav-item">
         <NavLink to="/profile" className="nav-links">
-          user
-        </NavLink>
-      </li>
-      <li className="nav-item">
-        <NavLink to="/profile" className="nav-links">
-          size
+          User Profile
         </NavLink>
       </li>
       <li className="nav-item">
         <NavLink to="/" className="nav-links">
-          logout
+          Logout
         </NavLink>
       </li>
     </ul>
