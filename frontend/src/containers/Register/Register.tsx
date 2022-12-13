@@ -128,7 +128,7 @@ const Register = () => {
         submit
       </button>
       <button className="buttonHow" onClick={() => setQopen((qopen) => !qopen)}>
-        ?
+        Help
       </button>
       <HowRegisterModal isOpen={qopen} />
     </div>
