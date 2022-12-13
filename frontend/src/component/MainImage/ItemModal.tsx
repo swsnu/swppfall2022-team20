@@ -100,6 +100,7 @@ const ItemModal = ({ setModalOpen, URL, src, name, id, size, Data }: any) => {
               </button>
             ))}
           </div>
+          <br />
           {loading ? (
             <div>Loading</div>
           ) : (
