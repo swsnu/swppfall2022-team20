@@ -1,7 +1,8 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
+import { login, token } from "../../apis/user";
 
 const Login = () => {
   localStorage.setItem("loggedIn", "false");
@@ -11,6 +12,11 @@ const Login = () => {
   });
   const { username, password } = inform;
   const navigate = useNavigate();
+  useEffect(() => {
+    token().catch((err: any) => {
+      alert(err.message);
+    });
+  }, []);
   const onClickRegister = () => {
     navigate("/register");
   };
@@ -26,22 +32,13 @@ const Login = () => {
       username: inform.username,
       password: inform.password,
     };
-    axios
-      .post("/api/clothes/login/", user)
-      .then((res: any) => {
-        if (res !== null) {
-          localStorage.clear();
-          localStorage.setItem("username", user.username);
-          localStorage.setItem("password", user.password);
-          localStorage.setItem("loggedIn", "true");
-          navigate("/main");
-        } else {
-          setInform({
-            username: "",
-            password: "",
-          });
-          localStorage.clear();
-        }
+    login(user)
+      .then(() => {
+        localStorage.clear();
+        localStorage.setItem("username", user.username);
+        localStorage.setItem("password", user.password);
+        localStorage.setItem("loggedIn", "true");
+        navigate("/main");
       })
       .catch((err: any) => {
         alert(err.message);
@@ -50,7 +47,8 @@ const Login = () => {
 
   return (
     <div>
-      <h2>Login</h2>
+      <h3 className="LoginTitle">Welcome to Stylestargram!</h3>
+      <h2 className="LoginTitle2">Login</h2>
       <p>
         ID:
         <input

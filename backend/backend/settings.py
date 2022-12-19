@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,13 +20,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-^mj)z5=c^0s_gx*gny((#-mjk1$yiz^@evr@c%dlgu#4sl8_15"
+#SECRET_KEY = "django-insecure-^mj)z5=c^0s_gx*gny((#-mjk1$yiz^@evr@c%dlgu#4sl8_15"
+secret_key_default = "default_secret_key_default_secret_key_default_secret_key_default_secret_key_default_secret_key_default_secret_key_default_secret_key_default_secret_key_"
+SECRET_KEY = os.environ.get("SECRET_KEY", secret_key_default)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['127.0.0.1','0.0.0.0', 'localhost','ec2-3-34-4-246.ap-northeast-2.compute.amazonaws.com','3.34.4.246']
+#for deploy add
+SECURE_HSTS_SECONDS = int(os.environ.get("SECURE_HSTS_SECONDS", 31536000))
+SECURE_SSL_REDIRECT = os.environ.get('SECURE_SSL_REDIRECT', 'False') == "True" # default: False
+SESSION_COOKIE_SECURE = os.environ.get('SESSION_COOKIE_SECURE', 'False') == 'True' # default: False
+CSRF_COOKIE_SECURE = os.environ.get('CSRF_COOKIE_SECURE', 'False') == 'True' # default: False
+SECURE_HSTS_INCLUDE_SUBDOMAINS = os.environ.get('SECURE_HSTS_INCLUDE_SUBDOMAINS', 'False') =='True' # default: False
+SECURE_HSTS_PRELOAD = os.environ.get('SECURE_HSTS_PRELOAD', 'False') == 'True' # default: False
 
 # Application definition
 
@@ -100,13 +108,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "ko-kr"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Seoul"
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -132,20 +140,28 @@ REST_FRAMEWORK = {
      ),
 }
 CORS_ORIGIN_ALLOW_ALL = True
-
-
-CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:3000'
-                         ,'http://localhost:3000']
-
 CORS_ALLOW_CREDENTIALS = True
-
 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'http://127.0.0.1:8000', 
 )
-CSRF_TRUSTED_ORIGINS = ('http://localhost:8000','http://127.0.0.1:8000')
-
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'http://localhost',
+    'http://ec2-3-34-4-246.ap-northeast-2.compute.amazonaws.com:3000',
+    'http://3.34.4.246:3000',
+    'https://stylestargram.shop',
+]
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'http://localhost',
+    'http://ec2-3-34-4-246.ap-northeast-2.compute.amazonaws.com:3000',
+    'http://3.34.4.246:3000',
+    'https://stylestargram.shop'
+]
 CORS_ALLOW_HEADERS = (
     'access-control-allow-credentials',
     'access-control-allow-origin',
@@ -165,4 +181,6 @@ CORS_ALLOW_HEADERS = (
     'X-CSRFToken',
     'csrftoken',
     'x-requested-with',
+    'x-csrftoken',
 )
+

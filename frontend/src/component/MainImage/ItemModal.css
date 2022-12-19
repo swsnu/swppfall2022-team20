@@ -1,10 +1,11 @@
+@import url(//fonts.googleapis.com/earlyaccess/hanna.css);
 .outer {
   position: absolute;
 }
 .container {
   /* 모달창 크기 */
-  width: 100px;
-  height: 500px;
+  width: 70%;
+  height: 480px;
 
   /* 최상단 위치 */
   z-index: 999;
@@ -23,13 +24,46 @@
   border-radius: 8px;
 }
 .modalimg {
-  position:absolute;
+  position: absolute;
   border-radius: 10%;
   width: 300px;
   height: 400px;
-  left:100px;
+  left: 100px;
+}
+.recSize {
+  font-family: "Hanna", sans-serif;
 }
 .rightcontent {
-  position:relative;
-  left:300px;
+  position: relative;
+  left: 300px;
+}
+.ItemName {
+  font-family: "Hanna", sans-serif;
+}
+.ItemName:hover {
+  color: blue;
+}
+button {
+  position: relative;
+  border: none;
+  display: inline-block;
+  border-radius: 10%;
+  font-family: "paybooc-Light", sans-serif;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.25s;
+  border: 3px solid #0b74ec;
+  color: #6e6e6e;
+}
+button:hover {
+  background-color: #0b74ec;
+  color: #6e6e6e;
+}
+p {
+  font-family: fantasy;
+}
+.analysisData {
+  font-family: "Hanna", sans-serif;
+  font-size: medium;
 }

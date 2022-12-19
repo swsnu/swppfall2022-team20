@@ -1,0 +1,10 @@
+.HowRegContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  font-family: fantasy;
+  grid-row-gap: 10px;
+  grid-column-gap: 10px;
+}
+.HowRegImg {
+  border-radius: 10%;
+}
